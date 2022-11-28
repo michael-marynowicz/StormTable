@@ -1,0 +1,9 @@
+#drawing-mode-options:nth-child(n){
+    margin-top: 2em;
+}
+
+#c{
+    border: solid 1px black;
+    resize: both;
+    overflow: hidden;
+}
