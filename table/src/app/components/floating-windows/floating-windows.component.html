@@ -1,0 +1,5 @@
+<div class="backdrop active" (click)="clickOutside.emit(null)">
+  <div class="modal" (click)="$event.stopImmediatePropagation()">
+    <ng-content></ng-content>
+  </div>
+</div>

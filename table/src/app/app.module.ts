@@ -13,6 +13,12 @@ import { LoadingAlertComponent } from './components/loading-alert/loading-alert.
 @NgModule({
   declarations: [
     AppComponent,
+    SelectMeetingPageComponent,
+    FloatingWindowsComponent,
+    AlertComponent,
+    ErrorAlertComponent,
+    AlertDrawerComponent,
+    LoadingAlertComponent
   ],
   imports: [
     BrowserModule,

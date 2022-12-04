@@ -1,0 +1,5 @@
+<app-error-alert
+  *ngIf="this.alert?.type === 'ERROR'"
+  [alert]="alert!"
+  (click)="close()"
+></app-error-alert>

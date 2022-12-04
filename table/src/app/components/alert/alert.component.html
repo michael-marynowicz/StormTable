@@ -1,0 +1,9 @@
+<app-floating-windows (clickOutside)="close.emit(null)">
+  <div class="modal-header">{{header}}</div>
+  <p *ngIf="!!content">{{content}}</p>
+  <div class="icon-container">
+    <i class="{{icon}}"></i>
+  </div>
+  <p class="reversed" *ngIf="!!content">{{content}}</p>
+  <div class="modal-header reversed">{{header}}</div>
+</app-floating-windows>
