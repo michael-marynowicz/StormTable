@@ -9,6 +9,8 @@ import { AlertComponent } from './components/alert/alert.component';
 import { ErrorAlertComponent } from './components/alert/alerts/error-alert/error-alert.component';
 import { AlertDrawerComponent } from './components/alert-drawer/alert-drawer.component';
 import { LoadingAlertComponent } from './components/loading-alert/loading-alert.component';
+import { ListSelectionDialogComponent } from './components/list-selection-dialog/list-selection-dialog.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -18,11 +20,13 @@ import { LoadingAlertComponent } from './components/loading-alert/loading-alert.
     AlertComponent,
     ErrorAlertComponent,
     AlertDrawerComponent,
-    LoadingAlertComponent
+    LoadingAlertComponent,
+    ListSelectionDialogComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

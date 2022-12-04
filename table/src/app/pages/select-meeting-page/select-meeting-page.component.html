@@ -1,2 +1,6 @@
 <h1>OK</h1>
-<app-loading-alert></app-loading-alert>
+<app-list-selection-dialog
+  header="Select a meeting :"
+  [elements]="elements"
+  (elementClicked)="clicked($event)"
+></app-list-selection-dialog>
