@@ -3,7 +3,9 @@ import TableModel from "../models/table.model";
 
 @Injectable()
 export class TableService {
-  private tables: TableModel[] = []
+  private tables: TableModel[] = [
+    { id: "00bb39f2-eb16-45cf-ad7e-1c7c37b1ed2f", clientSecret: '00bb39f2-eb16-45cf-ad7e-1c7c37b1ed2f', name: 'Main'}
+  ]
 
   authTable(clientId: string, clientSecret: string) {
     return this.tables.find(t => t.id === clientId && t.clientSecret === clientSecret)

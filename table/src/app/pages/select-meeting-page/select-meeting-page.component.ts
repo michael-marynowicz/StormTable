@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AlertService, ErrorAlert} from "../../services/alert.service";
 import {MeetingService} from "../../services/meeting.service";
 import {Subscription} from "rxjs";
+import {TableService} from "../../services/table.service";
 
 @Component({
   selector: 'app-select-meeting-page',
@@ -18,7 +19,7 @@ export class SelectMeetingPageComponent implements OnInit, OnDestroy {
 
   private subs?: Subscription
 
-  constructor(private alertService: AlertService, private meetingService: MeetingService) { }
+  constructor(private alertService: AlertService, private meetingService: MeetingService, private tableService: TableService) { }
 
   ngOnInit(): void {
     this.subs = this.meetingService.subject.subscribe((meetings) => {
@@ -34,7 +35,7 @@ export class SelectMeetingPageComponent implements OnInit, OnDestroy {
   }
 
   clicked(event: string) {
-    console.log(event)
+    this.tableService.createSession(event)
   }
 
 }

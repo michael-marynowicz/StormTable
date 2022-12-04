@@ -11,6 +11,9 @@ import { AlertDrawerComponent } from './components/alert-drawer/alert-drawer.com
 import { LoadingAlertComponent } from './components/loading-alert/loading-alert.component';
 import { ListSelectionDialogComponent } from './components/list-selection-dialog/list-selection-dialog.component';
 import {HttpClientModule} from "@angular/common/http";
+import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
+
+const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
 @NgModule({
   declarations: [
@@ -26,7 +29,8 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    SocketIoModule.forRoot(socketConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]
