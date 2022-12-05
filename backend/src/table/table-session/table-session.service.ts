@@ -3,10 +3,13 @@ import TableSession from "./table-session";
 import TableErrors, { TableErrorTypes } from "../table-errors";
 import Vector from "../models/vector.model";
 import { BehaviorSubject } from "rxjs";
+import { v4 as new_guid } from 'uuid'
 
 @Injectable()
 export class TableSessionService {
   private sessions: TableSession[] = []
+
+  spots: { id: string, x: number, y: number }[] = []
   sessionChanged: BehaviorSubject<TableSession|undefined> = new BehaviorSubject(undefined);
 
   getSessionByTable(tableId: string) {
@@ -18,7 +21,19 @@ export class TableSessionService {
   }
 
   createSession(tableId: string, meetingId: string) {
+    console.log("creating session")
     this.sessions.push({ tableId, meetingId, users: [] })
+  }
+
+  createSpot(position: { x: number, y: number }): string {
+    const id = new_guid();
+    console.log("creating spot")
+    this.spots.push({ id, x: position.x, y: position.y })
+    return id;
+  }
+
+  deleteSpot(id: string) {
+    this.spots = this.spots.filter(s => s.id !== id)
   }
 
   private _playerQuit(session: TableSession, userId: string) {

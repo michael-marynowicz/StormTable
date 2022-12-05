@@ -74,4 +74,9 @@ export class SocketGateway {
     socket.emit("meeting", this.meetingService.get(data.meetingId));
   }
 
+  @SubscribeMessage('createSpot')
+  createSpot(@MessageBody() data: { tableId: string, x: number; y: number }, @ConnectedSocket() socket: Socket) {
+    const id = this.tableSessionService.createSpot(data);
+    socket.emit("addSpot", { x: data.x, y: data.y, spotId: id })
+  }
 }
