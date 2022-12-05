@@ -12,6 +12,8 @@ import { LoadingAlertComponent } from './components/loading-alert/loading-alert.
 import { ListSelectionDialogComponent } from './components/list-selection-dialog/list-selection-dialog.component';
 import {HttpClientModule} from "@angular/common/http";
 import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
+import {BrainstormElementComponentComponent} from "./components/brainstorm-element/brainstorm-element-component.component";
+import { PictureElementComponent } from './components/brainstorm-element/elements/picture-element/picture-element.component';
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -24,7 +26,9 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     ErrorAlertComponent,
     AlertDrawerComponent,
     LoadingAlertComponent,
-    ListSelectionDialogComponent
+    ListSelectionDialogComponent,
+    BrainstormElementComponentComponent,
+    PictureElementComponent
   ],
   imports: [
     BrowserModule,
