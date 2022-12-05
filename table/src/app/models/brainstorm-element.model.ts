@@ -6,6 +6,8 @@ export enum BrainstormElementType {
 
 export default interface BrainstormElementModel {
   id: string;
-
+  type: BrainstormElementType;
   viewport: ViewportModel;
+  url: string;
 }
+
