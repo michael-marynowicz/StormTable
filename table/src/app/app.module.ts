@@ -14,6 +14,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
 import {BrainstormElementComponentComponent} from "./components/brainstorm-element/brainstorm-element-component.component";
 import { PictureElementComponent } from './components/brainstorm-element/elements/picture-element/picture-element.component';
+import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
+import { DrawButtonComponent } from './components/tool-bar/draw-button/draw-button.component';
+import { ButtonTextComponent } from './components/tool-bar/button-text/button-text.component';
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -28,7 +31,10 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     LoadingAlertComponent,
     ListSelectionDialogComponent,
     BrainstormElementComponentComponent,
-    PictureElementComponent
+    PictureElementComponent,
+    ToolBarComponent,
+    DrawButtonComponent,
+    ButtonTextComponent
   ],
   imports: [
     BrowserModule,
