@@ -1,7 +1,10 @@
 import ViewportModel from "./viewport.model";
 
 export enum BrainstormElementType {
-  PICTURE = "PICTURE"
+  PICTURE = "PICTURE",
+  PDF = "PDF",
+  WORD = "WORD",
+  PPTX = "PPTX"
 }
 
 export default interface BrainstormElementModel {
@@ -9,5 +12,7 @@ export default interface BrainstormElementModel {
   type: BrainstormElementType;
   viewport: ViewportModel;
   url: string;
+
+
 }
 
