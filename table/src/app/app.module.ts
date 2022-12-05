@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule, HammerModule} from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +12,14 @@ import { LoadingAlertComponent } from './components/loading-alert/loading-alert.
 import { ListSelectionDialogComponent } from './components/list-selection-dialog/list-selection-dialog.component';
 import {HttpClientModule} from "@angular/common/http";
 import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
+import { TableRuntimeComponent } from './pages/table-runtime/table-runtime.component';
+import { SpotComponent } from './components/spot/spot.component';
+import { TestPageComponent } from './pages/test-page/test-page.component';
+import {BrainstormElementComponentComponent} from "./components/brainstorm-element/brainstorm-element-component.component";
+import { PictureElementComponent } from './components/brainstorm-element/elements/picture-element/picture-element.component';
+import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
+import { DrawButtonComponent } from './components/tool-bar/draw-button/draw-button.component';
+import { ButtonTextComponent } from './components/tool-bar/button-text/button-text.component';
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -24,13 +32,22 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     ErrorAlertComponent,
     AlertDrawerComponent,
     LoadingAlertComponent,
-    ListSelectionDialogComponent
+    ListSelectionDialogComponent,
+    TableRuntimeComponent,
+    SpotComponent,
+    TestPageComponent,
+    BrainstormElementComponentComponent,
+    PictureElementComponent,
+    ToolBarComponent,
+    DrawButtonComponent,
+    ButtonTextComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    SocketIoModule.forRoot(socketConfig)
+    SocketIoModule.forRoot(socketConfig),
+    HammerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

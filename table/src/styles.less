@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+
+.positionable {
+  position: absolute;
+  top: var(--transform-y);
+  left: var(--transform-x);
+  width: var(--transform-width);
+  height: var(--transform-height);
+  transform: translate(-50%, -50%) rotateZ(var(--transform-rotation));
+}
+
+html, body, app-root {
+  height: 100%;
+  margin: 0;
+}
