@@ -3,14 +3,26 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SelectUserPageComponent } from './pages/select-user-page/select-user-page.component';
+import {HttpClientModule} from "@angular/common/http";
+import { PromptSpotIdComponent } from './pages/prompt-spot-id/prompt-spot-id.component';
+import {FormsModule} from "@angular/forms";
+import { AuthenticatedComponent } from './pages/authenticated/authenticated.component';
+import { AuthenticatedPageComponent } from './pages/authenticated-page/authenticated-page.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SelectUserPageComponent,
+    PromptSpotIdComponent,
+    AuthenticatedComponent,
+    AuthenticatedPageComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
