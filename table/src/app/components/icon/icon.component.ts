@@ -19,19 +19,21 @@ export class IconComponent implements OnInit{
 
   loadFile : Observable<Object> | undefined
 
+  isOpen: boolean = false;
+
   constructor(private iconcservice: IconService,private sanitizer: DomSanitizer) {
   }
 
 
   load(){
     this.loadFile =this.iconcservice.load(this.src)
+    this.isOpen=true;
   }
 
   ngOnInit(): void {
     this.safeURL= this.sanitizer.bypassSecurityTrustResourceUrl(this.src)
   }
   get defineType(){
-    console.log(this.type)
     switch (this.type){
       case BrainstormElementType.PICTURE: return 'picture';
       case BrainstormElementType.PDF: return 'pdf';
