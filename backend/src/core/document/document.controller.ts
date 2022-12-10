@@ -22,9 +22,6 @@ import * as path from "path";
 export class DocumentController {
 
     constructor(private readonly documentService: DocumentService) {}
-
-
-
     @Post('upload')
     @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
