@@ -16,6 +16,7 @@ import {DocumentService} from "./document.service";
 import DocumentModel from "../models/document.model";
 import {v4 as get_uid} from 'uuid'
 import {DocumentTypes} from "../models/document-types.enum";
+import * as path from "path";
 
 @Controller('document')
 export class DocumentController {
@@ -29,9 +30,9 @@ export class DocumentController {
         storage: diskStorage({
             destination: './files',
             filename: (req, file, cb) => {
-                const fileNameSplit = file.originalname.split(".");
-                const fileExt = fileNameSplit[fileNameSplit.length-1];
-                cb(null, `${Date.now()}.${fileExt}`);
+                let extArray = file.mimetype.split("/");
+                let extension = extArray[extArray.length - 1];
+                cb(null, file.fieldname + '-' + Date.now()+ '.' +extension)
             }
         })
     }))
