@@ -7,6 +7,8 @@ async function bootstrap() {
     origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"]
   })
-  await app.listen(3000);
+  await app.listen(3000).then(()=>{
+    console.log("The server listen on : http://localhost:3000")
+  })
 }
 bootstrap();

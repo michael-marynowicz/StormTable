@@ -15,4 +15,8 @@ export class AppController {
   getImage(@Param ('imagename') imagename, @Res () res): Observable<Object> {
     return of(res.sendFile(imagename,{ root: './ressources/img' }));
   }
+  @Get ("files/:fileName")
+  getFile(@Param ('fileName') fileName, @Res () res): Observable<Object> {
+    return of(res.sendFile(fileName,{ root: './ressources/files' }));
+  }
 }
