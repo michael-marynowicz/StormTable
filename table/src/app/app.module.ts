@@ -20,6 +20,8 @@ import { PictureElementComponent } from './components/brainstorm-element/element
 import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
 import { DrawButtonComponent } from './components/tool-bar/draw-button/draw-button.component';
 import { ButtonTextComponent } from './components/tool-bar/button-text/button-text.component';
+import { IconComponent } from './components/icon/icon.component';
+import {CdkDrag} from "@angular/cdk/drag-drop";
 import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/personal-space.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {DocumentElementComponent} from "./components/brainstorm-element/elements/document-element/document-element.component";
@@ -44,17 +46,19 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     ToolBarComponent,
     DrawButtonComponent,
     ButtonTextComponent,
-    PersonalSpaceComponent,
-    DocumentElementComponent
+    DocumentElementComponent,
+    IconComponent,
+    PersonalSpaceComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    SocketIoModule.forRoot(socketConfig),
-    HammerModule,
-    DragDropModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        SocketIoModule.forRoot(socketConfig),
+        HammerModule,
+        CdkDrag,
+        DragDropModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
