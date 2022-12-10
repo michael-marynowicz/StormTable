@@ -22,6 +22,7 @@ import { DrawButtonComponent } from './components/tool-bar/draw-button/draw-butt
 import { ButtonTextComponent } from './components/tool-bar/button-text/button-text.component';
 import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/personal-space.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {DocumentElementComponent} from "./components/brainstorm-element/elements/document-element/document-element.component";
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -43,7 +44,8 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     ToolBarComponent,
     DrawButtonComponent,
     ButtonTextComponent,
-    PersonalSpaceComponent
+    PersonalSpaceComponent,
+    DocumentElementComponent
   ],
   imports: [
     BrowserModule,
