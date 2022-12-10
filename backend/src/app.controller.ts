@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import {Controller, Get, Param, Res} from '@nestjs/common';
 import { AppService } from './app.service';
+import {Observable, of} from "rxjs";
 
 @Controller()
 export class AppController {
@@ -8,5 +9,10 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Get ("images/:imagename")
+  getImage(@Param ('imagename') imagename, @Res () res): Observable<Object> {
+    return of(res.sendFile(imagename,{ root: './ressources/img' }));
   }
 }
