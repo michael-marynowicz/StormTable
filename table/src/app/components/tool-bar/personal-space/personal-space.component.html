@@ -1,8 +1,11 @@
 
 <div id="navbarContainer" cdkDrag>
+  <div class="files" *ngIf="displayDriveFile">
+    <h4>files here</h4>
+  </div>
   <div id="navbar">
     <div id="menuWrapper">
-      <div id="menu1" class="menuElement" ><i class="fa-brands fa-google-drive"></i></div>
+      <div id="menu1" class="menuElement" (click)="showFiles()"><i class="fa-brands fa-google-drive"></i></div>
       <div id="menu2" class="menuElement" ><i class="fa fa-pencil" aria-hidden="true"></i></div>
       <div id="menu3" class="menuElement" ><i class="fa fa-square" aria-hidden="true"></i></div>
       <div id="menu4" class="menuElement" ><i class="fa-regular fa-user"></i></div>

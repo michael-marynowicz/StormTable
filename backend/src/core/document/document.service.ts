@@ -7,7 +7,6 @@ import DocumentModel from "../models/document.model";
 @Injectable()
 export class DocumentService {
 
-
     private files: DocumentModel[] = []
 
     constructor() {
@@ -23,7 +22,9 @@ export class DocumentService {
     addFile(value: DocumentModel){
         this.files.push(value);
     }
+
     getAllFiles(){
+        console.log(this.files);
         return this.files;
     }
 
