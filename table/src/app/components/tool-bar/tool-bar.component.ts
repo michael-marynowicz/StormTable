@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./tool-bar.component.less']
 })
 export class ToolBarComponent {
-
 }

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+
 
 @Component({
   selector: 'app-personal-space',
@@ -7,8 +8,6 @@ import { Component } from '@angular/core';
 })
 export class PersonalSpaceComponent {
 
-  ngOnInit(){
-
-  }
+  ngOnInit(){}
 
 }
