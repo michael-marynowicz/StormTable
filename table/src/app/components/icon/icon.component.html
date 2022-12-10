@@ -1,0 +1,16 @@
+<div class="example-box" cdkDrag>
+  <img *ngIf="loadFile===undefined" [src]=safeURL (dblclick)="load()" alt="{{name}}"/>
+  <div *ngIf="loadFile!==undefined">
+    <iframe  *ngIf="defineType!=='picture'" id="inlineFrameExample"
+            title="Inline Frame Example"
+            style="width: 10cm; height: 10cm;"
+            [src]=safeURL>
+    </iframe>
+    <img *ngIf="defineType==='picture'" [src]=safeURL alt="picture" class="test"/>
+
+  </div>
+
+
+</div>
+
+
