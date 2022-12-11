@@ -37,23 +37,15 @@ export class DocumentController {
     }))
 
     async save(@UploadedFile() file) : Promise<any>{
-        console.log(file);
         const doc: DocumentModel = {
             id: get_uid(),
             name: file.name,
             type: DocumentTypes.PICTURE,
             path: file.path
         };
-        console.log(doc);
         this.documentService.addFile(doc);
         return
     }
-
-    /*@Get('streamable')
-    streamable(@Res({ passthrough: true }) response: Response) {
-        const file = this.documentService.fileStream();
-        return new StreamableFile(file);
-    }*/
 
     @Get('files')
     getListOfFiles(){
@@ -65,8 +57,6 @@ export class DocumentController {
         const path = this.documentService.getAllFiles().find(d => d.id === params.id)?.path;
         if(!path)
             throw new HttpException('File not found.', HttpStatus.NOT_FOUND)
-        console.log(path)
-
         const file = this.documentService.fileStream(path);
         return new StreamableFile(file); // 👈 supports Buffer and Stream
 

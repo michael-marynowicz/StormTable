@@ -9,8 +9,9 @@ export class DropZoneService {
   constructor(private httpClient : HttpClient) { }
 
   sendFile(file: File) {
-    console.log("ici",file)
-    this.httpClient.put("upload",file)
+    const data = new FormData();
+    data.append("file",file);
+    this.httpClient.post("http://localhost:3000/document/upload",data).subscribe(_ => {})
 
   }
 }
