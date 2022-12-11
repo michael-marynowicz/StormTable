@@ -4,19 +4,17 @@ import {
     HttpException, HttpStatus,
     Param,
     Post,
-    Res,
     StreamableFile,
     UploadedFile,
     UseInterceptors
 } from '@nestjs/common';
 import {FileInterceptor} from "@nestjs/platform-express";
 import {diskStorage} from "multer";
-import {Response} from "express";
 import {DocumentService} from "./document.service";
 import DocumentModel from "../models/document.model";
 import {v4 as get_uid} from 'uuid'
 import {DocumentTypes} from "../models/document-types.enum";
-import * as path from "path";
+
 
 @Controller('document')
 export class DocumentController {
@@ -30,6 +28,7 @@ export class DocumentController {
         storage: diskStorage({
             destination: './files',
             filename: (req, file, cb) => {
+                console.log(file,file.fieldname,"<------------")
                 let extArray = file.mimetype.split("/");
                 let extension = extArray[extArray.length - 1];
                 cb(null, file.fieldname + '-' + Date.now()+ '.' +extension)

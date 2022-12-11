@@ -24,6 +24,9 @@ import { IconComponent } from './components/icon/icon.component';
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/personal-space.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import { DropZoneComponent } from './components/drop-zone/drop-zone.component';
+import {FormsModule} from "@angular/forms";
+import {NgxFileDropModule} from "ngx-file-drop";
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -46,17 +49,20 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     DrawButtonComponent,
     ButtonTextComponent,
     IconComponent,
-    PersonalSpaceComponent
+    PersonalSpaceComponent,
+    DropZoneComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        SocketIoModule.forRoot(socketConfig),
-        HammerModule,
-        CdkDrag,
-        DragDropModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    SocketIoModule.forRoot(socketConfig),
+    HammerModule,
+    CdkDrag,
+    DragDropModule,
+    FormsModule,
+    NgxFileDropModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
