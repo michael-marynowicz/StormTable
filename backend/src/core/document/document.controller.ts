@@ -1,7 +1,8 @@
 import {
     Controller,
     Get,
-    HttpException, HttpStatus,
+    HttpException,
+    HttpStatus,
     Param,
     Post,
     StreamableFile,
@@ -13,11 +14,16 @@ import {diskStorage} from "multer";
 import {DocumentService} from "./document.service";
 import DocumentModel from "../models/document.model";
 import {v4 as get_uid} from 'uuid'
-import {DocumentTypes} from "../models/document-types.enum";
+import {ElementType} from "../models/element-types-enum";
+import {Server} from "socket.io";
+import {WebSocketServer} from "@nestjs/websockets";
 
 
 @Controller('document')
 export class DocumentController {
+
+    @WebSocketServer()
+    server: Server
 
     constructor(private readonly documentService: DocumentService) {}
 
@@ -28,10 +34,9 @@ export class DocumentController {
         storage: diskStorage({
             destination: './files',
             filename: (req, file, cb) => {
-                console.log(file,file.fieldname,"<------------")
                 let extArray = file.mimetype.split("/");
                 let extension = extArray[extArray.length - 1];
-                cb(null, file.fieldname + '-' + Date.now()+ '.' +extension)
+                cb(null, file.fieldname + '-' + Date.now()+ '.' + extension)
             }
         })
     }))
@@ -40,10 +45,12 @@ export class DocumentController {
         const doc: DocumentModel = {
             id: get_uid(),
             name: file.name,
-            type: DocumentTypes.PICTURE,
+            type: file.path.endsWith(".pdf") ? ElementType.PDF : ElementType.PICTURE,
             path: file.path
         };
         this.documentService.addFile(doc);
+        this.server.emit("document",{});
+        console.log("okok")
         return
     }
 

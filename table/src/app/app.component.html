@@ -1,2 +1,4 @@
+<!--
 <app-icon [src]="'http://localhost:3000/files/testPDF.pdf'" [name]="'test.pdf'" [type]="'PDF'"></app-icon>
-
+-->
+<app-icon *ngFor="let file of allDocuments" [doc] = file ></app-icon>
