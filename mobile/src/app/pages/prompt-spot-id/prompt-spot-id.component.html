@@ -1,9 +1,18 @@
 
 
 <div class="container">
-  <div class="form-floating mb-3">
-    <input type="text" class="form-control" id="idInput" placeholder="name@example.com" [(ngModel)]="spotId">
+  <div class="form-floating mb-3 mt-3">
+    <input type="text" class="form-control" id="idInput" placeholder="name@example.com" [(ngModel)]="spotId" [disabled]="disabled">
     <label for="idInput">Spot ID</label>
   </div>
-  <button class="btn btn-primary" (click)="login()">Login</button>
+  <button class="btn btn-primary" (click)="login()" [disabled]="disabled">Login</button>
+</div>
+<div *ngIf="authenticating" class="alert alert-log">
+  Authenticating...
+</div>
+<div *ngIf="authenticated" class="alert alert-success">
+  You are logged successfully : you can close this page.
+</div>
+<div *ngIf="unauthorized" class="alert alert-error">
+  Fail to authenticate.
 </div>

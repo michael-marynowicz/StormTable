@@ -7,9 +7,10 @@ import { SessionService } from './session/session.service';
 import { SessionController } from './session/session.controller';
 import { DocumentController } from './document/document.controller';
 import {DocumentService} from "./document/document.service";
+import { TestController } from './test/test.controller';
 
 @Module({
-  controllers: [MeetingController, UserController, SessionController,DocumentController],
+  controllers: [MeetingController, UserController, SessionController,DocumentController, TestController],
   providers: [MeetingService, UserService, SessionService, DocumentService],
 })
 export class CoreModule {}

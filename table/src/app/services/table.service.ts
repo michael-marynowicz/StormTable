@@ -3,6 +3,7 @@ import {Socket} from "ngx-socket-io";
 import {AlertService, ErrorAlert} from "./alert.service";
 import SpotModel from "../models/spot.model";
 import {BehaviorSubject} from "rxjs";
+import SessionModel from "../models/session.model";
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +16,24 @@ export class TableService {
   spotsChanged = new BehaviorSubject<SpotModel[]>([]);
 
 
-  constructor(private socket: Socket, private alertService: AlertService) { }
+  constructor(private socket: Socket, private alertService: AlertService) {
+    this.configureListeners()
+  }
+
+  private configureListeners() {
+    this.socket.on('session_created', (data: { session: SessionModel }) => {
+      this.alertService.showDialog(new ErrorAlert("Connected",  "You are now connected"))
+    })
+  }
 
   createSession(meetingId: string) {
-    this.socket.on('error', (data: { type: string, message: string }) => {
-      this.alertService.showDialog(new ErrorAlert(data.type, data.message))
-    })
+
     this.socket.on("meeting", (data: any) => {
       console.log("connected !")
       console.log(data)
     })
-    this.socket.emit("createSession", {
-      clientId: this.tableId,
-      clientSecret: this.tableSecret,
+    this.socket.emit("create_session", {
+      tableId: this.tableId,
       meetingId: meetingId
     })
   }

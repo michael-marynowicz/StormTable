@@ -18,9 +18,8 @@ export class UserService {
       this.users$.next(this.users);
     }))
   }
-
-  auth(id: string) {
-    return new Promise((resolve, reject)=> this.http.post<{ tableId: string }>(httpHostname + "/user/auth", { id }).subscribe((_) => {
+  auth(spotId: string, userId: string) {
+    return new Promise((resolve, reject)=> this.http.post<{ tableId: string }>(httpHostname + "/mobile/auth", { userId, spotId }).subscribe((_) => {
       resolve({})
     }, error => reject(error)))
   }
