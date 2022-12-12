@@ -26,7 +26,6 @@ export class DocumentService {
     }
 
     getAllFiles(){
-        console.log(this.files);
         return this.files;
     }
 

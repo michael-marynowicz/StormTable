@@ -50,7 +50,6 @@ export class DocumentController {
         };
         this.documentService.addFile(doc);
         this.server.emit("document",{});
-        console.log("okok")
         return
     }
 
