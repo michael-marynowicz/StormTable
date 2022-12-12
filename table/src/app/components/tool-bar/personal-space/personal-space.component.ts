@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import DocumentModel from "../../../models/document.model";
 import {DocumentService} from "../../../services/document.service";
 
@@ -12,15 +22,18 @@ export class PersonalSpaceComponent {
 
   public displayDriveFile!: boolean;
   public myFiles: DocumentModel[] = [];
+  @Output() sendDocumentId = new EventEmitter<string>;
 
   constructor( public documentService: DocumentService) {
-    this.myFiles = this.documentService.getAllFiles();
   }
 
-  ngOnInit(){}
+  ngOnInit(){
+    this.myFiles = this.documentService.getAllFiles();
+    this.documentService.fetchFiles().then(files=>this.myFiles = files);
+  }
 
   showFiles() {
     this.displayDriveFile = !this.displayDriveFile;
-    console.log(this.displayDriveFile);
   }
+
 }

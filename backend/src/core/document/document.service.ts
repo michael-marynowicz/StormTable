@@ -23,7 +23,7 @@ export class DocumentService {
         this.files.push(value);
     }
 
-    getAllFiles(){
+    getAllFiles (){
         console.log(this.files);
         return this.files;
     }

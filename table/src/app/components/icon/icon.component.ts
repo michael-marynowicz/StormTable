@@ -13,7 +13,6 @@ export class IconComponent implements OnInit{
 
   @Input() src! : string;
   @Input() name! : string;
-
   @Input() type! : string;
   safeURL!: SafeResourceUrl;
 

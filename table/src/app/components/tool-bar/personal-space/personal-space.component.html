@@ -1,7 +1,9 @@
 
 <div id="navbarContainer" cdkDrag>
   <div class="files" *ngIf="displayDriveFile">
-    <h4>files here</h4>
+    <div (click)="sendDocumentId.emit(file.path)" class="file" *ngFor="let file of myFiles">
+      {{file.path}}
+    </div>
   </div>
   <div id="navbar">
     <div id="menuWrapper">
