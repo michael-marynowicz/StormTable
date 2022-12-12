@@ -6,10 +6,9 @@ import {HttpClient} from "@angular/common/http";
 })
 export class IconService {
 
-  constructor(private httpClient : HttpClient ) { }
+  constructor(private httpClient : HttpClient) { }
 
   load(src: string) {
-    console.log("ok")
     return this.httpClient.get(src)
 
   }
