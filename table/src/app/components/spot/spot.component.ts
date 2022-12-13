@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import { transform } from '../../../utils/style.utils';
-import SpotModel from "../../models/spot.model";
 import {fromPosition} from "../../models/viewport.model";
+import {SpotModel} from "../../models/spot.mode";
 
 @Component({
   selector: 'app-spot',
@@ -11,6 +11,6 @@ import {fromPosition} from "../../models/viewport.model";
 export class SpotComponent {
   @Input() spot!: SpotModel;
   get positionStyle() {
-    return transform(fromPosition(this.spot.x, this.spot.y))
+    return transform(fromPosition(this.spot.location.x, this.spot.location.y))
   }
 }

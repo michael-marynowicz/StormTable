@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Scope } from "@nestjs/common";
 import UserModel from "./user.model";
 
-@Injectable()
+@Injectable({
+  scope: Scope.DEFAULT
+})
 export class UserService {
   private users: UserModel[] = [
     { id: 'f4e8dbb3-9423-497f-b28c-dd8db6341137', name: 'User 1' },

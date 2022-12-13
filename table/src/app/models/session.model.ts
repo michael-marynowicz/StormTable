@@ -1,19 +1,3 @@
-export interface TableSessionModel {
-  id: string;
-}
+import BackendSession from '../../../../backend/src/core/session/dto/session.dto';
 
-export interface UserSessionModel {
-  id: string;
-  location: { x: number, y: number }
-}
-
-export interface MeetingSessionModel {
-  id: string;
-}
-
-export default interface SessionModel {
-  sessionId: number;
-  table: TableSessionModel,
-  users: UserSessionModel[],
-  meeting: MeetingSessionModel
-}
+export type Session = BackendSession;

@@ -16,6 +16,7 @@ export class UserService {
     return new Promise((resolve, reject) => this.http.get<UserModel[]>(httpHostname + "/user").subscribe((users) => {
       this.users = users;
       this.users$.next(this.users);
+      resolve({})
     }))
   }
   auth(spotId: string, userId: string) {

@@ -10,7 +10,7 @@ export class DocumentService {
 
   private files: DocumentModel[] = []
 
-  constructor(private socket: Socket, private documentServiceBackend: DocumentService) {
+  constructor(private socket: Socket) {
     // create connection to your file storage
   }
 

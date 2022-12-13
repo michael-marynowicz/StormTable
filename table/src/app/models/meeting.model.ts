@@ -1,7 +1,3 @@
-import DocumentModel from "./document.model";
+import BackendMeeting from '../../../../backend/src/core/models/meeting.model';
 
-export default interface MeetingModel {
-  id: string;
-  name: string;
-  documents: DocumentModel[]
-}
+export type MeetingModel = BackendMeeting;

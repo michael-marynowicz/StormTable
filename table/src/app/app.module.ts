@@ -26,6 +26,7 @@ import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/perso
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {FormsModule} from "@angular/forms";
 import {NgxFileDropModule} from "ngx-file-drop";
+import { UserStandComponent } from './components/user-stand/user-stand.component';
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -48,7 +49,8 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     DrawButtonComponent,
     ButtonTextComponent,
     IconComponent,
-    PersonalSpaceComponent
+    PersonalSpaceComponent,
+    UserStandComponent
   ],
   imports: [
     BrowserModule,
@@ -64,4 +66,4 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

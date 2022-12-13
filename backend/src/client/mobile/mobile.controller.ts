@@ -8,8 +8,8 @@ export class MobileController {
   constructor(private sessionService: SessionService) {
   }
 
-  @Post("auth")
+  @Post('auth')
   auth(@MessageBody() body: { userId: string, spotId: string }) {
-    this.sessionService.userJoin(body.spotId, body.userId);
+    this.sessionService.userJoin(body.userId, body.spotId);
   }
 }
