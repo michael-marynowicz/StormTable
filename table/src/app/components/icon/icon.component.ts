@@ -40,35 +40,18 @@ export class IconComponent implements OnInit {
 
   start?: { x: number, y: number }
 
-  setRotation($event: DragEvent) {
-    if (!$event) return;
-    console.log("ok")
-    if (!this.start) {
-      this.start = {x: $event.clientX, y: $event.clientY}
-      return;
-    }
-    const angle = Math.atan(($event.clientY - this.start.y) / ($event.clientX - this.start.x)) + (($event.clientX - this.start.x) < 0 ? Math.PI : 0);
-
-    if (angle) this.rotateValue += angle;
-    console.log(this.rotateValue)
-
-  }
-
   @HostListener('drag')
   rotation($event: DragEvent) {
     if (!$event) return;
-    console.log($event, "before")
+    console.log($event,this.rotateValue, "before")
     if (!this.start) {
       this.start = {x: $event.clientX, y: $event.clientY}
       return;
     }
     const angle = Math.atan(($event.clientY - this.start.y) / ($event.clientX - this.start.x)) + (($event.clientX - this.start.x) < 0 ? Math.PI : 0);
-    const img: HTMLImageElement = <HTMLImageElement>$event.target;
-    this.rotateValue = angle;
+    if (angle) this.rotateValue = angle;
     // @ts-ignore
-    //img.offsetParent.style = `transform: rotate(${angle}rad)`
-    // @ts-ignore
-    console.log($event, "after", img.offsetParent)
+    console.log(angle,"after")
 
   }
 

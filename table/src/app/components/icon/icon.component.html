@@ -8,14 +8,15 @@
           <path d="M0 0h24v24H0z" fill="none"></path>
         </svg>
       </div>
-      <img [src]=safeURL (dblclick)="load()" (drag)="rotation($event)" alt="{{doc.name}}"/>
+      <img [src]=safeURL (dblclick)="load()" (dragover)="rotation($event)" alt="{{doc.name}}"/>
     </div>
     <div *ngIf="isOpen===true">
       <button class="close-button" aria-label="Close alert" type="button" (click)="isOpen=false">X</button>
       <iframe *ngIf="doc.type!=='PICTURE'" id="inlineFrameExample"
               title="Inline Frame Example"
               style="width: 10cm; height: 10cm;"
-              [src]=safeURL>
+              [src]=safeURL
+      >
       </iframe>
       <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
     </div>
