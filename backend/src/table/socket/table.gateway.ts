@@ -1,10 +1,11 @@
-import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway } from "@nestjs/websockets";
-import { Socket } from "socket.io";
+import {ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer} from "@nestjs/websockets";
+import {Server, Socket} from "socket.io";
 import { MeetingService } from "../../core/meeting/meeting.service";
 import { TableService } from "../table/table.service";
 import TableErrors, { TableErrorTypes } from "../table-errors";
 import { SessionService } from "../../core/session/session.service";
 import { SpotService } from "../spot/spot.service";
+import {DocumentService} from "../../core/document/document.service";
 
 @WebSocketGateway({
   cors: {
@@ -13,8 +14,11 @@ import { SpotService } from "../spot/spot.service";
 })
 export class TableGateway {
 
+  @WebSocketServer()
+  server:Server;
   private sessions: { [socketId: string]: string }
-  constructor(private meetingService: MeetingService, private tableService: TableService, private sessionService: SessionService, private spotService: SpotService) {
+  constructor(private meetingService: MeetingService, private tableService: TableService, private sessionService: SessionService, private spotService: SpotService,private documentService: DocumentService) {
+    this.documentService.files$.subscribe(_ => this.server?.emit("document",{}))
   }
 
   @SubscribeMessage('create_session')

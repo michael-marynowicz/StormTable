@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { createReadStream, readFileSync } from 'fs';
+import { createReadStream } from 'fs';
 import * as path from 'path';
-import MeetingModel from "../models/meeting.model";
 import DocumentModel from "../models/document.model";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable()
 export class DocumentService {
 
     private files: DocumentModel[] = []
+    public files$ = new BehaviorSubject<DocumentModel[]>([])
 
     constructor() {
         // create connection to your file storage
@@ -21,10 +22,10 @@ export class DocumentService {
 
     addFile(value: DocumentModel){
         this.files.push(value);
+        this.files$.next(this.files)
     }
 
     getAllFiles(){
-        console.log(this.files);
         return this.files;
     }
 

@@ -1,8 +1,9 @@
-import { DocumentTypes } from "./document-types.enum";
+import {ElementType} from "./element-types-enum";
 
 export default interface DocumentModel {
+
   id: string;
   name: string;
-  type: DocumentTypes;
+  type: ElementType;
   path: string;
 }
