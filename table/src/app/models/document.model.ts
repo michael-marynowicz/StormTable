@@ -1,9 +1,9 @@
-export enum DocumentTypes {
-  PICTURE = "PICTURE"
-}
+
+import {ElementType} from "./brainstorm-element.model";
+
 export default interface DocumentModel {
   id: string;
   name: string;
-  type: DocumentTypes;
+  type: ElementType;
   path: string;
 }

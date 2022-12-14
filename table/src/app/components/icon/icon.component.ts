@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {IconService} from "../../services/icon.service";
 import {Observable} from "rxjs";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
-import {BrainstormElementType} from "../../models/brainstorm-element.model";
+import DocumentModel from "../../models/document.model";
 
 @Component({
   selector: 'app-icon',
@@ -11,9 +11,11 @@ import {BrainstormElementType} from "../../models/brainstorm-element.model";
 })
 export class IconComponent implements OnInit{
 
-  @Input() src! : string;
-  @Input() name! : string;
-  @Input() type! : string;
+
+  @Input() doc!: DocumentModel;
+
+  private URL = "http://localhost:3000/"
+
   safeURL!: SafeResourceUrl;
 
   loadFile : Observable<Object> | undefined
@@ -25,22 +27,14 @@ export class IconComponent implements OnInit{
 
 
   load(){
-    this.loadFile =this.iconcservice.load(this.src)
+    this.loadFile =this.iconcservice.load(this.URL+this.doc.path)
     this.isOpen=true;
   }
 
   ngOnInit(): void {
-    this.safeURL= this.sanitizer.bypassSecurityTrustResourceUrl(this.src)
+    this.safeURL= this.sanitizer.bypassSecurityTrustResourceUrl(this.URL+this.doc.path)
   }
-  get defineType(){
-    switch (this.type){
-      case BrainstormElementType.PICTURE: return 'picture';
-      case BrainstormElementType.PDF: return 'pdf';
-      case BrainstormElementType.TXT: return 'txt';
-      case BrainstormElementType.PPTX: return 'pptx';
-      default: return this.type;
-    }
-  }
+
 
 
 }

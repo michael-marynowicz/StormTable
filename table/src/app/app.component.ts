@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import DocumentModel from "./models/document.model";
+import {Subscription} from "rxjs";
+import {DocumentService} from "./services/document.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'table';
+
+  allDocuments! : DocumentModel[]
+
+  subs?: Subscription;
+
+  constructor(documentService : DocumentService) {
+    this.subs = documentService.files$.subscribe(file => this.allDocuments = file);
+    documentService.fetchAllFiles();
+  }
 }

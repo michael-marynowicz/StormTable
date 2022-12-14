@@ -13,10 +13,10 @@ export class AppController {
 
   @Get ("images/:imagename")
   getImage(@Param ('imagename') imagename, @Res () res): Observable<Object> {
-    return of(res.sendFile(imagename,{ root: './ressources/img' }));
+    return of(res.sendFile(imagename,{ root: './img' }));
   }
   @Get ("files/:fileName")
   getFile(@Param ('fileName') fileName, @Res () res): Observable<Object> {
-    return of(res.sendFile(fileName,{ root: './ressources/files' }));
+    return of(res.sendFile(fileName,{ root: './files' }));
   }
 }

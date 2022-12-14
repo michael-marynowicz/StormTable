@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import {BrowserModule, HammerModule} from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SelectMeetingPageComponent } from './pages/select-meeting-page/select-meeting-page.component';
@@ -24,7 +23,8 @@ import { IconComponent } from './components/icon/icon.component';
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/personal-space.component";
 import {DocumentElementComponent} from "./components/brainstorm-element/elements/document-element/document-element.component";
-
+import {FormsModule} from "@angular/forms";
+import {NgxFileDropModule} from "ngx-file-drop";
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
 @NgModule({
@@ -49,14 +49,17 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     IconComponent,
     PersonalSpaceComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        SocketIoModule.forRoot(socketConfig),
-        HammerModule,
-        CdkDrag
-    ],
+
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    SocketIoModule.forRoot(socketConfig),
+    HammerModule,
+    CdkDrag,
+    FormsModule,
+    NgxFileDropModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
