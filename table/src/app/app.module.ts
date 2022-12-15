@@ -22,9 +22,11 @@ import { ButtonTextComponent } from './components/tool-bar/button-text/button-te
 import { IconComponent } from './components/icon/icon.component';
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/personal-space.component";
-import {DocumentElementComponent} from "./components/brainstorm-element/elements/document-element/document-element.component";
 import {FormsModule} from "@angular/forms";
 import {NgxFileDropModule} from "ngx-file-drop";
+import {
+  DocumentElementComponent
+} from "./components/brainstorm-element/elements/document-element/document-element.component";
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
 @NgModule({

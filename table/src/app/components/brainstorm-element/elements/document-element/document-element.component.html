@@ -1,9 +1,8 @@
+
 <div id="body">
-  <div #viewer1 class="viewer1" (mouseenter)="updateCurrentElement('viewer1')"
-       (scroll)="updateVerticalScroll($event)">
+  <div #viewer1 id="viewer1" (mouseenter)="getPage()">
   </div>
-  <div #viewer2 class="viewer2" (mouseenter)="updateCurrentElement('viewer2')"
-       (scroll)="updateVerticalScroll($event)">
+  <div #viewer2 id="viewer2" (mouseenter)="getPage()">
   </div>
   <!--app-personal-space></app-personal-space-->
 </div>
