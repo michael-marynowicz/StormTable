@@ -24,9 +24,10 @@ import {CdkDrag} from "@angular/cdk/drag-drop";
 import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/personal-space.component";
 import {FormsModule} from "@angular/forms";
 import {NgxFileDropModule} from "ngx-file-drop";
-import {
-  DocumentElementComponent
-} from "./components/brainstorm-element/elements/document-element/document-element.component";
+import {DocumentElementComponent} from "./components/brainstorm-element/elements/document-element/document-element.component";
+import {NgImageSliderModule} from "ng-image-slider";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
 @NgModule({
@@ -52,16 +53,18 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     PersonalSpaceComponent
   ],
 
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    SocketIoModule.forRoot(socketConfig),
-    HammerModule,
-    CdkDrag,
-    FormsModule,
-    NgxFileDropModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        SocketIoModule.forRoot(socketConfig),
+        HammerModule,
+        CdkDrag,
+        FormsModule,
+        NgxFileDropModule,
+        NgImageSliderModule,
+      BrowserAnimationsModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
