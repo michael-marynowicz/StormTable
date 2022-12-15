@@ -39,12 +39,17 @@ export class DocumentElementComponent implements AfterViewInit {
 
   }
 
+  sendClick(){
+
+  }
   getPage(){
     this.currentpage = this.viewer1.Core.documentViewer.getCurrentPage();
     console.log(this.currentpage);
     this.viewer2.Core.documentViewer.setCurrentPage(this.currentpage,true);
+    this.viewer2.Core.documentViewer.updateView([this.currentpage],this.viewer2.Core.documentViewer.getCurrentPage());
 
   }
+
 
 
 }

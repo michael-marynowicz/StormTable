@@ -1,4 +1,4 @@
-<app-document-element *ngIf="editFile===true" [docPath]="getDocPath()"></app-document-element>
+<app-document-element *ngIf="editFile===true" [docPath]="getDocPath()" (dblclick)="load()"></app-document-element>
 
 <div *ngFor="let document of allDocuments">
 <div class="box-draggable-wrapper" cdkDragBoundary=".example-boundary" cdkDrag *ngIf="editFile===false">
