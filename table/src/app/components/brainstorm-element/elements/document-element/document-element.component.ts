@@ -1,6 +1,6 @@
 
 
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import WebViewer, {UI, WebViewerInstance} from "@pdftron/webviewer";
 
 
@@ -13,6 +13,9 @@ export class DocumentElementComponent implements AfterViewInit {
   @ViewChild('viewer1')  viewerRef1! : ElementRef;
   @ViewChild('viewer2')  viewerRef2! : ElementRef;
 
+  @Input()
+  docPath!: any;
+
   public currentpage! : number;
   public scroll! : Element;
   public viewer1! : WebViewerInstance;
@@ -22,14 +25,14 @@ export class DocumentElementComponent implements AfterViewInit {
 
     WebViewer({
       path: '../../../../../assets/lib',
-      initialDoc: 'https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf'
+      initialDoc: this.docPath
     }, this.viewerRef1.nativeElement).then(instance => {
       this.viewer1 = instance;
     });
 
     WebViewer({
       path: '../../../../../assets/lib',
-      initialDoc: 'https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf',
+      initialDoc: this.docPath
     }, this.viewerRef2.nativeElement).then(instance => {
       this.viewer2 = instance;
     });

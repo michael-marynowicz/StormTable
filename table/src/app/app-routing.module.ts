@@ -8,12 +8,13 @@ import {ToolBarComponent} from "./components/tool-bar/tool-bar.component";
 import {
   DocumentElementComponent
 } from "./components/brainstorm-element/elements/document-element/document-element.component";
+import {IconComponent} from "./components/icon/icon.component";
 
 const routes: Routes = [
   { path: '', component: SelectMeetingPageComponent },
   { path: 'test', component: TestPageComponent },
   { path: 'meeting/:meetingId', component: TableRuntimeComponent },
-  {path: 'personalSpace', component:DocumentElementComponent}
+  {path: 'personalSpace', component:IconComponent}
 ];
 
 @NgModule({

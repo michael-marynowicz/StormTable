@@ -1,4 +1,7 @@
-<div class="box-draggable-wrapper" cdkDragBoundary=".example-boundary" cdkDrag>
+<app-document-element *ngIf="editFile===true" [docPath]="getDocPath()"></app-document-element>
+
+<div *ngFor="let document of allDocuments">
+<div class="box-draggable-wrapper" cdkDragBoundary=".example-boundary" cdkDrag *ngIf="editFile===false">
   <div class="example-box" [ngStyle]="{'transform':'rotate(' + rotateValue + 'rad)'}">
     <div *ngIf="isOpen===false">
       <div class="example-handle" cdkDragHandle>
@@ -22,4 +25,14 @@
     </div>
   </div>
 </div>
+</div>
+
+  <!--div id="body">
+    <div #viewer1 id="viewer1" (mousemove)="getPage()" (mouseover)="getPage()"
+         (mouseenter)="getPage()" (mouseleave)="getPage()">
+    </div>
+    <div #viewer2 id="viewer2" (mousemove)="getPage()"
+         (mouseover)="getPage()" (mouseenter)="getPage()" (mouseleave)="getPage()">
+    </div>
+  </div-->
 
