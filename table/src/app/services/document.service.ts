@@ -1,6 +1,6 @@
 import DocumentModel from "../models/document.model";
 import {Injectable} from "@angular/core";
-import {Socket} from "ngx-socket-io";
+import {io} from "socket.io-client";
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
 
@@ -9,20 +9,24 @@ import {BehaviorSubject} from "rxjs";
 })
 export class DocumentService {
 
-  private files: DocumentModel[] = [];
+  socket = io("http://localhost:3000")
+
+  public files: DocumentModel[] = [];
 
   public files$ = new BehaviorSubject<DocumentModel[]>([]);
 
-  constructor(private socket: Socket,private httpClient : HttpClient) {
-    socket.on("document", () => this.fetchAllFiles())
+  constructor(private httpClient : HttpClient) {
+    console.log("the table get the file")
+    this.socket.on("document",async () => {await this.fetchAllFiles();})
   }
+
 
   getAllFiles(){
     return this.files;
 
   }
-  fetchAllFiles(){
-    this.httpClient.get<DocumentModel[]>("http://localhost:3000/document/files").subscribe(files =>{
+  async fetchAllFiles(){
+    await this.httpClient.get<DocumentModel[]>("http://localhost:3000/document/files").subscribe(files =>{
       this.files=files;
       this.files$.next(this.files)
     })

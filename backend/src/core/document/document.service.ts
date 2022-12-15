@@ -6,13 +6,10 @@ import {BehaviorSubject} from "rxjs";
 
 @Injectable()
 export class DocumentService {
-
     private files: DocumentModel[] = []
     public files$ = new BehaviorSubject<DocumentModel[]>([])
 
-    constructor() {
-        // create connection to your file storage
-    }
+    constructor() {}
 
     fileStream(myPath: string) {
         //const filePath = path.join(process.cwd(), 'package.json')
@@ -22,7 +19,7 @@ export class DocumentService {
 
     addFile(value: DocumentModel){
         this.files.push(value);
-        this.files$.next(this.files)
+        this.files$.next(this.files);
     }
 
     getAllFiles(){

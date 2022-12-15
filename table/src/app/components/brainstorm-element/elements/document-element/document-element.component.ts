@@ -1,7 +1,7 @@
 
 
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
-import WebViewer, {UI, WebViewerInstance} from "@pdftron/webviewer";
+import {WebViewerInstance} from "@pdftron/webviewer";
 
 
 @Component({
@@ -19,7 +19,7 @@ export class DocumentElementComponent implements AfterViewInit {
   public viewer2! : WebViewerInstance;
 
   ngAfterViewInit(): void {
-
+/*
     WebViewer({
       path: '../../../../../assets/lib',
       initialDoc: 'https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf'
@@ -33,7 +33,7 @@ export class DocumentElementComponent implements AfterViewInit {
     }, this.viewerRef2.nativeElement).then(instance => {
       this.viewer2 = instance;
     });
-
+*/
   }
 
   getPage(){

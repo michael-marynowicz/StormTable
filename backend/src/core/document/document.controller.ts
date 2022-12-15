@@ -15,17 +15,14 @@ import {DocumentService} from "./document.service";
 import DocumentModel from "../models/document.model";
 import {v4 as get_uid} from 'uuid'
 import {ElementType} from "../models/element-types-enum";
-import {Server} from "socket.io";
-import {WebSocketServer} from "@nestjs/websockets";
+import {Socket} from "socket.io";
+import {ConnectedSocket} from "@nestjs/websockets";
 
 
 @Controller('document')
-export class DocumentController {
-
-    @WebSocketServer()
-    server: Server
-
+export class DocumentController{
     constructor(private readonly documentService: DocumentService) {}
+
     @Post('upload')
     @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
@@ -35,10 +32,11 @@ export class DocumentController {
                 let extension = extArray[extArray.length - 1];
                 cb(null, file.fieldname + '-' + Date.now()+ '.' + extension)
             }
-        })
-    }))
 
-    async save(@UploadedFile() file) : Promise<any>{
+        })
+
+    }))
+    async save(@UploadedFile() file,@ConnectedSocket() socket: Socket) : Promise<any>{
         const doc: DocumentModel = {
             id: get_uid(),
             name: file.name,
@@ -46,8 +44,7 @@ export class DocumentController {
             path: file.path
         };
         this.documentService.addFile(doc);
-        this.server.emit("document",{});
-        return
+        return;
     }
 
     @Get('files')
@@ -64,5 +61,4 @@ export class DocumentController {
         return new StreamableFile(file); // 👈 supports Buffer and Stream
 
     }
-
 }

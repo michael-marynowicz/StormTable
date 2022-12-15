@@ -18,7 +18,7 @@ export class TableGateway {
   server:Server;
   private sessions: { [socketId: string]: string }
   constructor(private meetingService: MeetingService, private tableService: TableService, private sessionService: SessionService, private spotService: SpotService,private documentService: DocumentService) {
-    this.documentService.files$.subscribe(_ => this.server?.emit("document",{}))
+    this.documentService.files$.subscribe(_ => this.server?.send("document",{}))
   }
 
   @SubscribeMessage('create_session')
