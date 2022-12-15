@@ -14,12 +14,13 @@ import addEventListener = UI.addEventListener;
   styleUrls: ['./document-element.component.less']
 })
 export class DocumentElementComponent implements AfterViewInit {
-  @ViewChild('viewer1')  viewerRef1!: ElementRef;
-  @ViewChild('viewer2')  viewerRef2!: ElementRef;
+  @ViewChild('viewer1')  viewerRef1! : ElementRef;
+  @ViewChild('viewer2')  viewerRef2! : ElementRef;
 
+  public currentpage! : number;
   public scroll! : Element;
-  public viewer1!:WebViewerInstance;
-  public viewer2!:WebViewerInstance;
+  public viewer1! : WebViewerInstance;
+  public viewer2! : WebViewerInstance;
 
   ngAfterViewInit(): void {
 
@@ -27,10 +28,7 @@ export class DocumentElementComponent implements AfterViewInit {
       path: '../../../../../assets/lib',
       initialDoc: 'https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf'
     }, this.viewerRef1.nativeElement).then(instance => {
-
       this.viewer1 = instance;
-      this.scroll = instance.Core.documentViewer.getScrollViewElement();
-      console.log(this.scroll);
     });
 
     WebViewer({
@@ -39,15 +37,14 @@ export class DocumentElementComponent implements AfterViewInit {
      // licenseKey: 'demo:1671005628767:7a96dd010300000000c2d90e683f649de4cab3ff554dae5e87a2cf16c2'
     }, this.viewerRef2.nativeElement).then(instance => {
       this.viewer2 = instance;
-      instance.Core.documentViewer.setScrollViewElement(this.scroll);
     });
 
   }
 
   getPage(){
-
-    this.viewer1.Core.documentViewer.setCurrentPage(3,true);
-    this.viewer2.Core.documentViewer.setCurrentPage(3,true);
+    this.currentpage = this.viewer1.Core.documentViewer.getCurrentPage();
+    console.log(this.currentpage);
+    this.viewer2.Core.documentViewer.setCurrentPage(this.currentpage,true);
 
   }
 
