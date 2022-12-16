@@ -34,6 +34,8 @@ export class IconComponent implements OnInit {
 
   subs?: Subscription;
 
+  public isDragg :boolean = false;
+
   constructor(documentService : DocumentService,private iconcservice: IconService, private sanitizer: DomSanitizer) {
     this.subs = documentService.files$.subscribe(file => this.allDocuments = file);
     documentService.fetchAllFiles();
@@ -70,6 +72,10 @@ export class IconComponent implements OnInit {
 
   getDocPath(){
     return 'http://localhost:3000/document/'+this.allDocuments[0].id.toString();
+  }
+
+  isDragged(){
+    this.isDragg = !this.isDragg;
   }
 
 }

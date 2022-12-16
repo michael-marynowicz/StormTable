@@ -1,38 +1,38 @@
 <app-document-element *ngIf="editFile===true" [docPath]="getDocPath()" (dblclick)="load()"></app-document-element>
 
+<div class="box">
+
+
+<app-mini-map *ngIf="isDragg === true" (click)="isDragged()"></app-mini-map>
+
 <div *ngFor="let document of allDocuments">
-<div class="box-draggable-wrapper" cdkDragBoundary=".example-boundary" cdkDrag *ngIf="editFile===false">
-  <div class="example-box" [ngStyle]="{'transform':'rotate(' + rotateValue + 'rad)'}">
-    <div *ngIf="isOpen===false">
-      <div class="example-handle" cdkDragHandle>
-        <svg fill="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
-          <path d="M0 0h24v24H0z" fill="none"></path>
-        </svg>
+
+  <div class="box-draggable-wrapper" cdkDragBoundary=".example-boundary" cdkDrag *ngIf="editFile===false" (dragstart)="isDragged()">
+    <div class="example-box" [ngStyle]="{'transform':'rotate(' + rotateValue + 'rad)'}">
+      <div *ngIf="isOpen===false">
+        <div class="example-handle" cdkDragHandle>
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+          </svg>
+        </div>
+        <img [src]=safeURL (dblclick)="load()" (dragover)="rotation($event)" alt="{{doc.name}}"/>
       </div>
-      <img [src]=safeURL (dblclick)="load()" (dragover)="rotation($event)" alt="{{doc.name}}"/>
-    </div>
-    <div *ngIf="isOpen===true">
-      <button class="close-button" aria-label="Close alert" type="button" (click)="isOpen=false">X</button>
-      <iframe *ngIf="doc.type!=='PICTURE'" id="inlineFrameExample"
-              title="Inline Frame Example"
-              style="width: 10cm; height: 10cm;"
-              [src]=safeURL
-      >
-      </iframe>
-      <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
+      <div *ngIf="isOpen===true">
+        <button class="close-button" aria-label="Close alert" type="button" (click)="isOpen=false">X</button>
+        <iframe *ngIf="doc.type!=='PICTURE'" id="inlineFrameExample"
+                title="Inline Frame Example"
+                style="width: 10cm; height: 10cm;"
+                [src]=safeURL
+        >
+        </iframe>
+        <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
+      </div>
     </div>
   </div>
-</div>
+
 </div>
 
-  <!--div id="body">
-    <div #viewer1 id="viewer1" (mousemove)="getPage()" (mouseover)="getPage()"
-         (mouseenter)="getPage()" (mouseleave)="getPage()">
-    </div>
-    <div #viewer2 id="viewer2" (mousemove)="getPage()"
-         (mouseover)="getPage()" (mouseenter)="getPage()" (mouseleave)="getPage()">
-    </div>
-  </div-->
+</div>
 
