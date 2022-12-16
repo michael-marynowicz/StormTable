@@ -37,9 +37,10 @@ export class DocumentController{
 
     }))
     async save(@UploadedFile() file,@ConnectedSocket() socket: Socket) : Promise<any>{
+        console.log(file)
         const doc: DocumentModel = {
             id: get_uid(),
-            name: file.name,
+            name: file.originalname,
             type: file.path.endsWith(".pdf") ? ElementType.PDF : ElementType.PICTURE,
             path: file.path
         };
