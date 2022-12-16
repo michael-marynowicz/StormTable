@@ -18,14 +18,13 @@ import {BrainstormElementComponentComponent} from "./components/brainstorm-eleme
 import { PictureElementComponent } from './components/brainstorm-element/elements/picture-element/picture-element.component';
 import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
 import { IconComponent } from './components/icon/icon.component';
-import {CdkDrag} from "@angular/cdk/drag-drop";
 import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/personal-space.component";
 import {FormsModule} from "@angular/forms";
-import {NgxFileDropModule} from "ngx-file-drop";
 import {DocumentElementComponent} from "./components/brainstorm-element/elements/document-element/document-element.component";
-import {NgImageSliderModule} from "ng-image-slider";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MiniMapComponent} from "./components/icon/mini-map/mini-map.component";
+import {CdkDrag} from "@angular/cdk/drag-drop";
+import {NgxFileDropModule} from "ngx-file-drop";
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -60,7 +59,7 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
         CdkDrag,
         FormsModule,
         NgxFileDropModule,
-        NgImageSliderModule,
+        // NgImageSliderModule,
       BrowserAnimationsModule,
     ],
   providers: [],
