@@ -11,7 +11,7 @@ export class TableService {
     return !!this.tables.find(t => t.id === id)
   }
 
-  getTable(clientId: string) {
+  get(clientId: string) {
     return this.tables.find(t => t.id === clientId)
   }
 

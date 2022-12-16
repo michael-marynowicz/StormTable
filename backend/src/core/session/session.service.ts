@@ -1,31 +1,81 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, Scope } from "@nestjs/common";
 import Session from "./work/session";
-import { BehaviorSubject } from "rxjs";
-import { v4 as new_guid } from 'uuid'
+import { BehaviorSubject, Subject } from "rxjs";
+import { v4 as new_guid } from "uuid";
 import TableSession from "./work/table-session";
+import { Socket } from "socket.io";
+import TableError, { TableErrorTypes } from "../../table/table-error";
+import { MeetingService } from "../meeting/meeting.service";
+import UserSession from "./work/user-session";
+import { UserService } from "../user/user.service";
+import SessionDto, { aggregateDto } from "./dto/session.dto";
+import { TableService } from "../table/table.service";
+import TableNotFound from "../errors/table-not-found.error";
+import MeetingNotFound from "../errors/meeting-not-found.error";
+import SessionNotFoundError from "../errors/session-not-found.error";
 
-@Injectable()
+@Injectable({
+  scope: Scope.DEFAULT
+})
 export class SessionService {
-  private sessions: Session[] = [];
-  sessions$ = new BehaviorSubject<Session[]>([]);
 
-  createSession(tableSession: TableSession, meetingId: string) {
-    const id = new_guid()
-    this.sessions.push({
-      sessionId: id,
-      users: [],
-      table: tableSession,
-      meeting: { id: meetingId }
-    })
-    this.sessions$.next(this.sessions);
-    return id;
+  private sessions: { [ id: string]: Session } = {}
+  sessions$ = new BehaviorSubject<Session[]>([]);
+  sessionChanged = new Subject<Session>()
+
+  constructor(private userService: UserService, private meetingService: MeetingService, private tableService: TableService) {
   }
 
-  addUser(tableId: string, userId: string, location: { x: number, y: number }) {
-    const session = this.sessions.find(s => s.table.id === tableId)
+  getAggregatedSession(session: Session): SessionDto {
+    return aggregateDto(session, this.userService, this.tableService, this.meetingService);
+  }
+
+  createSession(tableSession: TableSession, meetingId: string) {
+    if(!this.tableService.get(tableSession.id))
+      throw TableNotFound();
+    if(!this.meetingService.get(meetingId))
+      throw MeetingNotFound();
+    const existingSession = Object.values(this.sessions).find(s => s.table.id === tableSession.id && s.meeting.id === meetingId)
+    if(!!existingSession) {
+      existingSession.table.spots = []
+      return existingSession;
+    }
+    const id = new_guid();
+    const session: Session = {
+      sessionId: id,
+      table: tableSession,
+      meeting: {
+        id: meetingId
+      },
+      users: []
+    }
+    this.sessions[id] = session;
+    this.sessions$.next(Object.values(this.sessions))
+    return session;
+  }
+
+  updateSession(sessionId: string, socket: Socket, change: (session: Session) => void) {
+    const session = this.sessions[sessionId];
     if(!session)
-      throw new HttpException("No session found for this table.", HttpStatus.NOT_FOUND)
-    session.users.push({ id: userId, location })
-    this.sessions$.next(this.sessions);
+      throw SessionNotFoundError()
+    change(session);
+    console.log(this.sessions)
+    this.sessionChanged.next(session);
+    //socket.emit("session", { session });
+  }
+
+  userJoin(userId: string, spotId: string) {
+    const session = Object.values(this.sessions).find(s => !!s.table.spots.find(spot => spot.id === spotId))
+    if(!session)
+      throw SessionNotFoundError()
+
+    session.users = session.users.filter(u => u.id !== userId)
+    const spot = session.table.spots.find(s => s.id == spotId)
+    session.table.spots = session.table.spots.filter(s => s.id !== spotId);
+    session.users.push({
+      id: userId,
+      location: spot.location
+    })
+    this.sessionChanged.next(session)
   }
 }

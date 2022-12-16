@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import SpotModel from "../../models/spot.model";
+import {UserModel} from "../../models/user.model";
+import {UserSession} from "../../models/user-session";
 
 @Component({
   selector: 'app-test-page',
@@ -7,9 +8,14 @@ import SpotModel from "../../models/spot.model";
   styleUrls: ['./test-page.component.less']
 })
 export class TestPageComponent {
-  spot: SpotModel = {
-    id: "test",
-    x: 300,
-    y: 400
+  public userModel: UserSession = {
+    id: "user_id",
+    user: {
+      id: "user_id",
+      name: "This is my name"
+    },
+    location: {
+      x: 100, y: 100
+    }
   }
 }

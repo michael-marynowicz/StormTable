@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {TableService} from "../../services/table.service";
-import SpotModel from "../../models/spot.model";
+import SessionService from "../../services/session.service";
+import {Session} from "../../models/session.model";
 
 @Component({
   selector: 'app-table-runtime',
@@ -10,19 +10,28 @@ import SpotModel from "../../models/spot.model";
 })
 export class TableRuntimeComponent {
 
-  spots: SpotModel[] = []
-  constructor(aroute: ActivatedRoute, private tableService: TableService) {
+  get spots() {
+    return this.session?.table.spots ?? []
+  }
+
+  get users() {
+    return this.session?.users ?? []
+  }
+  session?: Session;
+  constructor(aroute: ActivatedRoute, private sessionService: SessionService) {
+    sessionService.session$.subscribe(session => {
+      console.log(session)
+      this.session = session
+    });
     aroute.params.subscribe((_) => {
       const id = aroute.snapshot.params["meetingId"]
-      tableService.createSession(id);
-    });
-    tableService.spotsChanged.subscribe((v) => {
-      this.spots = v;
+      console.log("Creating session")
+      sessionService.createSession(id)
     });
   }
 
   doubleTap(event: MouseEvent) {
-    this.tableService.createSpot({ x: event.clientX, y: event.clientY })
+    this.sessionService.createSpot({ x: event.clientX, y: event.clientY })
   }
 
   simpleTap(event: MouseEvent) {

@@ -1,8 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AlertService, ErrorAlert} from "../../services/alert.service";
-import {MeetingService} from "../../services/meeting.service";
 import {Subscription} from "rxjs";
-import {TableService} from "../../services/table.service";
+import {MeetingModel} from "../../models/meeting.model";
+import {MeetingService} from "../../services/meeting.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-select-meeting-page',
@@ -11,23 +12,26 @@ import {TableService} from "../../services/table.service";
 })
 export class SelectMeetingPageComponent implements OnInit, OnDestroy {
 
-  elements: { id: string, label: string }[] = [
-    { id: "element_1", label: "Element 1" },
-    { id: "element_2", label: "Element 2" },
-    { id: "element_3", label: "Element 3" }
-  ]
+  meetings?: MeetingModel[];
+
+  get elements() {
+    return this.meetings?.map(e => {
+      return {
+        id: e.id,
+        label: e.name
+      }
+    }) || []
+  }
 
   private subs?: Subscription
 
-  constructor(private alertService: AlertService, private meetingService: MeetingService, private tableService: TableService) { }
+  constructor(
+    private alertService: AlertService,
+    private meetingService: MeetingService,
+    private navigator: Router) { }
 
   ngOnInit(): void {
-    this.subs = this.meetingService.subject.subscribe((meetings) => {
-      this.elements = meetings.map(v => {
-        return { id: v.id, label: v.name }
-      })
-    })
-    this.meetingService.fetchAll().then(() => {})
+    this.meetingService.getMeetings().then(meetings => this.meetings = meetings);
   }
 
   ngOnDestroy(): void {
@@ -35,7 +39,8 @@ export class SelectMeetingPageComponent implements OnInit, OnDestroy {
   }
 
   clicked(event: string) {
-    this.tableService.createSession(event)
+    console.log(event)
+    this.navigator.navigate(["meeting", event])
   }
 
 }

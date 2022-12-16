@@ -19,12 +19,14 @@ import { PictureElementComponent } from './components/brainstorm-element/element
 import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
 import { IconComponent } from './components/icon/icon.component';
 import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/personal-space.component";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 import {FormsModule} from "@angular/forms";
 import {DocumentElementComponent} from "./components/brainstorm-element/elements/document-element/document-element.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MiniMapComponent} from "./components/icon/mini-map/mini-map.component";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {NgxFileDropModule} from "ngx-file-drop";
+import { UserStandComponent } from './components/user-stand/user-stand.component';
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -47,22 +49,21 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     DocumentElementComponent,
     IconComponent,
     PersonalSpaceComponent,
-    MiniMapComponent
+    MiniMapComponent,
+    UserStandComponent
   ],
-
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        SocketIoModule.forRoot(socketConfig),
-        HammerModule,
-        CdkDrag,
-        FormsModule,
-        NgxFileDropModule,
-        // NgImageSliderModule,
-      BrowserAnimationsModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    SocketIoModule.forRoot(socketConfig),
+    HammerModule,
+    CdkDrag,
+    DragDropModule,
+    FormsModule,
+    NgxFileDropModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

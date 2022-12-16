@@ -7,7 +7,6 @@ import { SelectUserPageComponent } from './pages/select-user-page/select-user-pa
 import {HttpClientModule} from "@angular/common/http";
 import { PromptSpotIdComponent } from './pages/prompt-spot-id/prompt-spot-id.component';
 import {FormsModule} from "@angular/forms";
-import { AuthenticatedComponent } from './pages/authenticated/authenticated.component';
 import { AuthenticatedPageComponent } from './pages/authenticated-page/authenticated-page.component';
 
 @NgModule({
@@ -15,7 +14,6 @@ import { AuthenticatedPageComponent } from './pages/authenticated-page/authentic
     AppComponent,
     SelectUserPageComponent,
     PromptSpotIdComponent,
-    AuthenticatedComponent,
     AuthenticatedPageComponent
   ],
   imports: [

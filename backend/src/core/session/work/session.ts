@@ -1,5 +1,5 @@
-import TableSession from "./table-session";
-import UserSession from "./user-session";
+import { default as TableSession } from "./table-session";
+import { default as UserSession } from "./user-session";
 import MeetingSession from "./meeting-session";
 
 export default interface Session {
