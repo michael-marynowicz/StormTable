@@ -26,7 +26,6 @@ import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/perso
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {FormsModule} from "@angular/forms";
 import {NgxFileDropModule} from "ngx-file-drop";
-import {NgImageSliderModule} from "ng-image-slider";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
@@ -62,7 +61,6 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
         DragDropModule,
         FormsModule,
         NgxFileDropModule,
-        NgImageSliderModule,
       BrowserAnimationsModule,
     ],
   providers: [],
