@@ -17,16 +17,16 @@ import { TestPageComponent } from './pages/test-page/test-page.component';
 import {BrainstormElementComponentComponent} from "./components/brainstorm-element/brainstorm-element-component.component";
 import { PictureElementComponent } from './components/brainstorm-element/elements/picture-element/picture-element.component';
 import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
-import { DrawButtonComponent } from './components/tool-bar/draw-button/draw-button.component';
-import { ButtonTextComponent } from './components/tool-bar/button-text/button-text.component';
 import { IconComponent } from './components/icon/icon.component';
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/personal-space.component";
 import {FormsModule} from "@angular/forms";
 import {NgxFileDropModule} from "ngx-file-drop";
-import {
-  DocumentElementComponent
-} from "./components/brainstorm-element/elements/document-element/document-element.component";
+import {DocumentElementComponent} from "./components/brainstorm-element/elements/document-element/document-element.component";
+import {NgImageSliderModule} from "ng-image-slider";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MiniMapComponent} from "./components/icon/mini-map/mini-map.component";
+
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
 @NgModule({
@@ -45,23 +45,24 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     BrainstormElementComponentComponent,
     PictureElementComponent,
     ToolBarComponent,
-    DrawButtonComponent,
-    ButtonTextComponent,
     DocumentElementComponent,
     IconComponent,
-    PersonalSpaceComponent
+    PersonalSpaceComponent,
+    MiniMapComponent
   ],
 
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    SocketIoModule.forRoot(socketConfig),
-    HammerModule,
-    CdkDrag,
-    FormsModule,
-    NgxFileDropModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        SocketIoModule.forRoot(socketConfig),
+        HammerModule,
+        CdkDrag,
+        FormsModule,
+        NgxFileDropModule,
+        NgImageSliderModule,
+      BrowserAnimationsModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

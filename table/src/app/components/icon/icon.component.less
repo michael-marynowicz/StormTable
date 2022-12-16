@@ -1,17 +1,20 @@
-img{
+img {
   width: 3cm;
   height: 3cm;
   border-radius: 3px;
 }
-.bigImg{
+
+.bigImg {
   width: 10cm;
   height: 10cm;
 }
-.close-button{
+
+.close-button {
   border-radius: 1rem;
   background-color: #ff4f4f;
-  transform: translate(5cm,0);
+  transform: translate(5cm, 0);
 }
+
 .example-box {
   width: 3cm;
   height: 3cm;
@@ -32,8 +35,24 @@ img{
   0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
+svg {
+  width: 0.5cm;
+  height: 0.5cm;
+  position: absolute;
+  right: 0;
+  color: #626262;
+  cursor: move;
+}
+
 .example-box:active {
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
   0 8px 10px 1px rgba(0, 0, 0, 0.14),
   0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.box{
+  margin: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
