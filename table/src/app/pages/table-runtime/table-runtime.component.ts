@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import SessionService from "../../services/session.service";
 import {Session} from "../../models/session.model";
+import {DocumentService} from "../../services/document.service";
 
 @Component({
   selector: 'app-table-runtime',
@@ -17,8 +18,10 @@ export class TableRuntimeComponent {
   get users() {
     return this.session?.users ?? []
   }
+
+
   session?: Session;
-  constructor(aroute: ActivatedRoute, private sessionService: SessionService) {
+  constructor(aroute: ActivatedRoute, private sessionService: SessionService, public documentService: DocumentService) {
     sessionService.session$.subscribe(session => {
       console.log(session)
       this.session = session

@@ -44,6 +44,9 @@ export class DocumentController{
             path: file.path
         };
         this.documentService.addFile(doc);
+
+        /// TODO: Detect if the user is in a meeting and update this meeting
+
         return;
     }
 
