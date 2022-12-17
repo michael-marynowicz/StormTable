@@ -15,30 +15,40 @@ export class DocumentService {
 
   public files$ = new BehaviorSubject<DocumentModel[]>([]);
 
-  constructor(private httpClient : HttpClient) {
+  constructor(private httpClient: HttpClient) {
     console.log("the table get the file")
-    this.socket.on("document",async () => {await this.fetchAllFiles();})
+    this.socket.on("document", async () => {
+      await this.fetchAllFiles();
+    })
   }
 
 
-  getAllFiles(){
+  getAllFiles() {
     return this.files;
 
   }
-  async fetchAllFiles(){
-    await this.httpClient.get<DocumentModel[]>("http://localhost:3000/document/files").subscribe(files =>{
-      this.files=files;
+
+  addFile(doc: DocumentModel) {
+    this.files.push(doc)
+    this.files$.next(this.files)
+  }
+
+  async fetchAllFiles() {
+    await this.httpClient.get<DocumentModel[]>("http://localhost:3000/document/files").subscribe(files => {
+      files.map(file => {
+        if (!this.files.includes(file)) this.files.push(file)
+      })
       this.files$.next(this.files)
     })
 
   }
 
-  async fetchFiles(){
-    return new Promise<DocumentModel[]>((resolve, reject)=>
+  async fetchFiles() {
+    return new Promise<DocumentModel[]>((resolve, reject) =>
       this.httpClient.get<DocumentModel[]>("http://localhost:3000/document/files").subscribe(files => {
         this.files = files;
         resolve(this.files);
-      },error => reject(error)))
+      }, error => reject(error)))
   }
 
 }

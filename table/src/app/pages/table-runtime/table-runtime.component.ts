@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import SessionService from "../../services/session.service";
 import {Session} from "../../models/session.model";
@@ -19,11 +19,10 @@ export class TableRuntimeComponent {
     return this.session?.users ?? []
   }
 
-
   session?: Session;
+
   constructor(aroute: ActivatedRoute, private sessionService: SessionService, public documentService: DocumentService) {
     sessionService.session$.subscribe(session => {
-      console.log(session)
       this.session = session
     });
     aroute.params.subscribe((_) => {
@@ -34,7 +33,7 @@ export class TableRuntimeComponent {
   }
 
   doubleTap(event: MouseEvent) {
-    this.sessionService.createSpot({ x: event.clientX, y: event.clientY })
+    this.sessionService.createSpot({x: event.clientX, y: event.clientY})
   }
 
   simpleTap(event: MouseEvent) {

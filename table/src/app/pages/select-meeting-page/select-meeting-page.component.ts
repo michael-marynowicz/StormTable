@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AlertService, ErrorAlert} from "../../services/alert.service";
+import {AlertService} from "../../services/alert.service";
 import {Subscription} from "rxjs";
 import {MeetingModel} from "../../models/meeting.model";
 import {MeetingService} from "../../services/meeting.service";
@@ -28,7 +28,8 @@ export class SelectMeetingPageComponent implements OnInit, OnDestroy {
   constructor(
     private alertService: AlertService,
     private meetingService: MeetingService,
-    private navigator: Router) { }
+    private navigator: Router) {
+  }
 
   ngOnInit(): void {
     this.meetingService.getMeetings().then(meetings => this.meetings = meetings);
@@ -39,7 +40,6 @@ export class SelectMeetingPageComponent implements OnInit, OnDestroy {
   }
 
   clicked(event: string) {
-    console.log(event)
     this.navigator.navigate(["meeting", event])
   }
 

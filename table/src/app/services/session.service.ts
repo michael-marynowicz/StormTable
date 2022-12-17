@@ -29,8 +29,7 @@ export default class SessionService {
     })
     this.socket.on('session', (content: { session: Session }) => {
       console.log("Update session: " + JSON.stringify(content))
-      console.log(content.session.id + " === " + this.session?.id)
-      if(content.session.id === this.session?.id) {
+      if (content.session.id === this.session?.id) {
         this.session = content.session;
         this.session$.next(this.session);
       }
@@ -43,12 +42,12 @@ export default class SessionService {
 
   createSpot(location: { x: number, y: number }) {
     console.log("Create spot at : " + JSON.stringify(location))
-    this.socket.emit("create_spot", { location })
+    this.socket.emit("create_spot", {location})
   }
 
   fetchSession(sessionId: string) {
     this.http.get<Session>('http://localhost:3000/session/' + sessionId).subscribe(session => {
-      this.sessionUpdated({ session })
+      this.sessionUpdated({session})
     }, error => {
       throw error
     })
@@ -63,5 +62,10 @@ export default class SessionService {
   private sessionUpdated(content: { session: Session }) {
     this.session = content.session;
     this.session$.next(this.session);
+  }
+
+  public triggerSubject() {
+    if (!this.session) return;
+    this.session$.next(this.session)
   }
 }
