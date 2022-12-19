@@ -35,7 +35,7 @@ export class DocumentService {
   }
 
   async fetchAllFiles() {
-    await this.httpClient.get<DocumentModel[]>("http://localhost:3000/document/files").subscribe(files => {
+    await this.httpClient.get<DocumentModel[]>(`http://${hostname}:3000/document/files`).subscribe(files => {
       files.map(file => {
         if (!this.files.includes(file)) this.files.push(file)
       })
