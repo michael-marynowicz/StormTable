@@ -1,1 +1,3 @@
-export const mobileServer = "http://192.168.137.1:4200";
+import { mobileServingApp } from '../server.config';
+
+export const mobileServer = "http://" + mobileServingApp;

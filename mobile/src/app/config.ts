@@ -1,1 +1,3 @@
-export const httpHostname = 'http://192.168.137.1:3000';
+import { serverHostname } from '../../../server.config'
+
+export const httpHostname = 'http://' + serverHostname;
