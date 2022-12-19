@@ -1,6 +1,8 @@
-<div class="mini-map">
-  <button type="button" class="btn btn-secondary" *ngFor="let user of getUsers()" (mouseover)="listenDrag([user])" (mouseleave)="stopListenDrag()">{{user.user.name}}</button>
-  <button type="button" class="btn btn-secondary" (mouseenter)="listenDrag(getUsers())" (mouseleave)="stopListenDrag()">everyone</button>
-  <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash icon"></i></button>
+
+
+
+<div class="box">
+  <div *ngFor="let user of getUsers()" class="userIcon" (click)="sendTo([user])">{{getUsername(user)}}</div>
+  <div class="everyone" (click)="sendTo(getUsers())">everyone</div>
 </div>
 

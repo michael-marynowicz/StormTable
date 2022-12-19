@@ -3,6 +3,7 @@ import {Subject} from "rxjs";
 import {Socket} from "ngx-socket-io";
 import {HttpClient} from "@angular/common/http";
 import {Session} from "../models/session.model";
+import {hostname} from "./server.config";
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +47,7 @@ export default class SessionService {
   }
 
   fetchSession(sessionId: string) {
-    this.http.get<Session>('http://localhost:3000/session/' + sessionId).subscribe(session => {
+    this.http.get<Session>(`http://${hostname}:3000/session/` + sessionId).subscribe(session => {
       this.sessionUpdated({session})
     }, error => {
       throw error
