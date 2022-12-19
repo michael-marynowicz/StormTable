@@ -6,6 +6,7 @@ import MiniMapService from "../../../services/mini-map.service";
 import {UserModel} from "../../../models/user.model";
 import CdkDragAvoiderService from "../../../services/cdk-drag-avoider.service";
 import {Subscription} from "rxjs";
+import {UserSession} from "../../../models/user-session";
 
 
 @Component({
@@ -32,7 +33,7 @@ export class MiniMapComponent implements OnInit {
 
 
 
-  getUsers() {
+  getUsers() : UserSession[] {
     return this.session?.users || []
   }
 
@@ -55,13 +56,13 @@ export class MiniMapComponent implements OnInit {
     this.miniMapService.sendFile(this.fileId, position!)
   }
 
-  sendFileToEveryOne() {
-    this.getUsers().forEach(user => this.sendFile(user.user))
+  sendFileToEveryOne(users: UserSession[]) {
+    users.forEach(user => this.sendFile(user.user))
   }
 
-  listenDrag() {
+  listenDrag(users: UserSession[]) {
     this.overEveryone = this.cdkDragAvoider.onMouseUp.subscribe(() => {
-      this.sendFileToEveryOne()
+      this.sendFileToEveryOne(users)
       this.stopListenDrag();
     });
   }
