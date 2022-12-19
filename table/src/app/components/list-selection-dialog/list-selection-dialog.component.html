@@ -1,9 +1,10 @@
 <app-floating-windows>
-<h1>{{header}}</h1>
-  <div class="list-container">
+
+<!--h1>{{header}}</h1-->
+  <!--div class="list-container"-->
     <div
       class="list-element" *ngFor="let element of elements"
-      (click)="elementClicked.emit(element.id)"
-    >{{element.label}}</div>
-  </div>
+      (click)="elementClicked.emit(element.id)"><!--{{element.label}}-->
+      <button class="button-85" role="button">Start a meeting!</button></div>
+  <!--/div-->
 </app-floating-windows>
