@@ -9,6 +9,8 @@ import "hammerjs"
 
 export class MiniMapComponent implements OnInit {
 
+  over = false;
+
   ngOnInit(): void {
   }
 

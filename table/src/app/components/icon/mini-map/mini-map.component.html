@@ -2,7 +2,9 @@
       <div class="box-up">
         <div class="user-front">
         </div>
-        <div class="user-corner">
+        <div class="user-corner"
+             (mouseenter)="over = true" (mouseleave)="over = false"
+             [ngStyle]="{ 'background-color': over ? 'red' : 'initial'}">
         </div>
       </div>
       <div class="box-down">
