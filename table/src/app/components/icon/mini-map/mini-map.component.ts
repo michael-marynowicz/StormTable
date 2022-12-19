@@ -4,6 +4,8 @@ import SessionService from "../../../services/session.service";
 import {Session} from "../../../models/session.model";
 import MiniMapService from "../../../services/mini-map.service";
 import {UserModel} from "../../../models/user.model";
+import CdkDragAvoiderService from "../../../services/cdk-drag-avoider.service";
+import {Subscription} from "rxjs";
 
 
 @Component({
@@ -20,12 +22,15 @@ export class MiniMapComponent implements OnInit {
 
   session?: Session
 
-  constructor(private sessionService: SessionService, private miniMapService: MiniMapService) {
+  overEveryone?: Subscription;
+
+  constructor(private sessionService: SessionService, private miniMapService: MiniMapService, private cdkDragAvoider: CdkDragAvoiderService) {
     sessionService.session$.subscribe(session => {
-      //console.log(session,"session")
       this.session = session
     });
   }
+
+
 
   getUsers() {
     return this.session?.users || []
@@ -45,13 +50,22 @@ export class MiniMapComponent implements OnInit {
   }
 
 
-  sendFile(user: UserModel, $event: MouseEvent) {
-    $event.stopPropagation();
+  sendFile(user: UserModel) {
     let position = this.getUserPosition(user)
     this.miniMapService.sendFile(this.fileId, position!)
   }
 
   sendFileToEveryOne() {
-    //this.getUsers().forEach(user => this.sendFile(user.user, $event))
+    this.getUsers().forEach(user => this.sendFile(user.user))
+  }
+
+  listenDrag() {
+    this.overEveryone = this.cdkDragAvoider.onMouseUp.subscribe(() => {
+      this.sendFileToEveryOne()
+    });
+  }
+
+  stopListenDrag() {
+    this.overEveryone?.unsubscribe()
   }
 }
