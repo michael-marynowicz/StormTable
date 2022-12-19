@@ -27,6 +27,9 @@ import {MiniMapComponent} from "./components/icon/mini-map/mini-map.component";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {NgxFileDropModule} from "ngx-file-drop";
 import { UserStandComponent } from './components/user-stand/user-stand.component';
+import {
+  ContainerElementComponent
+} from "./components/brainstorm-element/elements/container-element/container-element.component";
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -50,7 +53,8 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     IconComponent,
     PersonalSpaceComponent,
     MiniMapComponent,
-    UserStandComponent
+    UserStandComponent,
+    ContainerElementComponent
   ],
   imports: [
     BrowserModule,

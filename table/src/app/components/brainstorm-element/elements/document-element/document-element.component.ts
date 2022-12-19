@@ -21,7 +21,7 @@ export class DocumentElementComponent implements AfterViewInit {
   public viewer2! : WebViewerInstance;
 
   ngAfterViewInit(): void {
-/*
+
     WebViewer({
       path: '../../../../../assets/lib',
       initialDoc: this.docPath
@@ -35,20 +35,19 @@ export class DocumentElementComponent implements AfterViewInit {
     }, this.viewerRef2.nativeElement).then(instance => {
       this.viewer2 = instance;
     });
-*/
+
   }
 
   sendClick(){
 
   }
+
   getPage(){
     this.currentpage = this.viewer1.Core.documentViewer.getCurrentPage();
     console.log(this.currentpage);
     this.viewer2.Core.documentViewer.setCurrentPage(this.currentpage,true);
     this.viewer2.Core.documentViewer.updateView([this.currentpage],this.viewer2.Core.documentViewer.getCurrentPage());
-
   }
-
 
 
 }

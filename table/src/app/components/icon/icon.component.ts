@@ -35,6 +35,4 @@ export class IconComponent implements OnInit{
     this.safeURL= this.sanitizer.bypassSecurityTrustResourceUrl(this.URL+this.doc.path)
   }
 
-
-
 }
