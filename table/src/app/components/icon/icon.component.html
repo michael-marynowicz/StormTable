@@ -1,4 +1,4 @@
-<div class="example-box" (cdkDragStarted)="drag($event)" (cdkDragEnded)="dragEnd($event)" cdkDrag>
+<div class="example-box" (cdkDragEnded)="this.isDrag=false;" (press)="drag($event)" (mouseup)="isDrag=false" cdkDrag>
 
   <img *ngIf="isOpen===false" [src]=safeURL (dblclick)="load()" alt="{{doc.name}}"/>
   <div *ngIf="isOpen===true">

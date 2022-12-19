@@ -32,8 +32,7 @@ export class MiniMapComponent implements OnInit {
   }
 
 
-
-  getUsers() : UserSession[] {
+  getUsers(): UserSession[] {
     return this.session?.users || []
   }
 
@@ -42,7 +41,6 @@ export class MiniMapComponent implements OnInit {
   }
 
   getUserPosition(user: UserModel) {
-
     return this.session?.users.find(u => u.user.id === user.id)!.location
   }
 
