@@ -42,7 +42,7 @@ export class DocumentController {
             name: file.originalname,
             type: file.path.endsWith(".pdf") ? ElementType.PDF : ElementType.PICTURE,
             path: file.path,
-            position: {x: 600, y: 300}
+            position: {x: 0, y: 0}
         };
         this.documentService.addFile(doc);
 
