@@ -1,5 +1,8 @@
+
+
+
 <div class="box">
-  <div *ngFor="let user of getUsers()" class="userIcon" (mouseenter)="listenDrag([user])" (mouseleave)="stopListenDrag()">{{user.user.name}}</div>
-  <div class="everyone" (mouseenter)="listenDrag(getUsers())" (mouseleave)="stopListenDrag()">everyone</div>
+  <div *ngFor="let user of getUsers()" class="userIcon" (click)="sendTo([user])">{{getUsername(user)}}</div>
+  <div class="everyone" (click)="sendTo(getUsers())">everyone</div>
 </div>
 

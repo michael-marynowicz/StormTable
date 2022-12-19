@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Socket} from "ngx-socket-io";
-import SessionModel from "../models/session.model";
+import {Session as SessionModel} from "../models/session.model";
 import {AlertService, ErrorAlert} from "./alert.service";
 import {BehaviorSubject} from "rxjs";
 
