@@ -62,6 +62,7 @@ export class MiniMapComponent implements OnInit {
   listenDrag() {
     this.overEveryone = this.cdkDragAvoider.onMouseUp.subscribe(() => {
       this.sendFileToEveryOne()
+      this.stopListenDrag();
     });
   }
 
