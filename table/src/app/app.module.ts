@@ -27,6 +27,7 @@ import {MiniMapComponent} from "./components/icon/mini-map/mini-map.component";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {NgxFileDropModule} from "ngx-file-drop";
 import { UserStandComponent } from './components/user-stand/user-stand.component';
+import {QRCodeModule} from "angularx-qrcode";
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -52,17 +53,18 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     MiniMapComponent,
     UserStandComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    SocketIoModule.forRoot(socketConfig),
-    HammerModule,
-    CdkDrag,
-    DragDropModule,
-    FormsModule,
-    NgxFileDropModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        SocketIoModule.forRoot(socketConfig),
+        HammerModule,
+        CdkDrag,
+        DragDropModule,
+        FormsModule,
+        NgxFileDropModule,
+        QRCodeModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
