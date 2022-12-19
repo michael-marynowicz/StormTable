@@ -1,5 +1,5 @@
 <div class="box">
-  <div *ngFor="let user of getUsers()" class="userIcon" (mouseenter)="sendFile(user.user)">{{user.user.name}}</div>
-  <div class="everyone" (mouseenter)="sendFileToEveryOne()">everyone</div>
+  <div *ngFor="let user of getUsers()" class="userIcon" (mousedown)="sendFile(user.user,$event)">{{user.user.name}}</div>
+  <div class="everyone" (mouseup)="sendFileToEveryOne()">everyone</div>
 </div>
 

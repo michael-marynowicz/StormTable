@@ -45,12 +45,13 @@ export class MiniMapComponent implements OnInit {
   }
 
 
-  sendFile(user: UserModel) {
+  sendFile(user: UserModel, $event: MouseEvent) {
+    $event.stopPropagation();
     let position = this.getUserPosition(user)
     this.miniMapService.sendFile(this.fileId, position!)
   }
 
   sendFileToEveryOne() {
-    this.getUsers().forEach(user => this.sendFile(user.user))
+    //this.getUsers().forEach(user => this.sendFile(user.user, $event))
   }
 }
