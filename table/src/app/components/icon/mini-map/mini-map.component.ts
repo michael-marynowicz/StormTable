@@ -1,12 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import "hammerjs"
 import SessionService from "../../../services/session.service";
 import {Session} from "../../../models/session.model";
 import MiniMapService from "../../../services/mini-map.service";
-import {UserModel} from "../../../models/user.model";
-import CdkDragAvoiderService from "../../../services/cdk-drag-avoider.service";
-import {Subscription} from "rxjs";
 import {UserSession} from "../../../models/user-session";
+import DocumentModel from "../../../models/document.model";
 
 
 @Component({
@@ -16,19 +14,18 @@ import {UserSession} from "../../../models/user-session";
 })
 export class MiniMapComponent implements OnInit {
 
-  @Input()
-  isDrag!: boolean;
-
-  @Input() fileId!: string
+  @Input() file!: DocumentModel;
+  @Output() onSendTo = new EventEmitter<UserSession[]>();
 
   session?: Session
 
-  overEveryone?: Subscription;
 
-  constructor(private sessionService: SessionService, private miniMapService: MiniMapService, private cdkDragAvoider: CdkDragAvoiderService) {
-    sessionService.session$.subscribe(session => {
-      this.session = session
-    });
+  constructor(private sessionService: SessionService) {
+  }
+
+
+  getUsername(session: UserSession) {
+    return session.user.name;
   }
 
 
@@ -36,36 +33,15 @@ export class MiniMapComponent implements OnInit {
     return this.session?.users || []
   }
 
-  getUsersPosition() {
-    return this.session?.users.map(user => user.location)
-  }
-
-  getUserPosition(user: UserModel) {
-    return this.session?.users.find(u => u.user.id === user.id)!.location
-  }
 
   ngOnInit(): void {
+    this.sessionService.session$.subscribe(session => {
+      this.session = session
+    });
     this.sessionService.triggerSubject()
   }
 
-
-  sendFile(user: UserModel) {
-    let position = this.getUserPosition(user)
-    this.miniMapService.sendFile(this.fileId, position!)
-  }
-
-  sendFileToEveryOne(users: UserSession[]) {
-    users.forEach(user => this.sendFile(user.user))
-  }
-
-  listenDrag(users: UserSession[]) {
-    this.overEveryone = this.cdkDragAvoider.onMouseUp.subscribe(() => {
-      this.sendFileToEveryOne(users)
-      this.stopListenDrag();
-    });
-  }
-
-  stopListenDrag() {
-    this.overEveryone?.unsubscribe()
+  sendTo(users: UserSession[]) {
+    this.onSendTo.emit(users);
   }
 }

@@ -1,5 +1,10 @@
-<div class="example-box" (cdkDragEnded)="this.isDrag=false;" (press)="drag($event)" (mouseup)="isDrag=false" cdkDrag>
-
+<div class="example-box"
+     style="position: absolute"
+     (press)="showMinimap($event)"
+     (mousedown)="mousedown($event)"
+     (touchstart)="touchstart($event)"
+     [ngStyle]="{'position':'relative', 'display': 'block','left':doc.position.x+'px', 'top':doc.position.y+'px'}"
+>
   <img *ngIf="isOpen===false" [src]=safeURL (dblclick)="load()" alt="{{doc.name}}"/>
   <div *ngIf="isOpen===true">
     <button class="close-button" aria-label="Close alert" type="button" (click)="isOpen=false">X</button>
@@ -12,7 +17,10 @@
     <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
 
   </div>
-
+  <app-mini-map *ngIf="minimapVisible" [file]=doc
+                [style]="{'position': 'absolute', 'left': dropPoint.x+'px','top': dropPoint.y+'px'}"
+                (onSendTo)="onSendToUser($event)"
+  ></app-mini-map>
 </div>
-<app-mini-map *ngIf="isDrag" [fileId]=doc.id
-              [style]="{'position': 'absolute', 'left': dropPoint.x+'px','top': dropPoint.y+'px'}"></app-mini-map>
+
+

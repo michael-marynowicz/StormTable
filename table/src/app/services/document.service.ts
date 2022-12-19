@@ -3,13 +3,14 @@ import {Injectable} from "@angular/core";
 import {io} from "socket.io-client";
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
+import {hostname} from "./server.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
 
-  socket = io("http://localhost:3000")
+  socket = io(`http://${hostname}:3000`)
 
   public files: DocumentModel[] = [];
 
