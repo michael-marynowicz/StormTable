@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { createReadStream } from 'fs';
+import {Injectable} from '@nestjs/common';
+import {createReadStream} from 'fs';
 import * as path from 'path';
 import DocumentModel from "../models/document.model";
 import {BehaviorSubject} from "rxjs";
@@ -9,7 +9,8 @@ export class DocumentService {
     private files: DocumentModel[] = []
     public files$ = new BehaviorSubject<DocumentModel[]>([])
 
-    constructor() {}
+    constructor() {
+    }
 
     fileStream(myPath: string) {
         //const filePath = path.join(process.cwd(), 'package.json')
@@ -17,12 +18,12 @@ export class DocumentService {
         return createReadStream(filePath);
     }
 
-    addFile(value: DocumentModel){
+    addFile(value: DocumentModel) {
         this.files.push(value);
         this.files$.next(this.files);
     }
 
-    getAllFiles(){
+    getAllFiles() {
         return this.files;
     }
 

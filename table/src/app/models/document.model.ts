@@ -1,4 +1,3 @@
-
 import {ElementType} from "./brainstorm-element.model";
 
 export default interface DocumentModel {
@@ -6,4 +5,5 @@ export default interface DocumentModel {
   name: string;
   type: ElementType;
   path: string;
+  position: { x: number, y: number }
 }

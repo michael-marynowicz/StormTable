@@ -1,15 +1,5 @@
 <div class="box">
-  <div class="box-up">
-    <div class="user-front">
-    </div>
-    <div class="user-corner">
-    </div>
-  </div>
-  <div class="box-down">
-    <div class="user-side">
-    </div>
-    <div class="to_everyone">
-      <h5>To everyone</h5>
-    </div>
-  </div>
+  <div *ngFor="let user of getUsers()" class="userIcon" (mouseup)="listenDrag([user])" (mouseleave)="stopListenDrag()">{{user.user.name}}</div>
+  <div class="everyone" (mouseenter)="listenDrag(getUsers())" (mouseleave)="stopListenDrag()">everyone</div>
 </div>
+

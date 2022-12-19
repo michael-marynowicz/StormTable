@@ -8,14 +8,14 @@ import {DocumentService} from "./services/document.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'table';
 
-  allDocuments! : DocumentModel[]
+  allDocuments!: DocumentModel[]
 
   subs?: Subscription;
 
-  constructor(private documentService : DocumentService) {
+  constructor(private documentService: DocumentService) {
     this.subs = documentService.files$.subscribe(file => this.allDocuments = file);
     console.log("first")
     documentService.fetchAllFiles();
@@ -23,5 +23,9 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.allDocuments = this.documentService.files;
+  }
+
+  addDocument(doc: DocumentModel) {
+    this.allDocuments.push(doc)
   }
 }

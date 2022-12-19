@@ -5,7 +5,6 @@ import {
     HttpStatus,
     Param,
     Post,
-    StreamableFile,
     UploadedFile,
     UseInterceptors
 } from '@nestjs/common';
@@ -20,8 +19,9 @@ import {ConnectedSocket} from "@nestjs/websockets";
 
 
 @Controller('document')
-export class DocumentController{
-    constructor(private readonly documentService: DocumentService) {}
+export class DocumentController {
+    constructor(private readonly documentService: DocumentService) {
+    }
 
     @Post('upload')
     @UseInterceptors(FileInterceptor('file', {
@@ -30,19 +30,19 @@ export class DocumentController{
             filename: (req, file, cb) => {
                 let extArray = file.mimetype.split("/");
                 let extension = extArray[extArray.length - 1];
-                cb(null, file.fieldname + '-' + Date.now()+ '.' + extension)
+                cb(null, file.fieldname + '-' + Date.now() + '.' + extension)
             }
 
         })
 
     }))
-    async save(@UploadedFile() file,@ConnectedSocket() socket: Socket) : Promise<any>{
-        console.log(file)
+    async save(@UploadedFile() file, @ConnectedSocket() socket: Socket): Promise<any> {
         const doc: DocumentModel = {
             id: get_uid(),
             name: file.originalname,
             type: file.path.endsWith(".pdf") ? ElementType.PDF : ElementType.PICTURE,
-            path: file.path
+            path: file.path,
+            position: {x: 0, y: 0}
         };
         this.documentService.addFile(doc);
 
@@ -52,17 +52,16 @@ export class DocumentController{
     }
 
     @Get('files')
-    getListOfFiles(){
+    getListOfFiles() {
         return this.documentService.getAllFiles();
     }
 
     @Get(':id')
-    getDocument(@Param() params: { id: string }) {
-        const path = this.documentService.getAllFiles().find(d => d.id === params.id)?.path;
-        if(!path)
+    getDocumentById(@Param() params: { id: string }): DocumentModel {
+        const file = this.documentService.getAllFiles().find(d => d.id === params.id);
+        if (!file)
             throw new HttpException('File not found.', HttpStatus.NOT_FOUND)
-        const file = this.documentService.fileStream(path);
-        return new StreamableFile(file); // 👈 supports Buffer and Stream
+        return file;
 
     }
 }

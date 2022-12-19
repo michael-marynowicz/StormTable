@@ -1,15 +1,18 @@
-<div class="example-box" cdkDrag>
-    <img *ngIf="isOpen===false" [src]=safeURL (dblclick)="load()" alt="{{doc.name}}"/>
-    <div *ngIf="isOpen===true">
-      <button class="close-button" aria-label="Close alert" type="button" (click)="isOpen=false">X</button>
-      <iframe  *ngIf="doc.type!=='PICTURE'" id="inlineFrameExample"
-               title="Inline Frame Example"
-               style="width: 10cm; height: 10cm;"
-               [src]=safeURL>
-      </iframe>
+<div class="example-box" (cdkDragEnded)="this.isDrag=false;" (press)="drag($event)" (mouseup)="isDrag=false" cdkDrag>
 
-      <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
+  <img *ngIf="isOpen===false" [src]=safeURL (dblclick)="load()" alt="{{doc.name}}"/>
+  <div *ngIf="isOpen===true">
+    <button class="close-button" aria-label="Close alert" type="button" (click)="isOpen=false">X</button>
+    <iframe *ngIf="doc.type!=='PICTURE'" id="inlineFrameExample"
+            title="Inline Frame Example"
+            style="width: 10cm; height: 10cm;"
+            [src]=safeURL>
+    </iframe>
 
-    </div>
+    <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
+
+  </div>
 
 </div>
+<app-mini-map *ngIf="isDrag" [fileId]=doc.id
+              [style]="{'position': 'absolute', 'left': dropPoint.x+'px','top': dropPoint.y+'px'}"></app-mini-map>
