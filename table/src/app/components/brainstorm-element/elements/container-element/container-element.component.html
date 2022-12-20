@@ -5,5 +5,7 @@
 
 
 </div>
-<app-document-element [docPath]="doc.path" *ngIf="edit === true"></app-document-element>
+<app-document-element [docPath]="doc.path" *ngIf="edit === true">
+  {{doc.path}}
+</app-document-element>
 

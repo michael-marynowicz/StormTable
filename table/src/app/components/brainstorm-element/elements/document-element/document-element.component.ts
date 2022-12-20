@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {WebViewerInstance} from "@pdftron/webviewer";
+import WebViewer, {WebViewerInstance} from "@pdftron/webviewer";
 
 
 @Component({
@@ -20,7 +20,6 @@ export class DocumentElementComponent implements AfterViewInit {
   public viewer2!: WebViewerInstance;
 
   ngAfterViewInit(): void {
-    /*
         WebViewer({
           path: '../../../../../assets/lib',
           initialDoc: this.docPath
@@ -34,7 +33,6 @@ export class DocumentElementComponent implements AfterViewInit {
         }, this.viewerRef2.nativeElement).then(instance => {
           this.viewer2 = instance;
         });
-    */
   }
 
   sendClick() {

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import "hammerjs"
+import "hammerjs";
 import {ActivatedRoute} from "@angular/router";
 import SessionService from "../../../../services/session.service";
 import {DocumentService} from "../../../../services/document.service";
@@ -12,10 +12,9 @@ import DocumentModel from "../../../../models/document.model";
 })
 
 export class ContainerElementComponent {
-  @Input()
-  isPress!: boolean;
+
   @Input() doc!: DocumentModel;
-  @Input() edit!: boolean;
+  @Input() edit: boolean = true;
 
   public icon!:any;
 
@@ -26,9 +25,6 @@ export class ContainerElementComponent {
     })
   }
 
-  onLongPress() {
-    this.isPress = !this.isPress;
-  }
 
   pinch(){
     this.edit= ! this.edit;
