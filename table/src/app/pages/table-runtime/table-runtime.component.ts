@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import SessionService from "../../services/session.service";
 import {Session} from "../../models/session.model";
 import {DocumentService} from "../../services/document.service";
+import DocumentModel from "../../models/document.model";
 
 @Component({
   selector: 'app-table-runtime',

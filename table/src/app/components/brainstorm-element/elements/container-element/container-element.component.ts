@@ -31,49 +31,4 @@ export class ContainerElementComponent {
     console.log("looooonnnngggg piiinnnccchhhh");
   }
 
-  checkOverlapping(event:any){
-      let offsetLeft = 0;
-      let offsetTop = 0;
-
-      let el = event.srcElement;
-
-      while(el){
-        offsetLeft += el.offsetLeft;
-        offsetTop += el.offsetTop;
-        el = el.offsetParent;
-      }
-      console.log(offsetLeft,offsetTop)
-      return { offsetTop:offsetTop , offsetLeft:offsetLeft }
-  }
-
-  getMiniMapPosition(event:any){
-    let offsetLeft = 0;
-    let offsetTop = 0;
-
-    let el = event.srcElement;
-
-    while(el){
-      offsetLeft += el.offsetLeft;
-      offsetTop += el.offsetTop;
-      el = el.offsetParent;
-    }
-    console.log(offsetLeft,offsetTop)
-    return { offsetTop:offsetTop , offsetLeft:offsetLeft }
-  }
-
-  getIconPosition(event:any){
-    let offsetLeft = 0;
-    let offsetTop = 0;
-
-    let el = event.srcElement;
-
-    while(el){
-      offsetLeft += el.offsetLeft;
-      offsetTop += el.offsetTop;
-      el = el.offsetParent;
-    }
-    console.log(offsetLeft,offsetTop)
-    return { offsetTop:offsetTop , offsetLeft:offsetLeft }
-  }
-
 }

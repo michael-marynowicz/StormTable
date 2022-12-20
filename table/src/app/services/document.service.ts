@@ -22,12 +22,6 @@ export class DocumentService {
     })
   }
 
-
-  getAllFiles() {
-    return this.files;
-
-  }
-
   addFile(doc: DocumentModel) {
     this.files.push(doc)
     this.files$.next(this.files)
