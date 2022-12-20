@@ -1,13 +1,4 @@
-import {
-    Controller,
-    Get,
-    HttpException,
-    HttpStatus,
-    Param,
-    Post,
-    UploadedFile,
-    UseInterceptors
-} from '@nestjs/common';
+import {Controller, Get, HttpException, HttpStatus, Param, Post, UploadedFile, UseInterceptors} from '@nestjs/common';
 import {FileInterceptor} from "@nestjs/platform-express";
 import {diskStorage} from "multer";
 import {DocumentService} from "./document.service";
@@ -37,10 +28,23 @@ export class DocumentController {
 
     }))
     async save(@UploadedFile() file, @ConnectedSocket() socket: Socket): Promise<any> {
+        let fileType: ElementType;
+        if(file.path.endsWith(".pdf")){
+            fileType = ElementType.PDF;
+        }
+        else if(file.path.endsWith(".pptx")){
+            fileType = ElementType.PPTX;
+        }
+        else if(file.path.endsWith(".png") || file.path.endsWith(".jpeg") || file.path.endsWith(".jpg")){
+            fileType = ElementType.PICTURE;
+        }
+        else if(file.path.endsWith(".txt")){
+            fileType = ElementType.TXT;
+        }
         const doc: DocumentModel = {
             id: get_uid(),
             name: file.originalname,
-            type: file.path.endsWith(".pdf") ? ElementType.PDF : ElementType.PICTURE,
+            type: fileType,
             path: file.path,
             position: {x: 0, y: 0}
         };

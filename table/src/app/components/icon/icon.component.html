@@ -21,6 +21,19 @@
     <i  id="fa-file-word" class="fa-solid fa-file-word fa-7x"> </i>
     {{docName[0]}}
   </span>
+  <!--If the file is txt-->
+  <span *ngIf="isOpen===false && doc.type === 'TXT'"
+        (dblclick)="load()">
+    <i  id="fa-file-lines" class="fa-solid fa-file-lines fa-7x"> </i>
+    {{docName[0]}}
+  </span>
+
+  <!--If the file is pptx-->
+  <span *ngIf="isOpen===false && doc.type === 'PPTX'"
+        (dblclick)="load()">
+    <i  id="fa-file-powerpoint" class="fa-solid fa-file-powerpoint fa-7x"></i>
+    {{docName[0]}}
+  </span>
 
   <div *ngIf="isOpen===true">
     <button class="close-button" aria-label="Close alert" type="button" (click)="isOpen=false">X</button>
