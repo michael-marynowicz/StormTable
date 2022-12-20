@@ -27,6 +27,7 @@ import {MiniMapComponent} from "./components/icon/mini-map/mini-map.component";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {NgxFileDropModule} from "ngx-file-drop";
 import { UserStandComponent } from './components/user-stand/user-stand.component';
+import {MatIconModule} from "@angular/material/icon";
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -61,7 +62,8 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     CdkDrag,
     DragDropModule,
     FormsModule,
-    NgxFileDropModule
+    NgxFileDropModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

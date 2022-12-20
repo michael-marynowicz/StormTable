@@ -28,6 +28,8 @@ export class IconComponent implements OnInit {
 
   dropPoint = {x: 0, y: 0};
 
+  @Input() docName! : string[];
+
   constructor(private iconService: IconService, private sanitizer: DomSanitizer) {
   }
 
@@ -39,6 +41,7 @@ export class IconComponent implements OnInit {
 
   ngOnInit(): void {
     this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.URL + this.doc.path)
+    this.docName  = this.doc.name.split(".", 3);
   }
 
   drag($event: Event) {
