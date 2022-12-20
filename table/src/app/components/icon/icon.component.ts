@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {IconService} from "../../services/icon.service";
 import {Observable} from "rxjs";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
@@ -29,10 +29,17 @@ export class IconComponent implements OnInit {
   dropPoint = {x: 0, y: 0};
 
   @Input() docName! : string[];
+  @Input() edit: boolean = true;
+  @Input() docPath!: string;
 
   constructor(private iconService: IconService, private sanitizer: DomSanitizer) {
   }
 
+  pinch(){
+    this.edit= ! this.edit;
+    console.log("looooonnnngggg piiinnnccchhhh");
+    this.docPath = "../../../../../../../backend/" + this.doc.path.replace("\\","/");
+  }
 
   load() {
     this.loadFile = this.iconService.load(this.URL + this.doc.path)

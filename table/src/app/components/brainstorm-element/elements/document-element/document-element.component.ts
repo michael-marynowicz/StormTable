@@ -38,9 +38,6 @@ export class DocumentElementComponent implements AfterViewInit {
 
   }
 
-  sendClick() {
-
-  }
 
 
   getPage() {

@@ -47,3 +47,7 @@
 </div>
 <app-mini-map *ngIf="isDrag" [fileId]=doc.id
               [style]="{'position': 'absolute', 'left': dropPoint.x+'px','top': dropPoint.y+'px'}"></app-mini-map>
+
+
+<app-document-element [docPath]=docPath *ngIf="edit"></app-document-element>
+
