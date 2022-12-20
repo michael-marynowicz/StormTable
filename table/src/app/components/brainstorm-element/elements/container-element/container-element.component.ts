@@ -23,13 +23,14 @@ export class ContainerElementComponent implements OnInit{
       // The dataTransfer.setData() method sets the data type and the value of the dragged data
       console.log("draaaagggg ppprrrreeessssss");
     })
-    
+
 
   }
 
   ngOnInit(): void {
     this.docPath = "../../../../../../../backend/" + this.doc.path.replace("\\","/");
-    }
+    //this.docPath = "../../../../../assets/TIM2022-TD3.pdf";
+  }
 
 
   pinch(){
