@@ -38,6 +38,5 @@ export class TableRuntimeComponent {
   }
 
   simpleTap(event: MouseEvent) {
-    //console.log(event)
   }
 }

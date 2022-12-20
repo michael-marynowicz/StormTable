@@ -8,16 +8,15 @@ import CdkDragAvoiderService from "../../../services/cdk-drag-avoider.service";
 import {Subscription} from "rxjs";
 import {UserSession} from "../../../models/user-session";
 
-
 @Component({
   selector: 'app-mini-map',
   templateUrl: './mini-map.component.html',
   styleUrls: ['./mini-map.component.less']
 })
+
 export class MiniMapComponent implements OnInit {
 
-  @Input()
-  isDrag!: boolean;
+  over = false;
 
   @Input() fileId!: string
 

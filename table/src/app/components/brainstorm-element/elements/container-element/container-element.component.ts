@@ -11,11 +11,11 @@ import DocumentModel from "../../../../models/document.model";
   styleUrls: ['./container-element.component.less']
 })
 
-export class ContainerElementComponent {
+export class ContainerElementComponent implements OnInit{
 
   @Input() doc!: DocumentModel;
   @Input() edit: boolean = true;
-
+  @Input() docPath!: string;
   public icon!:any;
 
   constructor(public documentService: DocumentService) {
@@ -23,12 +23,19 @@ export class ContainerElementComponent {
       // The dataTransfer.setData() method sets the data type and the value of the dragged data
       console.log("draaaagggg ppprrrreeessssss");
     })
+    
+
   }
+
+  ngOnInit(): void {
+    this.docPath = "../../../../../../../backend/" + this.doc.path.replace("\\","/");
+    }
 
 
   pinch(){
     this.edit= ! this.edit;
     console.log("looooonnnngggg piiinnnccchhhh");
+    this.docPath = "../../../../../../../backend/" + this.doc.path.replace("\\","/");
   }
 
 }

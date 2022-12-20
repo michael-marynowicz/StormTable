@@ -44,6 +44,7 @@ export class IconComponent implements OnInit {
     this.docName  = this.doc.name.split(".", 3);
   }
 
+
   drag($event: Event) {
     this.isDrag = true;
     const event = $event as unknown as { center: { x: number, y: number } };

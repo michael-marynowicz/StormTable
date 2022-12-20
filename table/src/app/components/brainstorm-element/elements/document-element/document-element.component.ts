@@ -20,30 +20,33 @@ export class DocumentElementComponent implements AfterViewInit {
   public viewer2!: WebViewerInstance;
 
   ngAfterViewInit(): void {
-        WebViewer({
-          path: '../../../../../assets/lib',
-          initialDoc: this.docPath
-        }, this.viewerRef1.nativeElement).then(instance => {
-          this.viewer1 = instance;
-        });
+    WebViewer({
+      path: '../../../../../assets/lib',
+      initialDoc: this.docPath
+    }, this.viewerRef1.nativeElement).then(instance => {
+      this.viewer1 = instance;
+    });
 
-        WebViewer({
-          path: '../../../../../assets/lib',
-          initialDoc: this.docPath
-        }, this.viewerRef2.nativeElement).then(instance => {
-          this.viewer2 = instance;
-        });
+    WebViewer({
+      path: '../../../../../assets/lib',
+      initialDoc: this.docPath
+    }, this.viewerRef2.nativeElement).then(instance => {
+      this.viewer2 = instance;
+    });
+
+    console.log(this.docPath);
+
   }
 
   sendClick() {
 
   }
 
+
   getPage() {
     this.currentpage = this.viewer1.Core.documentViewer.getCurrentPage();
     this.viewer2.Core.documentViewer.setCurrentPage(this.currentpage, true);
     this.viewer2.Core.documentViewer.updateView([this.currentpage], this.viewer2.Core.documentViewer.getCurrentPage());
-
   }
 
 
