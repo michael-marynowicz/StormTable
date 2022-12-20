@@ -1,15 +1,8 @@
+
+
+
 <div class="box">
-  <div class="box-up">
-    <div class="user-front">
-    </div>
-    <div class="user-corner">
-    </div>
-  </div>
-  <div class="box-down">
-    <div class="user-side">
-    </div>
-    <div class="to_everyone">
-      <h5>To everyone</h5>
-    </div>
-  </div>
+  <div *ngFor="let user of getUsers()" class="userIcon" (click)="sendTo([user])">{{getUsername(user)}}</div>
+  <div class="everyone" (click)="sendTo(getUsers())">everyone</div>
 </div>
+

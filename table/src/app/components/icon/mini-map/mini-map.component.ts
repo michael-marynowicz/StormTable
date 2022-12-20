@@ -1,5 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import "hammerjs"
+import SessionService from "../../../services/session.service";
+import {Session} from "../../../models/session.model";
+import MiniMapService from "../../../services/mini-map.service";
+import {UserSession} from "../../../models/user-session";
+import DocumentModel from "../../../models/document.model";
 
 
 @Component({
@@ -9,11 +14,34 @@ import "hammerjs"
 })
 export class MiniMapComponent implements OnInit {
 
-  @Input()
-  isDrag!: boolean;
+  @Input() file!: DocumentModel;
+  @Output() onSendTo = new EventEmitter<UserSession[]>();
 
-  ngOnInit(): void {
+  session?: Session
+
+
+  constructor(private sessionService: SessionService) {
   }
 
 
+  getUsername(session: UserSession) {
+    return session.user.name;
+  }
+
+
+  getUsers(): UserSession[] {
+    return this.session?.users || []
+  }
+
+
+  ngOnInit(): void {
+    this.sessionService.session$.subscribe(session => {
+      this.session = session
+    });
+    this.sessionService.triggerSubject()
+  }
+
+  sendTo(users: UserSession[]) {
+    this.onSendTo.emit(users);
+  }
 }
