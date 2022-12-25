@@ -46,7 +46,7 @@ export class DocumentService {
 
   async fetchFiles() {
     return new Promise<DocumentModel[]>((resolve, reject) =>
-      this.httpClient.get<DocumentModel[]>("http://localhost:3000/document/files").subscribe(files => {
+      this.httpClient.get<DocumentModel[]>(`http://${hostname}:3000/document/files`).subscribe(files => {
         this.files = files;
         resolve(this.files);
       }, error => reject(error)))

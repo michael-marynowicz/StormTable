@@ -33,7 +33,8 @@ export class TableRuntimeComponent {
   }
 
   doubleTap(event: MouseEvent) {
-    this.sessionService.createSpot({x: event.clientX, y: event.clientY})
+    // @ts-ignore
+    if (event.target.className ==="table")this.sessionService.createSpot({x: event.clientX, y: event.clientY})
   }
 
   simpleTap(event: MouseEvent) {
