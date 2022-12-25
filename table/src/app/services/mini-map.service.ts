@@ -3,17 +3,18 @@ import {HttpClient} from "@angular/common/http";
 import DocumentModel from "../models/document.model";
 import {UserSession} from "../models/user-session";
 import {hostname} from "./server.config";
+import {Socket} from "ngx-socket-io";
 
 @Injectable({
   providedIn: 'root'
 })
 export default class MiniMapService {
-  constructor(private httpClient: HttpClient) {
+  constructor(private socket: Socket) {
 
   }
 
   async sendFile(file: string, user: string) {
-    /// TODO: send file to others through socket
+    this.socket.emit('share-document', { id: file, user })
   }
 
 }

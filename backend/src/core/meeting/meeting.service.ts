@@ -40,4 +40,14 @@ export class MeetingService {
     meeting.documents.find(d => d.id === id).position = position;
     this.meetingChanged$.next(id);
   }
+
+  duplicateDocument(source: string, position: { x: number, y: number }) {
+    const meeting = this.meetings.find(m => m.documents.find(d => d.id === source));
+    if(!meeting)
+      throw 'Meeting not found.'
+    const document = meeting.documents.find(d => d.id === source)!;
+
+    meeting.documents.push(Object.assign({}, document, { id: Math.random().toString(36).substring(7), position }));
+    this.meetingChanged$.next(meeting.id);
+  }
 }

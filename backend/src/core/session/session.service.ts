@@ -6,11 +6,11 @@ import TableSession from "../models/session/work/table-session";
 import {Socket} from "socket.io";
 import {MeetingService} from "../meeting/meeting.service";
 import {UserService} from "../user/user.service";
-import SessionDto from "../models/session/dto/session.dto";
 import {TableService} from "../table/table.service";
 import TableNotFound from "../errors/table-not-found.error";
 import MeetingNotFound from "../errors/meeting-not-found.error";
 import SessionNotFoundError from "../errors/session-not-found.error";
+import SessionDto from "../models/session/dto/session.dto";
 import { aggregateDto } from "./session.dto-converter";
 
 @Injectable({
@@ -90,7 +90,22 @@ export class SessionService {
         return Object.values(this.sessions).find(s => s.meeting.id === meetingId);
     }
 
+    getSessionByDocument(documentId: string) {
+        return Object.values(this.sessions).find(s => this.meetingService.get(s.meeting.id).documents.find(d => d.id === documentId))
+    }
+
     changeDocumentPosition(id: string, position: { x:number, y: number }) {
         this.meetingService.moveDocument(id, position);
+    }
+
+    sendDocumentTo(documentId: string, userId: string) {
+        const session = this.getSessionByDocument(documentId);
+        if(!session)
+            throw "Session not found."
+        const user = session.users.find(u => u.id === userId);
+        if(!user)
+            throw "There is no user with this id in this session."
+
+        this.meetingService.duplicateDocument(documentId, user.location);
     }
 }

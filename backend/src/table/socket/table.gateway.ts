@@ -53,5 +53,11 @@ export class TableGateway {
         this.sessionService.changeDocumentPosition(payload.id, payload.position);
     }
 
+    @SubscribeMessage('share-document')
+    @UseFilters(new SocketErrorFilter())
+    shareDocument(@MessageBody() payload: { id: string, user: string }) {
+        this.sessionService.sendDocumentTo(payload.id, payload.user);
+    }
+
 
 }
