@@ -1,16 +1,18 @@
 import {Injectable, Scope} from "@nestjs/common";
-import Session from "./work/session";
+import Session from "../models/session/work/session";
 import {BehaviorSubject, Subject} from "rxjs";
 import {v4 as new_guid} from "uuid";
-import TableSession from "./work/table-session";
+import TableSession from "../models/session/work/table-session";
 import {Socket} from "socket.io";
 import {MeetingService} from "../meeting/meeting.service";
 import {UserService} from "../user/user.service";
-import SessionDto, {aggregateDto} from "./dto/session.dto";
+import SessionDto from "../models/session/dto/session.dto";
 import {TableService} from "../table/table.service";
 import TableNotFound from "../errors/table-not-found.error";
 import MeetingNotFound from "../errors/meeting-not-found.error";
 import SessionNotFoundError from "../errors/session-not-found.error";
+import { aggregateDto } from "./session.dto-converter";
+import { DocumentService } from "../document/document.service";
 
 @Injectable({
     scope: Scope.DEFAULT
@@ -21,7 +23,16 @@ export class SessionService {
     sessions$ = new BehaviorSubject<Session[]>([]);
     sessionChanged = new Subject<Session>()
 
-    constructor(private userService: UserService, private meetingService: MeetingService, private tableService: TableService) {
+    constructor(private userService: UserService, private meetingService: MeetingService, private tableService: TableService, private documentService: DocumentService) {
+        meetingService.meetingChanged$.subscribe(meetingId => {
+            const session = this.getSessionByMeeting(meetingId);
+            if(session)
+                this.sessionChanged.next(session);
+        })
+        documentService.documentChanged$.subscribe((docId) => {
+            const sessions = this.getSessionsByDocument(docId.id);
+            sessions.forEach(s => this.sessionChanged.next(s));
+        })
     }
 
     getAggregatedSession(session: Session): SessionDto {
@@ -74,5 +85,22 @@ export class SessionService {
             location: spot.location
         })
         this.sessionChanged.next(session)
+    }
+
+    getSessionByUser(user: string) {
+        return Object.values(this.sessions).find(s => !!s.users.find(u => u.id === user))
+    }
+
+    getSessionByMeeting(meetingId: string) {
+        return Object.values(this.sessions).find(s => s.meeting.id === meetingId);
+    }
+
+    getSessionsByDocument(documentId: string) {
+        const meetings = this.meetingService.getAllByDocument(documentId);
+        return Object.values(this.sessions).filter(s => meetings.find(m => m.id === s.meeting.id))
+    }
+
+    changeDocumentPosition(id: string, position: { x:number, y: number }) {
+        this.documentService.changeDocumentPosition(id, position);
     }
 }
