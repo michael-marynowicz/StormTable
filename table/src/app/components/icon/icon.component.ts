@@ -79,6 +79,7 @@ export class IconComponent implements OnInit {
   }
 
   private dragEnd() {
+    if(!this.hold) return;
     this.hold = false;
     //this.minimapVisible = false;
     this.meetingService.moveDocument(this.doc);

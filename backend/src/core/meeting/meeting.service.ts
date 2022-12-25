@@ -38,7 +38,7 @@ export class MeetingService {
     if(!meeting)
       throw 'Meeting not found.'
     meeting.documents.find(d => d.id === id).position = position;
-    this.meetingChanged$.next(id);
+    this.meetingChanged$.next(meeting.id);
   }
 
   duplicateDocument(source: string, position: { x: number, y: number }) {
