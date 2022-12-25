@@ -9,6 +9,7 @@ export function aggregateDto(
   userService: UserService,
   tableService: TableService,
   meetingService: MeetingService): SessionDto {
+  const meeting = meetingService.get(session.meeting.id)!;
   return {
     id: session.sessionId,
     table: {
@@ -25,7 +26,7 @@ export function aggregateDto(
     }),
     meeting: {
       id: session.meeting.id,
-      meeting: meetingService.get(session.meeting.id)!
+      meeting: meeting
     }
   }
 }

@@ -16,9 +16,7 @@ import { SpotComponent } from './components/spot/spot.component';
 import { TestPageComponent } from './pages/test-page/test-page.component';
 import {BrainstormElementComponentComponent} from "./components/brainstorm-element/brainstorm-element-component.component";
 import { PictureElementComponent } from './components/brainstorm-element/elements/picture-element/picture-element.component';
-import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
 import { IconComponent } from './components/icon/icon.component';
-import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/personal-space.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {FormsModule} from "@angular/forms";
 import {DocumentElementComponent} from "./components/brainstorm-element/elements/document-element/document-element.component";
@@ -46,10 +44,8 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     TestPageComponent,
     BrainstormElementComponentComponent,
     PictureElementComponent,
-    ToolBarComponent,
     DocumentElementComponent,
     IconComponent,
-    PersonalSpaceComponent,
     MiniMapComponent,
     UserStandComponent
   ],

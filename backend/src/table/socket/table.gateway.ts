@@ -47,5 +47,11 @@ export class TableGateway {
         })
     }
 
+    @SubscribeMessage('document-position')
+    @UseFilters(new SocketErrorFilter())
+    moveDocument(@MessageBody() payload: { id: string, position: { x: number, y: number }}) {
+        this.sessionService.changeDocumentPosition(payload.id, payload.position);
+    }
+
 
 }

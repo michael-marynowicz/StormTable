@@ -6,6 +6,7 @@ import DocumentModel from "../../models/document.model";
 import {Session} from "../../models/session.model";
 import MiniMapService from "../../services/mini-map.service";
 import {UserSession} from "../../models/user-session";
+import {MeetingService} from "../../services/meeting.service";
 
 @Component({
   selector: 'app-icon',
@@ -30,7 +31,7 @@ export class IconComponent implements OnInit {
 
   dropPoint = {x: 0, y: 0};
 
-  constructor(private iconService: IconService, private sanitizer: DomSanitizer, private minimapService: MiniMapService) {
+  constructor(private iconService: IconService, private sanitizer: DomSanitizer, private minimapService: MiniMapService, private meetingService: MeetingService) {
   }
 
 
@@ -80,6 +81,7 @@ export class IconComponent implements OnInit {
   private dragEnd() {
     this.hold = false;
     //this.minimapVisible = false;
+    this.meetingService.moveDocument(this.doc);
   }
 
   showMinimap($event: Event) {
@@ -91,7 +93,7 @@ export class IconComponent implements OnInit {
   }
 
   onSendToUser(users: UserSession[]) {
-    users.forEach(user => this.minimapService.sendFile(this.doc, user));
+    users.forEach(user => this.minimapService.sendFile(this.doc.id, user.id));
     this.minimapVisible = false;
   }
 }

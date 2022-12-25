@@ -12,7 +12,6 @@ import TableNotFound from "../errors/table-not-found.error";
 import MeetingNotFound from "../errors/meeting-not-found.error";
 import SessionNotFoundError from "../errors/session-not-found.error";
 import { aggregateDto } from "./session.dto-converter";
-import { DocumentService } from "../document/document.service";
 
 @Injectable({
     scope: Scope.DEFAULT
@@ -23,15 +22,11 @@ export class SessionService {
     sessions$ = new BehaviorSubject<Session[]>([]);
     sessionChanged = new Subject<Session>()
 
-    constructor(private userService: UserService, private meetingService: MeetingService, private tableService: TableService, private documentService: DocumentService) {
+    constructor(private userService: UserService, private meetingService: MeetingService, private tableService: TableService) {
         meetingService.meetingChanged$.subscribe(meetingId => {
             const session = this.getSessionByMeeting(meetingId);
             if(session)
                 this.sessionChanged.next(session);
-        })
-        documentService.documentChanged$.subscribe((docId) => {
-            const sessions = this.getSessionsByDocument(docId.id);
-            sessions.forEach(s => this.sessionChanged.next(s));
         })
     }
 
@@ -95,12 +90,7 @@ export class SessionService {
         return Object.values(this.sessions).find(s => s.meeting.id === meetingId);
     }
 
-    getSessionsByDocument(documentId: string) {
-        const meetings = this.meetingService.getAllByDocument(documentId);
-        return Object.values(this.sessions).filter(s => meetings.find(m => m.id === s.meeting.id))
-    }
-
     changeDocumentPosition(id: string, position: { x:number, y: number }) {
-        this.documentService.changeDocumentPosition(id, position);
+        this.meetingService.moveDocument(id, position);
     }
 }
