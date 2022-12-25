@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { transform } from '../../../utils/style.utils';
 import {fromPosition} from "../../models/viewport.model";
 import {SpotModel} from "../../models/spot.mode";
-import {mobileServer} from "../../../../config";
+import {mobileServingApp} from "../../../server.config";
 
 @Component({
   selector: 'app-spot',
@@ -16,7 +16,7 @@ export class SpotComponent implements OnInit {
   }
 
   get qrcodeValue() {
-    return mobileServer + "/spot/" + this.spot.id;
+    return mobileServingApp + "/spot/" + this.spot.id;
   }
 
   ngOnInit(): void {

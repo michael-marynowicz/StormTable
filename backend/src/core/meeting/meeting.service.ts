@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import MeetingModel from "../models/meeting.model";
-import { BehaviorSubject } from "rxjs";
+import { Subject } from "rxjs";
+import DocumentModel from "../models/document.model";
 
 @Injectable()
 export class MeetingService {
@@ -11,13 +12,32 @@ export class MeetingService {
       documents: []
     }
   ]
-  subject: BehaviorSubject<{ meetingId: string|undefined }> = new BehaviorSubject<{ meetingId: string|undefined }>({ meetingId: undefined });
-
+  meetingChanged$ = new Subject<string>();
   getAll() {
     return this.meetings;
   }
 
   get(id: string) {
     return this.meetings.find(m => m.id === id);
+  }
+
+  getByDocument(documentId: string) {
+    return this.meetings.find(m => m.documents.find(d => d.id === documentId));
+  }
+
+  putDocument(id: string, doc: DocumentModel) {
+    const meeting = this.meetings.find(m => m.id === id)
+    if(!meeting)
+      throw 'Meeting not found.'
+    meeting.documents.push(doc)
+    this.meetingChanged$.next(id);
+  }
+
+  moveDocument(id: string, position: {x: number; y: number}) {
+    const meeting = this.meetings.find(m => m.documents.find(d => d.id === id));
+    if(!meeting)
+      throw 'Meeting not found.'
+    meeting.documents.find(d => d.id === id).position = position;
+    this.meetingChanged$.next(id);
   }
 }

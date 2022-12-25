@@ -2,7 +2,8 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import SessionService from "../../services/session.service";
 import {Session} from "../../models/session.model";
-import {DocumentService} from "../../services/document.service";
+import DocumentModel from "../../models/document.model";
+import {MeetingService} from "../../services/meeting.service";
 
 @Component({
   selector: 'app-table-runtime',
@@ -20,10 +21,12 @@ export class TableRuntimeComponent {
   }
 
   session?: Session;
+  documents: DocumentModel[] = []
 
-  constructor(aroute: ActivatedRoute, private sessionService: SessionService, public documentService: DocumentService) {
+  constructor(aroute: ActivatedRoute, private sessionService: SessionService) {
     sessionService.session$.subscribe(session => {
       this.session = session
+      this.documents = session.meeting.meeting.documents
     });
     aroute.params.subscribe((_) => {
       const id = aroute.snapshot.params["meetingId"]
