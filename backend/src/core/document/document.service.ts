@@ -27,4 +27,10 @@ export class DocumentService {
         return this.files;
     }
 
+    deleteFile(file : DocumentModel){
+        console.log("ca marche")
+        const index = this.files.indexOf(file)
+        this.files.splice(index,1)
+    }
+
 }

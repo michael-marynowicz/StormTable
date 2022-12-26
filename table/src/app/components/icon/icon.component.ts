@@ -6,6 +6,7 @@ import DocumentModel from "../../models/document.model";
 import {Session} from "../../models/session.model";
 import MiniMapService from "../../services/mini-map.service";
 import {UserSession} from "../../models/user-session";
+import {hostname} from "../../services/server.config";
 
 @Component({
   selector: 'app-icon',
@@ -18,7 +19,7 @@ export class IconComponent implements OnInit {
 
   session!: Session
 
-  private URL = "http://localhost:3000/"
+  private URL = `http://${hostname}:3000/`
 
   safeURL!: SafeResourceUrl;
 
@@ -33,7 +34,6 @@ export class IconComponent implements OnInit {
   constructor(private iconService: IconService, private sanitizer: DomSanitizer, private minimapService: MiniMapService) {
   }
 
-
   load() {
     this.loadFile = this.iconService.load(this.URL + this.doc.path)
     this.isOpen = true;
@@ -42,8 +42,6 @@ export class IconComponent implements OnInit {
   ngOnInit(): void {
     this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.URL + this.doc.path)
   }
-
-  private dragStartPosition?: { x: number, y: number };
 
   private hold = false;
   mousedown(event: MouseEvent) {
@@ -79,15 +77,11 @@ export class IconComponent implements OnInit {
 
   private dragEnd() {
     this.hold = false;
-    //this.minimapVisible = false;
   }
 
   showMinimap($event: Event) {
     this.minimapVisible = true;
-    const event = $event as unknown as { center: { x: number, y: number } };
-    // this.dropPoint = event.center
-    // this.dropPoint.x += this.dropPoint.x >= (window.innerWidth - 300) ? -50 : 50
-    this.dropPoint = { x: 50, y: 50}
+    this.dropPoint = { x: 110, y: 70}
   }
 
   onSendToUser(users: UserSession[]) {

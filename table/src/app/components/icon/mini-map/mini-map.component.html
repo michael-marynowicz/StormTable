@@ -1,8 +1,7 @@
-
-
-
-<div class="box">
-  <div *ngFor="let user of getUsers()" class="userIcon" (click)="sendTo([user])">{{getUsername(user)}}</div>
-  <div class="everyone" (click)="sendTo(getUsers())">everyone</div>
+<div class="mini-map">
+  <button type="button" class="btn btn-secondary" *ngFor="let user of getUsers()" (click)="sendTo([user])">{{getUsername(user)}}</button>
+  <button type="button" class="btn btn-secondary" (click)="sendTo(getUsers())">everyone</button>
+  <button type="button" class="btn btn-danger" (click)=deleteIcon()><i class="fa-solid fa-trash icon"></i></button>
 </div>
+
 
