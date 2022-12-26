@@ -1,0 +1,24 @@
+<app-page-layout>
+  <div class="alert alert-info" *ngIf="uploading && !uploaded">
+    Uploading file(s)...
+  </div>
+  <div class="alert alert-success" *ngIf="uploaded">
+    {{files.length}} files uploaded successfully.
+  </div>
+  <h1>Upload file</h1>
+  <ul class="list-group mb-3">
+    <li class="list-group-item" *ngFor="let file of files">
+      <span class="d-flex overflow-hidden">{{file.name}}</span>
+      <button class="btn btn-danger btn-sm" [disabled]="uploading">
+        <span class="material-icons" (click)="removeFile(file)">delete</span>
+      </button>
+    </li>
+  </ul>
+  <input class="form-control mb-3" type="file" (change)="onFilesChange($event)" [disabled]="uploading">
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-lg btn-primary d-flex align-items-center" [disabled]="uploading" (click)="upload()">
+      <span class="material-icons me-1">upload_file</span>
+      Upload
+    </button>
+  </div>
+</app-page-layout>

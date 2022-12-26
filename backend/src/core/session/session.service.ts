@@ -94,6 +94,12 @@ export class SessionService {
         return Object.values(this.sessions).find(s => this.meetingService.get(s.meeting.id).documents.find(d => d.id === documentId))
     }
 
+    getMeetingByUser(userId:string) {
+        const session = this.getSessionByUser(userId);
+        if(!session) return undefined;
+        return this.meetingService.get(session.meeting.id);
+    }
+
     changeDocumentPosition(id: string, position: { x:number, y: number }) {
         this.meetingService.moveDocument(id, position);
     }
