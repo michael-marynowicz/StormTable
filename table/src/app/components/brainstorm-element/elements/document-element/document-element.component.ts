@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
-import WebViewer, {WebViewerInstance} from "@pdftron/webviewer";
+import WebViewer, {Core, WebViewerInstance} from "@pdftron/webviewer";
+import documentViewer = Core.documentViewer;
 
 
 @Component({
@@ -34,6 +35,14 @@ export class DocumentElementComponent implements AfterViewInit {
       this.viewer2 = instance;
     });
 
+    const documentViewer = this.viewer1.Core.documentViewer;
+    const scrollViewElement = documentViewer.getScrollViewElement();
+    scrollViewElement.scroll({
+      left: 0, // Can set to null since we only care about vertical scrolling.
+      top: 3000,
+      behavior: 'smooth'
+    });
+
     console.log(this.docPath);
 
   }
@@ -41,6 +50,8 @@ export class DocumentElementComponent implements AfterViewInit {
 
 
   getPage() {
+    let currentScroll = this.viewer1.Core.documentViewer.getScrollViewElement();
+    this.viewer2.Core.documentViewer.setScrollViewElement(currentScroll);
     this.currentpage = this.viewer1.Core.documentViewer.getCurrentPage();
     this.viewer2.Core.documentViewer.setCurrentPage(this.currentpage, true);
     this.viewer2.Core.documentViewer.updateView([this.currentpage], this.viewer2.Core.documentViewer.getCurrentPage());

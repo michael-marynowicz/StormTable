@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import DocumentModel from "../../models/document.model";
 import {Session} from "../../models/session.model";
+import {DocumentService} from "../../services/document.service";
 
 @Component({
   selector: 'app-icon',
@@ -32,13 +33,16 @@ export class IconComponent implements OnInit {
   @Input() edit: boolean = true;
   @Input() docPath!: string;
 
-  constructor(private iconService: IconService, private sanitizer: DomSanitizer) {
+  constructor(private iconService: IconService, private sanitizer: DomSanitizer,public documentService: DocumentService) {
+    this.docPath = this.URL + this.documentService.files[this.documentService.files.length-1].path.replace("\\","/");
+    //todo get the specific file pinched
   }
 
   pinch(){
     this.edit= ! this.edit;
     console.log("looooonnnngggg piiinnnccchhhh");
-    this.docPath = "../../../../../../../backend/" + this.doc.path.replace("\\","/");
+    this.docPath = this.URL + this.documentService.files[this.documentService.files.length-1].path.replace("\\","/");
+    //todo get the specific file pinched
   }
 
   load() {
@@ -47,7 +51,9 @@ export class IconComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //this.docPath = "../../../../../../../backend/" + this.doc.path.replace("\\","/");
     this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.URL + this.doc.path)
+    console.log("safeurl",this.safeURL);
     this.docName  = this.doc.name.split(".", 3);
   }
 

@@ -10,6 +10,5 @@ export class IconService {
 
   load(src: string) {
     return this.httpClient.get(src)
-
   }
 }

@@ -12,8 +12,10 @@ export class DocumentService {
   socket = io("http://localhost:3000")
 
   public files: DocumentModel[] = [];
+  public currentFile!: DocumentModel;
 
   public files$ = new BehaviorSubject<DocumentModel[]>([]);
+  //public currentFile$ = new BehaviorSubject<DocumentModel>();
 
   constructor(private httpClient: HttpClient) {
     console.log("the table get the file")
@@ -34,8 +36,16 @@ export class DocumentService {
       })
       this.files$.next(this.files)
     })
-
   }
+
+  /*async fetchFile(id: string) {
+    await this.httpClient.get<DocumentModel[]>("http://localhost:3000/document/"+id).subscribe(file => {
+      file.map(file => {
+        if (!this.currentFile.includes(file)) this.currentFile.push(file)
+      })
+      this.currentFile$.next(this.currentFile)
+    })
+  }*/
 
   async fetchFiles() {
     return new Promise<DocumentModel[]>((resolve, reject) =>

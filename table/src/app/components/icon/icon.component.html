@@ -1,4 +1,4 @@
-<div class="example-box" (cdkDragEnded)="this.isDrag=false;" (press)="drag($event)" (mouseup)="isDrag=false" cdkDrag>
+<div class="example-box" (cdkDragEnded)="this.isDrag=false;" (press)="drag($event)" (mouseup)="isDrag=false" cdkDrag *ngIf="edit === false">
 
   <!--If the file is pdf-->
   <span *ngIf="isOpen===false && doc.type === 'PDF'"

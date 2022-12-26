@@ -31,7 +31,9 @@ export class TableRuntimeComponent {
       console.log("Creating session")
       sessionService.createSession(id)
     });
+
   }
+
 
   doubleTap(event: MouseEvent) {
     this.sessionService.createSpot({x: event.clientX, y: event.clientY})
