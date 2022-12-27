@@ -8,7 +8,7 @@
 >
   <img *ngIf="isOpen===false" [src]=safeURL alt="{{doc.name}}"/>
   <div *ngIf="isOpen===true">
-    <button class="close-button" aria-label="Close alert" type="button" (click)="isOpen=false">X</button>
+    <button class="btn-close" aria-label="Close" type="button" (click)="isOpen=false"></button>
     <iframe *ngIf="doc.type!=='PICTURE'" id="inlineFrameExample"
             title="Inline Frame Example"
             style="width: 10cm; height: 10cm;"
@@ -20,7 +20,7 @@
     <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
 
   </div>
-  <app-mini-map *ngIf="minimapVisible" [file]=doc
+  <app-mini-map (close)="minimapVisible=false" *ngIf="minimapVisible" [file]=doc
                 [style]="{'position': 'absolute', 'left': dropPoint.x+'px','top': dropPoint.y+'px'}"
                 (onSendTo)="onSendToUser($event)"
   ></app-mini-map>

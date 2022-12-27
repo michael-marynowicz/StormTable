@@ -17,6 +17,8 @@ export class MiniMapComponent implements OnInit {
   @Input() file!: DocumentModel;
   @Output() onSendTo = new EventEmitter<UserSession[]>();
 
+  @Output() close = new EventEmitter<string>();
+
   session?: Session
 
 
