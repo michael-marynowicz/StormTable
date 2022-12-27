@@ -12,6 +12,7 @@ export class UserStandComponent {
   @Input() user!: UserSession;
 
   get positionStyle() {
+    this.user.location.y = this.user.location.y>window.window.innerHeight/2 ? 550 : 150
     return transform(fromPosition(this.user.location.x, this.user.location.y))
   }
 
@@ -20,6 +21,6 @@ export class UserStandComponent {
   }
 
   get rotation(){
-    return this.user.location.y>500 ? 0 : 180;
+    return this.user.location.y>window.window.innerHeight/2 ? 0 : 180;
   }
 }

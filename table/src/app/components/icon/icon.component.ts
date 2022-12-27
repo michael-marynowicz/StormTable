@@ -88,7 +88,5 @@ export class IconComponent implements OnInit {
   onSendToUser(users: UserSession[]) {
     users.forEach(user => {this.minimapService.sendFile(this.doc, user)});
     this.minimapVisible = false;
-
-    //TODO rotation here
   }
 }
