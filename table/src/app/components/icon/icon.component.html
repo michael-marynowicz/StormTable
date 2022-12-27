@@ -3,15 +3,18 @@
      (press)="showMinimap($event)"
      (mousedown)="mousedown($event)"
      (touchstart)="touchstart($event)"
-     [ngStyle]="{'position':'relative', 'display': 'block','left':doc.position.x+'px', 'top':doc.position.y+'px'}"
+     (dblclick)="load()"
+     [ngStyle]="{'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px'}"
 >
-  <img *ngIf="isOpen===false" [src]=safeURL (dblclick)="load()" alt="{{doc.name}}"/>
+  <img *ngIf="isOpen===false" [src]=safeURL alt="{{doc.name}}"/>
   <div *ngIf="isOpen===true">
     <button class="close-button" aria-label="Close alert" type="button" (click)="isOpen=false">X</button>
     <iframe *ngIf="doc.type!=='PICTURE'" id="inlineFrameExample"
             title="Inline Frame Example"
             style="width: 10cm; height: 10cm;"
-            [src]=safeURL>
+            [src]=safeURL
+            [ngStyle]="{'position':'relative','top' : '125px'}"
+>
     </iframe>
 
     <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
