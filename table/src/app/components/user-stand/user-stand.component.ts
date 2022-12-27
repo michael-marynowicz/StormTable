@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {UserModel} from "../../models/user.model";
 import {UserSession} from "../../models/user-session";
 import {transform} from "../../../utils/style.utils";
 import {fromPosition} from "../../models/viewport.model";
@@ -18,5 +17,9 @@ export class UserStandComponent {
 
   get username() {
     return this.user.user.name;
+  }
+
+  get rotation(){
+    return this.user.location.y>500 ? 0 : 180;
   }
 }
