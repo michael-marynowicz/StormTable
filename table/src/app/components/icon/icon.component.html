@@ -1,10 +1,9 @@
 <div class="example-box"
-     style="position: absolute"
-     (press)="showMinimap($event)"
-     (mousedown)="mousedown($event)"
-     (touchstart)="touchstart($event)"
+     (press)="showMinimap()"
+     (mousedown)="mousedown()"
+     (touchstart)="touchstart()"
      (dblclick)="load()"
-     [ngStyle]="{'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px'}"
+     [ngStyle]="{'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'deg'}"
 >
   <img *ngIf="isOpen===false" [src]=safeURL alt="{{doc.name}}"/>
   <div *ngIf="isOpen===true">

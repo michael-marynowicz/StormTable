@@ -30,6 +30,7 @@ export class IconComponent implements OnInit {
   minimapVisible: boolean = false;
 
   dropPoint = {x: 0, y: 0};
+  rotation=0;
 
   constructor(private iconService: IconService, private sanitizer: DomSanitizer, private minimapService: MiniMapService) {
   }
@@ -44,17 +45,17 @@ export class IconComponent implements OnInit {
   }
 
   private hold = false;
-  mousedown(event: MouseEvent) {
+  mousedown() {
     this.dragStart()
     document.addEventListener('mouseup', () => {
       this.dragEnd()
     });
-    document.addEventListener('mousemove', (event) => {
+    document.addEventListener('mousemove', (_) => {
       this.dragging();
     });
   }
 
-  touchstart(event: TouchEvent) {
+  touchstart() {
     this.dragStart()
     document.addEventListener('touchend', () => {
       this.dragEnd()
@@ -79,13 +80,13 @@ export class IconComponent implements OnInit {
     this.hold = false;
   }
 
-  showMinimap($event: Event) {
+  showMinimap() {
     this.minimapVisible = true;
     this.dropPoint = { x: 110, y: 70}
   }
 
   onSendToUser(users: UserSession[]) {
-    users.forEach(user => this.minimapService.sendFile(this.doc, user));
+    users.forEach(user => {this.minimapService.sendFile(this.doc, user)});
     this.minimapVisible = false;
 
     //TODO rotation here
