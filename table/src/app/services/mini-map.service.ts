@@ -13,7 +13,7 @@ export default class MiniMapService {
 
   }
   sendFile(file: DocumentModel, user: UserSession) {
-    const fileToSend = {...file, position: {x: user.location.x, y: user.location.y}, rotation: user.location.y>500 ? 0 : 3.141};
+    const fileToSend = {...file, position: {x: user.location.x, y: user.location.y}, rotation: user.location.y>window.window.innerHeight/2 ? 0 : 3.141};
     this.documentService.addFile(fileToSend)
   }
   async deleteIcon(file: DocumentModel) {

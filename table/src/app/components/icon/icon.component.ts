@@ -92,6 +92,7 @@ export class IconComponent implements OnInit {
 
   setRotation($event: TouchEvent) {
     if (!$event) return;
+    this.hold = false;
     const angle = Math.atan(($event.targetTouches[0].clientY - this.doc.position.y) / ($event.targetTouches[0].clientX - this.doc.position.x)) + (($event.targetTouches[0].clientX - this.doc.position.x) < 0 ? Math.PI : 0);
     if (angle) this.doc.rotation = angle;
     console.log($event)
