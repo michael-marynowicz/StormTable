@@ -1,9 +1,11 @@
+<i class="fas fa-redo" (touchmove)="setRotation($event)"
+        [ngStyle]="{'position':'relative','left':doc.position.x+40+'px', 'top':doc.position.y+'px'}"></i>
 <div class="example-box"
      (press)="showMinimap()"
      (mousedown)="mousedown()"
      (touchstart)="touchstart()"
      (dblclick)="load()"
-     [ngStyle]="{'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'deg'}"
+     [ngStyle]="{'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'rad'}"
 >
   <img *ngIf="isOpen===false" [src]=safeURL alt="{{doc.name}}"/>
   <div *ngIf="isOpen===true">
@@ -13,7 +15,7 @@
             style="width: 10cm; height: 10cm;"
             [src]=safeURL
             [ngStyle]="{'position':'relative','top' : '125px'}"
->
+    >
     </iframe>
 
     <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
@@ -24,5 +26,4 @@
                 (onSendTo)="onSendToUser($event)"
   ></app-mini-map>
 </div>
-
 

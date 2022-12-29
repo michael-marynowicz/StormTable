@@ -13,7 +13,6 @@ export class DocumentService {
     }
 
     fileStream(myPath: string) {
-        //const filePath = path.join(process.cwd(), 'package.json')
         const filePath = path.resolve(myPath);
         return createReadStream(filePath);
     }
@@ -28,7 +27,6 @@ export class DocumentService {
     }
 
     deleteFile(file : DocumentModel){
-        console.log("ca marche")
         const index = this.files.indexOf(file)
         this.files.splice(index,1)
     }

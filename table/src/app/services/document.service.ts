@@ -4,8 +4,6 @@ import {io} from "socket.io-client";
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
 import {hostname} from "./server.config";
-import {UserSession} from "../models/user-session";
-
 @Injectable({
   providedIn: 'root'
 })
@@ -51,10 +49,6 @@ export class DocumentService {
         this.files = files;
         resolve(this.files);
       }, error => reject(error)))
-  }
-
-  rotation(user : UserSession){
-    return user.location.y>500 ? 0 : 180;
   }
 
 }

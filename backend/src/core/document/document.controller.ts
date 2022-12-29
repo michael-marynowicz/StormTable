@@ -66,7 +66,6 @@ export class DocumentController {
     }
     @Delete(':name')
     deleteFileByName(@Param('name') name: string){
-        console.log("pathhhhhhh")
         const file = this.documentService.getAllFiles().find(file => file.name === name);
         if (!file)
             throw new HttpException('File not found.', HttpStatus.NOT_FOUND)
