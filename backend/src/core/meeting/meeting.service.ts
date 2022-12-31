@@ -12,7 +12,12 @@ export class MeetingService {
       documents: []
     }
   ]
-  meetingChanged$ = new Subject<string>();
+  meetingChanged$ = new Subject<{
+    id: string,
+    changes: {
+      documents: string[]
+    }
+  }>();
   getAll() {
     return this.meetings;
   }

@@ -20,7 +20,9 @@ export class SessionService {
 
     private sessions: { [id: string]: Session } = {}
     sessions$ = new BehaviorSubject<Session[]>([]);
-    sessionChanged = new Subject<Session>()
+    sessionChanged = new Subject<{ session: Session, changes: {
+        documents: string[]
+        } }>()
 
     constructor(private userService: UserService, private meetingService: MeetingService, private tableService: TableService) {
         meetingService.meetingChanged$.subscribe(meetingId => {

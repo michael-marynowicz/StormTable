@@ -40,7 +40,6 @@ export class MiniMapComponent implements OnInit {
     this.sessionService.session$.subscribe(session => {
       this.session = session
     });
-    this.sessionService.triggerSubject()
   }
 
   sendTo(users: UserSession[]) {

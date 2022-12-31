@@ -8,6 +8,7 @@ import MiniMapService from "../../services/mini-map.service";
 import {UserSession} from "../../models/user-session";
 import {MeetingService} from "../../services/meeting.service";
 import {hostname} from "../../services/server.config";
+import {DocumentService} from "../../services/document.service";
 
 @Component({
   selector: 'app-icon',
@@ -15,9 +16,8 @@ import {hostname} from "../../services/server.config";
   styleUrls: ['./icon.component.less']
 })
 export class IconComponent implements OnInit {
-
-  @Input() doc!: DocumentModel;
-
+  @Input() docId!: string;
+  doc!: DocumentModel;
   session!: Session
 
   private URL = `http://${hostname}:3000/`
@@ -33,7 +33,7 @@ export class IconComponent implements OnInit {
   dropPoint = {x: 0, y: 0};
   rotation = 0;
 
-  constructor(private iconService: IconService, private sanitizer: DomSanitizer, private minimapService: MiniMapService, private meetingService: MeetingService) {
+  constructor(private iconService: IconService, private sanitizer: DomSanitizer, private minimapService: MiniMapService, private meetingService: MeetingService, private documentService: DocumentService) {
   }
 
   load() {
@@ -42,6 +42,9 @@ export class IconComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const doc = this.documentService.getDocument(this.docId);
+    if(!doc) throw new Error("Document not found")
+    this.doc = doc;
     this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.URL + this.doc.path)
   }
 
@@ -82,7 +85,7 @@ export class IconComponent implements OnInit {
     if (!this.hold) return;
     this.hold = false;
     //this.minimapVisible = false;
-    //this.meetingService.moveDocument(this.doc);
+    this.meetingService.moveDocument(this.doc);
   }
 
   showMinimap() {
