@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 
 
 export interface AlertContent {
-  type: "LOG"|"ERROR"|"WARN"
+  type: "LOG" | "ERROR" | "WARN"
   header: string
   content?: string
 }
@@ -11,7 +11,7 @@ export interface AlertContent {
 export class ErrorAlert implements AlertContent {
   type: "LOG" | "ERROR" | "WARN" = "ERROR";
 
-  constructor(public header: string, public content: string|undefined) {
+  constructor(public header: string, public content: string | undefined) {
   }
 }
 
@@ -22,7 +22,9 @@ export class AlertService {
 
   onAlert = new BehaviorSubject<null>(null);
   alertQueue: AlertContent[] = []
-  constructor() { }
+
+  constructor() {
+  }
 
   dequeue() {
     return this.alertQueue.pop()

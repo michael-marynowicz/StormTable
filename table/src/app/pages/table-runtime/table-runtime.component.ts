@@ -3,7 +3,6 @@ import {ActivatedRoute} from "@angular/router";
 import SessionService from "../../services/session.service";
 import {Session} from "../../models/session.model";
 import DocumentModel from "../../models/document.model";
-import {MeetingService} from "../../services/meeting.service";
 
 @Component({
   selector: 'app-table-runtime',
@@ -37,9 +36,5 @@ export class TableRuntimeComponent {
 
   doubleTap(event: MouseEvent) {
     this.sessionService.createSpot({x: event.clientX, y: event.clientY})
-  }
-
-  simpleTap(event: MouseEvent) {
-    //console.log(event)
   }
 }

@@ -1,4 +1,4 @@
-import { Component,Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import BrainstormElementModel from "../../models/brainstorm-element.model";
 
 @Component({
@@ -8,8 +8,9 @@ import BrainstormElementModel from "../../models/brainstorm-element.model";
 })
 export class BrainstormElementComponentComponent {
 
-  @Input() brainstormElement! : BrainstormElementModel
+  @Input() brainstormElement!: BrainstormElementModel
 
-  constructor(){}
+  constructor() {
+  }
 
 }

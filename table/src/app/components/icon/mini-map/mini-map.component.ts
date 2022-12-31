@@ -22,7 +22,7 @@ export class MiniMapComponent implements OnInit {
   session?: Session
 
 
-  constructor(private sessionService: SessionService,private miniMapService: MiniMapService) {
+  constructor(private sessionService: SessionService, private miniMapService: MiniMapService) {
   }
 
 
@@ -47,7 +47,7 @@ export class MiniMapComponent implements OnInit {
     this.onSendTo.emit(users);
   }
 
-  deleteIcon() {
-    this.miniMapService.deleteIcon(this.file)
+  async deleteIcon() {
+    await this.miniMapService.deleteIcon(this.file)
   }
 }

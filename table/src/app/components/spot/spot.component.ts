@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { transform } from '../../../utils/style.utils';
+import {transform} from '../../../utils/style.utils';
 import {fromPosition} from "../../models/viewport.model";
 import {SpotModel} from "../../models/spot.mode";
 import {mobileServingApp} from "../../../server.config";
@@ -11,6 +11,7 @@ import {mobileServingApp} from "../../../server.config";
 })
 export class SpotComponent implements OnInit {
   @Input() spot!: SpotModel;
+
   get positionStyle() {
     return transform(fromPosition(this.spot.location.x, this.spot.location.y))
   }

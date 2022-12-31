@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import {UserModel} from "../../models/user.model";
+import {Component} from '@angular/core';
 import {UserSession} from "../../models/user-session";
 
 @Component({

@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {MeetingModel} from "../models/meeting.model";
 import {hostname} from "./server.config";
 import DocumentModel from "../models/document.model";
-import {GatewayService} from "./gateway.service";
 import {Socket} from "ngx-socket-io";
 
 @Injectable({
@@ -18,7 +17,7 @@ export class MeetingService {
   }
 
   moveDocument(doc: DocumentModel) {
-    this.socket.emit('document-position', { id: doc.id, position: doc.position, rotation: doc.rotation })
+    this.socket.emit('document-position', {id: doc.id, position: doc.position, rotation: doc.rotation})
   }
 
   async removeDocument(doc: DocumentModel) {

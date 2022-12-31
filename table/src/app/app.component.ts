@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import DocumentModel from "./models/document.model";
-import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-root',

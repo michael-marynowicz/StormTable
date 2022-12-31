@@ -31,7 +31,7 @@ export class IconComponent implements OnInit {
   minimapVisible: boolean = false;
 
   dropPoint = {x: 0, y: 0};
-  rotation=0;
+  rotation = 0;
 
   constructor(private iconService: IconService, private sanitizer: DomSanitizer, private minimapService: MiniMapService, private meetingService: MeetingService) {
   }
@@ -46,6 +46,7 @@ export class IconComponent implements OnInit {
   }
 
   private hold = false;
+
   mousedown() {
     this.dragStart()
     document.addEventListener('mouseup', () => {
@@ -62,7 +63,7 @@ export class IconComponent implements OnInit {
       this.dragEnd()
     });
     document.addEventListener('touchmove', (event) => {
-      this.dragging({ x: event.touches[0].clientX, y: event.touches[0].clientY });
+      this.dragging({x: event.touches[0].clientX, y: event.touches[0].clientY});
     });
   }
 
@@ -71,14 +72,14 @@ export class IconComponent implements OnInit {
   }
 
   private dragging(position: { x: number, y: number } = {x: 0, y: 0}) {
-    if(this.hold) {
+    if (this.hold) {
       this.doc.position.x = position.x - 30;
       this.doc.position.y = position.y - 30;
     }
   }
 
   private dragEnd() {
-    if(!this.hold) return;
+    if (!this.hold) return;
     this.hold = false;
     //this.minimapVisible = false;
     //this.meetingService.moveDocument(this.doc);
@@ -86,7 +87,7 @@ export class IconComponent implements OnInit {
 
   showMinimap() {
     this.minimapVisible = true;
-    this.dropPoint = { x: 110, y: 70}
+    this.dropPoint = {x: 110, y: 70}
   }
 
   onSendToUser(users: UserSession[]) {
