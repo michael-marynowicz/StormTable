@@ -2,7 +2,7 @@
   <div class="positionable stand-holder stand-size" [style]="positionStyle">
     <div class="player-position stand-size"></div>
     <div class="stand stand-content center">
-      <div class="stand-label">
+      <div class="stand-label" [ngStyle]="{'rotate':rotation+'deg'}">
         {{username}}
       </div>
     </div>

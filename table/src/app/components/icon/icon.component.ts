@@ -7,6 +7,7 @@ import {Session} from "../../models/session.model";
 import MiniMapService from "../../services/mini-map.service";
 import {UserSession} from "../../models/user-session";
 import {MeetingService} from "../../services/meeting.service";
+import {hostname} from "../../services/server.config";
 
 @Component({
   selector: 'app-icon',
@@ -19,7 +20,7 @@ export class IconComponent implements OnInit {
 
   session!: Session
 
-  private URL = "http://localhost:3000/"
+  private URL = `http://${hostname}:3000/`
 
   safeURL!: SafeResourceUrl;
 
@@ -30,10 +31,10 @@ export class IconComponent implements OnInit {
   minimapVisible: boolean = false;
 
   dropPoint = {x: 0, y: 0};
+  rotation=0;
 
   constructor(private iconService: IconService, private sanitizer: DomSanitizer, private minimapService: MiniMapService, private meetingService: MeetingService) {
   }
-
 
   load() {
     this.loadFile = this.iconService.load(this.URL + this.doc.path)
@@ -44,20 +45,18 @@ export class IconComponent implements OnInit {
     this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.URL + this.doc.path)
   }
 
-  private dragStartPosition?: { x: number, y: number };
-
   private hold = false;
-  mousedown(event: MouseEvent) {
+  mousedown() {
     this.dragStart()
     document.addEventListener('mouseup', () => {
       this.dragEnd()
     });
-    document.addEventListener('mousemove', (event) => {
+    document.addEventListener('mousemove', (_) => {
       this.dragging();
     });
   }
 
-  touchstart(event: TouchEvent) {
+  touchstart() {
     this.dragStart()
     document.addEventListener('touchend', () => {
       this.dragEnd()
@@ -85,16 +84,22 @@ export class IconComponent implements OnInit {
     this.meetingService.moveDocument(this.doc);
   }
 
-  showMinimap($event: Event) {
+  showMinimap() {
     this.minimapVisible = true;
-    const event = $event as unknown as { center: { x: number, y: number } };
-    // this.dropPoint = event.center
-    // this.dropPoint.x += this.dropPoint.x >= (window.innerWidth - 300) ? -50 : 50
-    this.dropPoint = { x: 50, y: 50}
+    this.dropPoint = { x: 110, y: 70}
   }
 
   onSendToUser(users: UserSession[]) {
     users.forEach(user => this.minimapService.sendFile(this.doc.id, user.id));
     this.minimapVisible = false;
   }
+
+  setRotation($event: TouchEvent) {
+    if (!$event) return;
+    this.hold = false;
+    const angle = Math.atan(($event.targetTouches[0].clientY - this.doc.position.y) / ($event.targetTouches[0].clientX - this.doc.position.x)) + (($event.targetTouches[0].clientX - this.doc.position.x) < 0 ? Math.PI : 0);
+    if (angle) this.doc.rotation = angle;
+    console.log($event)
+  }
+
 }

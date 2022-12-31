@@ -16,5 +16,10 @@ export default class MiniMapService {
   async sendFile(file: string, user: string) {
     this.socket.emit('share-document', { id: file, user })
   }
+  async deleteIcon(file: DocumentModel) {
+    const index = this.documentService.files.indexOf(file)
+    this.documentService.files.splice(index, 1)
+    this.httpClient.delete(`http://${hostname}:3000/document/${file.name}`).subscribe()
+  }
 
 }

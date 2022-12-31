@@ -17,10 +17,12 @@ export class MiniMapComponent implements OnInit {
   @Input() file!: DocumentModel;
   @Output() onSendTo = new EventEmitter<UserSession[]>();
 
+  @Output() close = new EventEmitter<string>();
+
   session?: Session
 
 
-  constructor(private sessionService: SessionService) {
+  constructor(private sessionService: SessionService,private miniMapService: MiniMapService) {
   }
 
 
@@ -43,5 +45,9 @@ export class MiniMapComponent implements OnInit {
 
   sendTo(users: UserSession[]) {
     this.onSendTo.emit(users);
+  }
+
+  deleteIcon() {
+    this.miniMapService.deleteIcon(this.file)
   }
 }

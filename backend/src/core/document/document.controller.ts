@@ -1,5 +1,5 @@
 import {
-    Controller,
+    Controller, Delete,
     Get,
     HttpException,
     HttpStatus,
@@ -63,6 +63,14 @@ export class DocumentController {
         if (!file)
             throw new HttpException('File not found.', HttpStatus.NOT_FOUND)
         return file;
+
+    }
+    @Delete(':name')
+    deleteFileByName(@Param('name') name: string){
+        const file = this.documentService.getAllFiles().find(file => file.name === name);
+        if (!file)
+            throw new HttpException('File not found.', HttpStatus.NOT_FOUND)
+        this.documentService.deleteFile(file);
 
     }
 }
