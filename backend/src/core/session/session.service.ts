@@ -100,18 +100,20 @@ export class SessionService {
         return this.meetingService.get(session.meeting.id);
     }
 
-    changeDocumentPosition(id: string, position: { x:number, y: number }) {
-        this.meetingService.moveDocument(id, position);
+    changeDocumentPosition(id: string, position: { x:number, y: number }, rotation: number) {
+        this.meetingService.moveDocument(id, position, rotation);
     }
 
-    sendDocumentTo(documentId: string, userId: string) {
+    sendDocumentTo(documentId: string, userId: string, rotation: number) {
         const session = this.getSessionByDocument(documentId);
         if(!session)
             throw "Session not found."
         const user = session.users.find(u => u.id === userId);
-        if(!user)
-            throw "There is no user with this id in this session."
+        if(!user) {
+            console.log("USER NOT FOUND", session, user.id)
+            throw "There is no user with this id in this session.";
+        }
 
-        this.meetingService.duplicateDocument(documentId, user.location);
+        this.meetingService.duplicateDocument(documentId, user.location, rotation);
     }
 }

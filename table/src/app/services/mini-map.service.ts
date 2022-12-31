@@ -4,22 +4,22 @@ import DocumentModel from "../models/document.model";
 import {UserSession} from "../models/user-session";
 import {hostname} from "./server.config";
 import {Socket} from "ngx-socket-io";
+import {MeetingService} from "./meeting.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export default class MiniMapService {
-  constructor(private socket: Socket) {
+  constructor(private socket: Socket, private meetingService: MeetingService) {
 
   }
 
-  async sendFile(file: string, user: string) {
-    this.socket.emit('share-document', { id: file, user })
+  async sendFile(file: string, user: UserSession) {
+    //const fileToSend = {...file, position: {x: user.location.x, y: user.location.y}, rotation: user.location.y>window.window.innerHeight/2 ? 0 : 3.141};
+    this.socket.emit('share-document', { id: file, user: user.id, rotation: user.location.y>window.window.innerHeight/2 ? 0 : 3.141 })
   }
   async deleteIcon(file: DocumentModel) {
-    const index = this.documentService.files.indexOf(file)
-    this.documentService.files.splice(index, 1)
-    this.httpClient.delete(`http://${hostname}:3000/document/${file.name}`).subscribe()
+    await this.meetingService.removeDocument(file);
   }
 
 }

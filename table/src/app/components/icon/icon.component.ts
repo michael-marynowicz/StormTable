@@ -81,7 +81,7 @@ export class IconComponent implements OnInit {
     if(!this.hold) return;
     this.hold = false;
     //this.minimapVisible = false;
-    this.meetingService.moveDocument(this.doc);
+    //this.meetingService.moveDocument(this.doc);
   }
 
   showMinimap() {
@@ -90,7 +90,7 @@ export class IconComponent implements OnInit {
   }
 
   onSendToUser(users: UserSession[]) {
-    users.forEach(user => this.minimapService.sendFile(this.doc.id, user.id));
+    users.forEach(user => this.minimapService.sendFile(this.doc.id, user));
     this.minimapVisible = false;
   }
 
@@ -98,8 +98,14 @@ export class IconComponent implements OnInit {
     if (!$event) return;
     this.hold = false;
     const angle = Math.atan(($event.targetTouches[0].clientY - this.doc.position.y) / ($event.targetTouches[0].clientX - this.doc.position.x)) + (($event.targetTouches[0].clientX - this.doc.position.x) < 0 ? Math.PI : 0);
-    if (angle) this.doc.rotation = angle;
+    if (angle) {
+      this.doc.rotation = angle;
+    }
+
     console.log($event)
   }
 
+  endRotate() {
+    this.meetingService.moveDocument(this.doc);
+  }
 }

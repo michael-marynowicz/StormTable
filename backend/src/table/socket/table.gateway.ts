@@ -49,14 +49,14 @@ export class TableGateway {
 
     @SubscribeMessage('document-position')
     @UseFilters(new SocketErrorFilter())
-    moveDocument(@MessageBody() payload: { id: string, position: { x: number, y: number }}) {
-        this.sessionService.changeDocumentPosition(payload.id, payload.position);
+    moveDocument(@MessageBody() payload: { id: string, position: { x: number, y: number }, rotation: number }) {
+        this.sessionService.changeDocumentPosition(payload.id, payload.position, payload.rotation);
     }
 
     @SubscribeMessage('share-document')
     @UseFilters(new SocketErrorFilter())
-    shareDocument(@MessageBody() payload: { id: string, user: string }) {
-        this.sessionService.sendDocumentTo(payload.id, payload.user);
+    shareDocument(@MessageBody() payload: { id: string, user: string, rotation: number }) {
+        this.sessionService.sendDocumentTo(payload.id, payload.user, payload.rotation);
     }
 
 

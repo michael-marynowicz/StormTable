@@ -18,6 +18,10 @@ export class MeetingService {
   }
 
   moveDocument(doc: DocumentModel) {
-    this.socket.emit('document-position', { id: doc.id, position: doc.position })
+    this.socket.emit('document-position', { id: doc.id, position: doc.position, rotation: doc.rotation })
+  }
+
+  async removeDocument(doc: DocumentModel) {
+    await this.http.delete(`http://${hostname}:3000/document/${doc.id}`).toPromise();
   }
 }
