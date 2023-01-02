@@ -13,16 +13,12 @@ import {HttpClientModule} from "@angular/common/http";
 import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
 import { TableRuntimeComponent } from './pages/table-runtime/table-runtime.component';
 import { SpotComponent } from './components/spot/spot.component';
-import { TestPageComponent } from './pages/test-page/test-page.component';
 import {BrainstormElementComponentComponent} from "./components/brainstorm-element/brainstorm-element-component.component";
 import { PictureElementComponent } from './components/brainstorm-element/elements/picture-element/picture-element.component';
-import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
 import { IconComponent } from './components/icon/icon.component';
-import {PersonalSpaceComponent} from "./components/tool-bar/personal-space/personal-space.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {FormsModule} from "@angular/forms";
 import {DocumentElementComponent} from "./components/brainstorm-element/elements/document-element/document-element.component";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MiniMapComponent} from "./components/icon/mini-map/mini-map.component";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {NgxFileDropModule} from "ngx-file-drop";
@@ -43,13 +39,10 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     ListSelectionDialogComponent,
     TableRuntimeComponent,
     SpotComponent,
-    TestPageComponent,
     BrainstormElementComponentComponent,
     PictureElementComponent,
-    ToolBarComponent,
     DocumentElementComponent,
     IconComponent,
-    PersonalSpaceComponent,
     MiniMapComponent,
     UserStandComponent
   ],
