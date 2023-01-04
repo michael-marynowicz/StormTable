@@ -1,4 +1,13 @@
-import {Controller, Get, HttpException, HttpStatus, Param, Post, UploadedFile, UseInterceptors} from '@nestjs/common';
+import {
+    Controller, Delete,
+    Get,
+    HttpException,
+    HttpStatus,
+    Param,
+    Post,
+    UploadedFile,
+    UseInterceptors
+} from '@nestjs/common';
 import {FileInterceptor} from "@nestjs/platform-express";
 import {diskStorage} from "multer";
 import {DocumentService} from "./document.service";
@@ -66,6 +75,14 @@ export class DocumentController {
         if (!file)
             throw new HttpException('File not found.', HttpStatus.NOT_FOUND)
         return file;
+
+    }
+    @Delete(':name')
+    deleteFileByName(@Param('name') name: string){
+        const file = this.documentService.getAllFiles().find(file => file.name === name);
+        if (!file)
+            throw new HttpException('File not found.', HttpStatus.NOT_FOUND)
+        this.documentService.deleteFile(file);
 
     }
 }

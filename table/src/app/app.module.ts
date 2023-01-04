@@ -13,19 +13,18 @@ import {HttpClientModule} from "@angular/common/http";
 import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
 import { TableRuntimeComponent } from './pages/table-runtime/table-runtime.component';
 import { SpotComponent } from './components/spot/spot.component';
-import { TestPageComponent } from './pages/test-page/test-page.component';
 import {BrainstormElementComponentComponent} from "./components/brainstorm-element/brainstorm-element-component.component";
 import { PictureElementComponent } from './components/brainstorm-element/elements/picture-element/picture-element.component';
 import { IconComponent } from './components/icon/icon.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {FormsModule} from "@angular/forms";
 import {DocumentElementComponent} from "./components/brainstorm-element/elements/document-element/document-element.component";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MiniMapComponent} from "./components/icon/mini-map/mini-map.component";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {NgxFileDropModule} from "ngx-file-drop";
 import { UserStandComponent } from './components/user-stand/user-stand.component';
 import {MatIconModule} from "@angular/material/icon";
+import {QRCodeModule} from "angularx-qrcode";
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -41,7 +40,6 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     ListSelectionDialogComponent,
     TableRuntimeComponent,
     SpotComponent,
-    TestPageComponent,
     BrainstormElementComponentComponent,
     PictureElementComponent,
     DocumentElementComponent,
@@ -49,18 +47,20 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     MiniMapComponent,
     UserStandComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    SocketIoModule.forRoot(socketConfig),
-    HammerModule,
-    CdkDrag,
-    DragDropModule,
-    FormsModule,
-    NgxFileDropModule,
-    MatIconModule
-  ],
+
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        SocketIoModule.forRoot(socketConfig),
+        HammerModule,
+        CdkDrag,
+        DragDropModule,
+        FormsModule,
+        NgxFileDropModule,
+        QRCodeModule,
+        MatIconModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

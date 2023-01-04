@@ -2,7 +2,6 @@ import SpotModel from "../../models/spot.model";
 import TableModel from "../../models/table.model";
 import UserModel from "../../user/user.model";
 import MeetingModel from "../../models/meeting.model";
-import UserSession from "../work/user-session";
 import Session from "../work/session";
 import { UserService } from "../../user/user.service";
 import { TableService } from "../../table/table.service";

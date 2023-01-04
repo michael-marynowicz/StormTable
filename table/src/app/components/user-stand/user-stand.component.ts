@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {UserModel} from "../../models/user.model";
 import {UserSession} from "../../models/user-session";
 import {transform} from "../../../utils/style.utils";
 import {fromPosition} from "../../models/viewport.model";
@@ -13,10 +12,15 @@ export class UserStandComponent {
   @Input() user!: UserSession;
 
   get positionStyle() {
+    this.user.location.y = this.user.location.y>window.window.innerHeight/2 ? window.window.innerHeight-(window.window.innerHeight/5) : window.window.innerHeight/5
     return transform(fromPosition(this.user.location.x, this.user.location.y))
   }
 
   get username() {
     return this.user.user.name;
+  }
+
+  get rotation(){
+    return this.user.location.y>window.window.innerHeight/2 ? 0 : 180;
   }
 }
