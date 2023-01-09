@@ -24,6 +24,7 @@ import {CdkDrag} from "@angular/cdk/drag-drop";
 import {NgxFileDropModule} from "ngx-file-drop";
 import { UserStandComponent } from './components/user-stand/user-stand.component';
 import {QRCodeModule} from "angularx-qrcode";
+import { DirectoryComponent } from './components/icon/directory/directory.component';
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
 
@@ -44,7 +45,8 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000', options: {}}
     DocumentElementComponent,
     IconComponent,
     MiniMapComponent,
-    UserStandComponent
+    UserStandComponent,
+    DirectoryComponent
   ],
     imports: [
         BrowserModule,
