@@ -10,9 +10,9 @@ export class DirectoryGateway{
     @SubscribeMessage('directory')
     onNewDocument(){
         var acc=1;
-        var dir = './dir'+acc;
+        var dir = './files/dir'+acc;
         while (fs.existsSync(dir)){
-            dir = './dir'+ (++acc);
+            dir = './files/dir'+ (++acc);
 
         }
         if(!fs.existsSync(dir))fs.mkdirSync(dir);

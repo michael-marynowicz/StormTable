@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import SessionService from "../../services/session.service";
 import {Session} from "../../models/session.model";
-import DocumentModel from "../../models/document.model";
 import {DocumentService} from "../../services/document.service";
 
 @Component({
