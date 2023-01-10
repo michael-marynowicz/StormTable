@@ -3,23 +3,28 @@ import {Socket} from "ngx-socket-io";
 import {Session as SessionModel} from "../models/session.model";
 import {AlertService, ErrorAlert} from "./alert.service";
 import {BehaviorSubject} from "rxjs";
+import DocumentModel from "../models/document.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class GatewayService {
   private session?: SessionModel;
-  public session$ = new BehaviorSubject<SessionModel|undefined>(undefined)
+  public session$ = new BehaviorSubject<SessionModel | undefined>(undefined)
 
   constructor(private socket: Socket, alertService: AlertService) {
-    this.socket.on('error', (data: { type: string, message: string}) => {
+    this.socket.on('error', (data: { type: string, message: string }) => {
       alertService.showDialog(new ErrorAlert(data.type, data.message))
     })
   }
 
-  createSession(meetingId: string) {
+  createSession() {
     this.socket.on('session_created', (data: { session: SessionModel }) => {
       this.session = data.session
     });
+  }
+
+  moveDocument(document: DocumentModel) {
+    this.socket.emit('document-position', {id: document.id, position: document.position})
   }
 }

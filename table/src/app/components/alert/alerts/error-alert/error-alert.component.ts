@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AlertContent, ErrorAlert} from "../../../../services/alert.service";
+import {AlertContent} from "../../../../services/alert.service";
 
 @Component({
   selector: 'app-error-alert',
@@ -10,7 +10,8 @@ export class ErrorAlertComponent implements OnInit {
   @Input()
   alert!: AlertContent
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

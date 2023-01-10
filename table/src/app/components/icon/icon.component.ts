@@ -7,6 +7,7 @@ import {Session} from "../../models/session.model";
 import {DocumentService} from "../../services/document.service";
 import MiniMapService from 'src/app/services/mini-map.service';
 import {UserSession} from "../../models/user-session";
+import {MeetingService} from "../../services/meeting.service";
 import {hostname} from "../../services/server.config";
 
 @Component({
@@ -15,9 +16,8 @@ import {hostname} from "../../services/server.config";
   styleUrls: ['./icon.component.less']
 })
 export class IconComponent implements OnInit {
-
-  @Input() doc!: DocumentModel;
-
+  @Input() docId!: string;
+  doc!: DocumentModel;
   session!: Session
 
   private URL = `http://${hostname}:3000/`
@@ -36,9 +36,10 @@ export class IconComponent implements OnInit {
   @Input() edit: boolean = false;
   @Input() docPath!: string;
 
-  constructor(private iconService: IconService, private sanitizer: DomSanitizer,public documentService: DocumentService, private minimapService: MiniMapService) {
+  constructor(private iconService: IconService, private sanitizer: DomSanitizer,public documentService: DocumentService, private minimapService: MiniMapService, private meetingService: MeetingService) {
     this.docPath = this.URL + this.documentService.files[this.documentService.files.length-1].path.replace("\\","/");
     //todo get the specific file pinched
+
   }
 
   pinch(){
@@ -55,13 +56,16 @@ export class IconComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.docPath = "../../../../../../../backend/" + this.doc.path.replace("\\","/");
+    const doc = this.documentService.getDocument(this.docId);
+    if(!doc) throw new Error("Document not found")
+    this.doc = doc;
     this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.URL + this.doc.path)
     console.log("safeurl",this.safeURL);
     this.docName  = this.doc.name.split(".", 3);
   }
 
   private hold = false;
+
   mousedown() {
     this.dragStart()
     document.addEventListener('mouseup', () => {
@@ -78,7 +82,7 @@ export class IconComponent implements OnInit {
       this.dragEnd()
     });
     document.addEventListener('touchmove', (event) => {
-      this.dragging({ x: event.touches[0].clientX, y: event.touches[0].clientY });
+      this.dragging({x: event.touches[0].clientX, y: event.touches[0].clientY});
     });
   }
 
@@ -87,23 +91,26 @@ export class IconComponent implements OnInit {
   }
 
   private dragging(position: { x: number, y: number } = {x: 0, y: 0}) {
-    if(this.hold) {
+    if (this.hold) {
       this.doc.position.x = position.x - 30;
       this.doc.position.y = position.y - 30;
     }
   }
 
   private dragEnd() {
+    if (!this.hold) return;
     this.hold = false;
+    //this.minimapVisible = false;
+    this.meetingService.moveDocument(this.doc);
   }
 
   showMinimap() {
     this.minimapVisible = true;
-    this.dropPoint = { x: 110, y: 70}
+    this.dropPoint = {x: 110, y: 70}
   }
 
   onSendToUser(users: UserSession[]) {
-    users.forEach(user => {this.minimapService.sendFile(this.doc, user)});
+    users.forEach(user => this.minimapService.sendFile(this.doc.id, user));
     this.minimapVisible = false;
   }
 
@@ -114,6 +121,11 @@ export class IconComponent implements OnInit {
     const angle = Math.atan(($event.targetTouches[0].clientY - this.doc.position.y) / ($event.targetTouches[0].clientX - this.doc.position.x)) + (($event.targetTouches[0].clientX - this.doc.position.x) < 0 ? Math.PI : 0);
     if (angle) this.doc.rotation = angle;
     console.log('rotate');
+
+
   }
 
+  endRotate() {
+    this.meetingService.moveDocument(this.doc);
+  }
 }

@@ -7,7 +7,7 @@ export default interface ViewportModel {
 export function fromPosition(x: number, y: number): ViewportModel {
   return {
     rotation: 0,
-    position: { x, y},
-    size: { width: -1, height: -1 }
+    position: {x, y},
+    size: {width: -1, height: -1}
   }
 }

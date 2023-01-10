@@ -2,8 +2,8 @@ import {Component, Input} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import SessionService from "../../services/session.service";
 import {Session} from "../../models/session.model";
-import {DocumentService} from "../../services/document.service";
 import DocumentModel from "../../models/document.model";
+import {DocumentService} from "../../services/document.service";
 
 @Component({
   selector: 'app-table-runtime',
@@ -21,10 +21,15 @@ export class TableRuntimeComponent {
   }
 
   session?: Session;
+  documents: string[] = []
 
-  constructor(aroute: ActivatedRoute, private sessionService: SessionService, public documentService: DocumentService) {
+  constructor(aroute: ActivatedRoute, private sessionService: SessionService, private documentService: DocumentService) {
     sessionService.session$.subscribe(session => {
+      if(!session) return;
       this.session = session
+    });
+    documentService.documents$.subscribe(documents => {
+      this.documents = documents;
     });
     aroute.params.subscribe((_) => {
       const id = aroute.snapshot.params["meetingId"]
@@ -39,6 +44,4 @@ export class TableRuntimeComponent {
     this.sessionService.createSpot({x: event.clientX, y: event.clientY})
   }
 
-  simpleTap(event: MouseEvent) {
-  }
 }

@@ -1,10 +1,11 @@
 import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway } from "@nestjs/websockets";
-import { Socket } from "socket.io";
 
 @WebSocketGateway()
 export class ClientGateway {
-  @SubscribeMessage('user_join')
-  userJoin(@MessageBody() content: { spotId: string }, @ConnectedSocket() socket: Socket) {
-
+  @SubscribeMessage('test')
+  test(@MessageBody() body: { message: string }, @ConnectedSocket() socket) {
+    console.log(body.message);
+    socket.emit('test', {message: 'test'})
   }
+
 }

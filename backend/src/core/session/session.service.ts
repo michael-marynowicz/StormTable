@@ -1,16 +1,17 @@
 import {Injectable, Scope} from "@nestjs/common";
-import Session from "./work/session";
+import Session from "../models/session/work/session";
 import {BehaviorSubject, Subject} from "rxjs";
 import {v4 as new_guid} from "uuid";
-import TableSession from "./work/table-session";
+import TableSession from "../models/session/work/table-session";
 import {Socket} from "socket.io";
 import {MeetingService} from "../meeting/meeting.service";
 import {UserService} from "../user/user.service";
-import SessionDto, {aggregateDto} from "./dto/session.dto";
 import {TableService} from "../table/table.service";
 import TableNotFound from "../errors/table-not-found.error";
 import MeetingNotFound from "../errors/meeting-not-found.error";
 import SessionNotFoundError from "../errors/session-not-found.error";
+import SessionDto from "../models/session/dto/session.dto";
+import { aggregateDto } from "./session.dto-converter";
 
 @Injectable({
     scope: Scope.DEFAULT
@@ -22,6 +23,11 @@ export class SessionService {
     sessionChanged = new Subject<Session>()
 
     constructor(private userService: UserService, private meetingService: MeetingService, private tableService: TableService) {
+        meetingService.meetingChanged$.subscribe(meetingId => {
+            const session = this.getSessionByMeeting(meetingId);
+            if(session)
+                this.sessionChanged.next(session);
+        })
     }
 
     getAggregatedSession(session: Session): SessionDto {
@@ -74,5 +80,40 @@ export class SessionService {
             location: spot.location
         })
         this.sessionChanged.next(session)
+    }
+
+    getSessionByUser(user: string) {
+        return Object.values(this.sessions).find(s => !!s.users.find(u => u.id === user))
+    }
+
+    getSessionByMeeting(meetingId: string) {
+        return Object.values(this.sessions).find(s => s.meeting.id === meetingId);
+    }
+
+    getSessionByDocument(documentId: string) {
+        return Object.values(this.sessions).find(s => this.meetingService.get(s.meeting.id).documents.find(d => d.id === documentId))
+    }
+
+    getMeetingByUser(userId:string) {
+        const session = this.getSessionByUser(userId);
+        if(!session) return undefined;
+        return this.meetingService.get(session.meeting.id);
+    }
+
+    changeDocumentPosition(id: string, position: { x:number, y: number }, rotation: number) {
+        this.meetingService.moveDocument(id, position, rotation);
+    }
+
+    sendDocumentTo(documentId: string, userId: string, rotation: number) {
+        const session = this.getSessionByDocument(documentId);
+        if(!session)
+            throw "Session not found."
+        const user = session.users.find(u => u.id === userId);
+        if(!user) {
+            console.log("USER NOT FOUND", session, user.id)
+            throw "There is no user with this id in this session.";
+        }
+
+        this.meetingService.duplicateDocument(documentId, user.location, rotation);
     }
 }

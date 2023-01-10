@@ -13,7 +13,8 @@ export class AlertComponent implements OnInit {
 
   @Output() close: EventEmitter<null> = new EventEmitter<null>()
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

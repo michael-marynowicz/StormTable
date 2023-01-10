@@ -7,28 +7,39 @@ import { SelectUserPageComponent } from './pages/select-user-page/select-user-pa
 import {HttpClientModule} from "@angular/common/http";
 import { PromptSpotIdComponent } from './pages/prompt-spot-id/prompt-spot-id.component';
 import {FormsModule} from "@angular/forms";
-import { AuthenticatedPageComponent } from './pages/authenticated-page/authenticated-page.component';
 import { SelectUserComponent } from './components/select-user/select-user.component';
 import { SpotPageComponent } from './pages/spot-page/spot-page.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { SuccessPageComponent } from './pages/success-page/success-page.component';
+import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { PageLayoutComponent } from './components/page-layout/page-layout.component';
+import { LoginComponent } from './pages/login/login.component';
+import { UploadFileComponent } from './pages/upload-file/upload-file.component';
+
+const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/client', options: {
+}}
 
 @NgModule({
   declarations: [
     AppComponent,
     SelectUserPageComponent,
     PromptSpotIdComponent,
-    AuthenticatedPageComponent,
     SelectUserComponent,
     SpotPageComponent,
     WelcomeComponent,
-    SuccessPageComponent
+    SuccessPageComponent,
+    HomePageComponent,
+    PageLayoutComponent,
+    LoginComponent,
+    UploadFileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    SocketIoModule.forRoot(socketConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]
