@@ -37,7 +37,7 @@ export class IconComponent implements OnInit {
   @Input() docPath!: string;
 
   constructor(private iconService: IconService, private sanitizer: DomSanitizer,public documentService: DocumentService, private minimapService: MiniMapService, private meetingService: MeetingService) {
-    this.docPath = this.URL + this.documentService.files[this.documentService.files.length-1].path.replace("\\","/");
+    //this.docPath = this.URL + this.documentService.files[this.documentService.files.length-1].path.replace("\\","/");
     //todo get the specific file pinched
 
   }
