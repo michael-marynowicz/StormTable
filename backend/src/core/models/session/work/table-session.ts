@@ -1,4 +1,4 @@
-import SpotModel from "../../models/spot.model";
+import SpotModel from "../../spot.model";
 
 export default interface TableSession {
   id: string;

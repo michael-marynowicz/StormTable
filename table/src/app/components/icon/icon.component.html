@@ -5,7 +5,7 @@
      (dblclick)="load()"
      [ngStyle]="{'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'rad'}"
 >
-  <i class="fas fa-redo" (touchmove)="setRotation($event)" [ngStyle]="{'padding':'1%'}"></i>
+  <i class="fas fa-redo" (touchmove)="setRotation($event)" (touchend)="endRotate()" [ngStyle]="{'padding':'1%'}"></i>
   <img *ngIf="isOpen===false" [src]=safeURL alt="{{doc.name}}"/>
   <div *ngIf="isOpen===true">
     <button class="btn-close" aria-label="Close" type="button" (click)="isOpen=false"></button>

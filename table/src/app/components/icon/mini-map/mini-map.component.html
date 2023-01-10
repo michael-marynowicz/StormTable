@@ -1,6 +1,7 @@
 <button class="btn-close" aria-label="Close" type="button" (click)="close.emit()"></button>
 <div class="mini-map">
-  <button type="button" class="btn btn-secondary" *ngFor="let user of getUsers()" (click)="sendTo([user])">{{getUsername(user)}}</button>
+  <button type="button" class="btn btn-secondary" *ngFor="let user of getUsers()"
+          (click)="sendTo([user])">{{getUsername(user)}}</button>
   <button type="button" class="btn btn-secondary" (click)="sendTo(getUsers())">everyone</button>
   <app-directory></app-directory>
   <button type="button" class="btn btn-danger" (click)=deleteIcon()><i class="fa-solid fa-trash icon"></i></button>

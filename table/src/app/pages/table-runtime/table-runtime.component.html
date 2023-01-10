@@ -1,8 +1,8 @@
-<div class="table" (dblclick)="doubleTap($event)" (click)="simpleTap($event)">
+<div class="table" (dblclick)="doubleTap($event)">
   <app-spot [spot]="spot" *ngFor="let spot of spots"></app-spot>
   <app-user-stand [user]="user" *ngFor="let user of users"></app-user-stand>
-  <div style="position: absolute; width: 0; height: 0;" (dblclick)="$event.stopImmediatePropagation()" >
-    <app-icon [doc]="doc" *ngFor="let doc of documentService.files" (click)="$event.stopImmediatePropagation()"
+  <div style="position: absolute; width: 0; height: 0;" (dblclick)="$event.stopImmediatePropagation()">
+    <app-icon [docId]="doc" *ngFor="let doc of documents" (click)="$event.stopImmediatePropagation()"
               style="width: 0; height: 0; position: absolute; top: 0; left: 0"></app-icon>
   </div>
 </div>

@@ -6,7 +6,9 @@ import DocumentModel from "../../models/document.model";
 import {Session} from "../../models/session.model";
 import MiniMapService from "../../services/mini-map.service";
 import {UserSession} from "../../models/user-session";
+import {MeetingService} from "../../services/meeting.service";
 import {hostname} from "../../services/server.config";
+import {DocumentService} from "../../services/document.service";
 
 @Component({
   selector: 'app-icon',
@@ -14,9 +16,8 @@ import {hostname} from "../../services/server.config";
   styleUrls: ['./icon.component.less']
 })
 export class IconComponent implements OnInit {
-
-  @Input() doc!: DocumentModel;
-
+  @Input() docId!: string;
+  doc!: DocumentModel;
   session!: Session
 
   private URL = `http://${hostname}:3000/`
@@ -30,9 +31,9 @@ export class IconComponent implements OnInit {
   minimapVisible: boolean = false;
 
   dropPoint = {x: 0, y: 0};
-  rotation=0;
+  rotation = 0;
 
-  constructor(private iconService: IconService, private sanitizer: DomSanitizer, private minimapService: MiniMapService) {
+  constructor(private iconService: IconService, private sanitizer: DomSanitizer, private minimapService: MiniMapService, private meetingService: MeetingService, private documentService: DocumentService) {
   }
 
   load() {
@@ -41,10 +42,14 @@ export class IconComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const doc = this.documentService.getDocument(this.docId);
+    if(!doc) throw new Error("Document not found")
+    this.doc = doc;
     this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.URL + this.doc.path)
   }
 
   private hold = false;
+
   mousedown() {
     this.dragStart()
     document.addEventListener('mouseup', () => {
@@ -61,7 +66,7 @@ export class IconComponent implements OnInit {
       this.dragEnd()
     });
     document.addEventListener('touchmove', (event) => {
-      this.dragging({ x: event.touches[0].clientX, y: event.touches[0].clientY });
+      this.dragging({x: event.touches[0].clientX, y: event.touches[0].clientY});
     });
   }
 
@@ -70,23 +75,26 @@ export class IconComponent implements OnInit {
   }
 
   private dragging(position: { x: number, y: number } = {x: 0, y: 0}) {
-    if(this.hold) {
+    if (this.hold) {
       this.doc.position.x = position.x - 30;
       this.doc.position.y = position.y - 30;
     }
   }
 
   private dragEnd() {
+    if (!this.hold) return;
     this.hold = false;
+    //this.minimapVisible = false;
+    this.meetingService.moveDocument(this.doc);
   }
 
   showMinimap() {
     this.minimapVisible = true;
-    this.dropPoint = { x: 110, y: 70}
+    this.dropPoint = {x: 110, y: 70}
   }
 
   onSendToUser(users: UserSession[]) {
-    users.forEach(user => {this.minimapService.sendFile(this.doc, user)});
+    users.forEach(user => this.minimapService.sendFile(this.doc.id, user));
     this.minimapVisible = false;
   }
 
@@ -94,7 +102,14 @@ export class IconComponent implements OnInit {
     if (!$event) return;
     this.hold = false;
     const angle = Math.atan(($event.targetTouches[0].clientY - this.doc.position.y) / ($event.targetTouches[0].clientX - this.doc.position.x)) + (($event.targetTouches[0].clientX - this.doc.position.x) < 0 ? Math.PI : 0);
-    if (angle) this.doc.rotation = angle;
+    if (angle) {
+      this.doc.rotation = angle;
+    }
+
+    console.log($event)
   }
 
+  endRotate() {
+    this.meetingService.moveDocument(this.doc);
+  }
 }

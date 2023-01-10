@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PictureElementComponent } from './picture-element.component';
+import {PictureElementComponent} from './picture-element.component';
 
 describe('PictureElementComponent', () => {
   let component: PictureElementComponent;
@@ -8,9 +8,9 @@ describe('PictureElementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PictureElementComponent ]
+      declarations: [PictureElementComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(PictureElementComponent);
     component = fixture.componentInstance;

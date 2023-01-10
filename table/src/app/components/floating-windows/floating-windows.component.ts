@@ -9,7 +9,8 @@ export class FloatingWindowsComponent implements OnInit {
 
   @Output() clickOutside: EventEmitter<null> = new EventEmitter<null>();
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

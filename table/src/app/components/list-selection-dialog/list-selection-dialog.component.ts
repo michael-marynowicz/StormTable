@@ -10,7 +10,9 @@ export class ListSelectionDialogComponent implements OnInit {
   @Input() header!: string;
   @Input() elements: { id: string, label: string }[] = []
   @Output() elementClicked = new EventEmitter<string>()
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

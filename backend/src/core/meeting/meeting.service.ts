@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import MeetingModel from "../models/meeting.model";
-import { BehaviorSubject } from "rxjs";
+import { Subject } from "rxjs";
+import DocumentModel from "../models/document.model";
 
 @Injectable()
 export class MeetingService {
@@ -11,13 +12,60 @@ export class MeetingService {
       documents: []
     }
   ]
-  subject: BehaviorSubject<{ meetingId: string|undefined }> = new BehaviorSubject<{ meetingId: string|undefined }>({ meetingId: undefined });
-
+  meetingChanged$ = new Subject<string>();
   getAll() {
     return this.meetings;
   }
 
   get(id: string) {
     return this.meetings.find(m => m.id === id);
+  }
+
+  getByDocument(documentId: string) {
+    return this.meetings.find(m => m.documents.find(d => d.id === documentId));
+  }
+
+  putDocument(id: string, doc: DocumentModel) {
+    const meeting = this.meetings.find(m => m.id === id)
+    if(!meeting)
+      throw 'Meeting not found.'
+    meeting.documents.push(doc)
+    this.meetingChanged$.next(id);
+  }
+
+  moveDocument(id: string, position: {x: number; y: number}, rotation: number) {
+    const meeting = this.meetings.find(m => m.documents.find(d => d.id === id));
+    if(!meeting)
+      throw 'Meeting not found.'
+    const document = meeting.documents.find(d => d.id === id)!;
+    document.position = position;
+    document.rotation = rotation;
+    this.meetingChanged$.next(meeting.id);
+  }
+
+  duplicateDocument(source: string, position: { x: number, y: number }, rotation: number) {
+    const meeting = this.meetings.find(m => m.documents.find(d => d.id === source));
+    if(!meeting)
+      throw 'Meeting not found.'
+    const document = meeting.documents.find(d => d.id === source)!;
+
+    meeting.documents.push(Object.assign({}, document, { id: Math.random().toString(36).substring(7), position, rotation }));
+    this.meetingChanged$.next(meeting.id);
+  }
+
+  deleteDocument(id: string) {
+    const meeting = this.meetings.find(m => m.documents.find(d => d.id === id));
+    if(!meeting)
+      throw 'Meeting not found.'
+    meeting.documents = meeting.documents.filter(d => d.id !== id);
+    this.meetingChanged$.next(meeting.id);
+  }
+
+  deleteDocumentByName(name: string) {
+    const meeting = this.meetings.find(m => m.documents.find(d => d.name === name));
+    if(!meeting)
+      throw 'Meeting not found.'
+    meeting.documents = meeting.documents.filter(d => d.name !== name);
+    this.meetingChanged$.next(meeting.id);
   }
 }

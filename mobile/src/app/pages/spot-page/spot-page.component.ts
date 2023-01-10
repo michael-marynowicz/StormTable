@@ -19,12 +19,15 @@ export class SpotPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.authService.currentUser && this.spotId) {
+      this.authenticate(this.authService.currentUser)
+    }
   }
 
   authenticate(user: UserModel) {
     if(!this.spotId) return;
     this.authService.auth(this.spotId, user.id).then(() => {
-      this.router.navigate(['success'])
+      this.router.navigate(['home'])
     })
   }
 }

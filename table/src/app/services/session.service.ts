@@ -1,38 +1,32 @@
 import {Injectable} from "@angular/core";
-import {Subject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 import {Socket} from "ngx-socket-io";
 import {HttpClient} from "@angular/common/http";
 import {Session} from "../models/session.model";
 import {hostname} from "./server.config";
+import {DocumentService} from "./document.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export default class SessionService {
   private session?: Session;
-  public session$ = new Subject<Session>();
-
+  session$ = new BehaviorSubject<Session|undefined>(undefined);
   private tableId = "00bb39f2-eb16-45cf-ad7e-1c7c37b1ed2f";
 
-  constructor(private socket: Socket, private http: HttpClient) {
-    socket.on('session', (content: { session: Session }) => console.log(content.session.table.spots.length))
-  }
-
-  getSession() {
-    return this.session;
+  constructor(private socket: Socket, private http: HttpClient, private documentService: DocumentService) {
   }
 
   createSession(meetingId: string) {
     this.socket.on("session_created", (content: { session: Session }) => {
-      this.session = content.session;
-      this.session$.next(this.session)
+      this.inflateSession(content.session);
       console.log("Created session: " + content.session.id);
     })
     this.socket.on('session', (content: { session: Session }) => {
-      console.log("Update session: " + JSON.stringify(content))
+      console.log("Update session: ", content.session);
+      console.log("Spots: ", content.session.table.spots.map(s => s.id));
       if (content.session.id === this.session?.id) {
-        this.session = content.session;
-        this.session$.next(this.session);
+        this.inflateSession(content.session)
       }
     })
     this.socket.emit("create_session", {
@@ -46,27 +40,10 @@ export default class SessionService {
     this.socket.emit("create_spot", {location})
   }
 
-  fetchSession(sessionId: string) {
-    this.http.get<Session>(`http://${hostname}:3000/session/` + sessionId).subscribe(session => {
-      this.sessionUpdated({session})
-    }, error => {
-      throw error
-    })
-  }
-
-
-  private sessionCreated(content: { session: Session }) {
-    this.sessionUpdated(content);
-  }
-
-
-  private sessionUpdated(content: { session: Session }) {
-    this.session = content.session;
-    this.session$.next(this.session);
-  }
-
-  public triggerSubject() {
-    if (!this.session) return;
-    this.session$.next(this.session)
+  private inflateSession(session: Session) {
+    this.session = session;
+    this.session$.next(session);
+    console.log("Documents: ", session.meeting.meeting.documents)
+    this.documentService.inflateDocuments(session.meeting.meeting.documents);
   }
 }

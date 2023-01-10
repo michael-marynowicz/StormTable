@@ -1,54 +1,39 @@
+import { Injectable } from '@angular/core';
+import {BehaviorSubject, Subject} from "rxjs";
 import DocumentModel from "../models/document.model";
-import {Injectable} from "@angular/core";
-import {io} from "socket.io-client";
-import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject} from "rxjs";
-import {hostname} from "./server.config";
+
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
 
-  socket = io(`http://${hostname}:3000`)
+  private documents: DocumentModel[] = [];
+  documents$ = new BehaviorSubject<string[]>(this.documents.map(d => d.id));
+  documentChanged$ = new Subject<DocumentModel>();
 
-  public files: DocumentModel[] = [];
+  constructor() { }
 
-  public files$ = new BehaviorSubject<DocumentModel[]>([]);
+  inflateDocuments(documents: DocumentModel[]) {
+    if(this.documents.length !== documents.length) {
+      console.log("Update document ids: ", documents)
+      this.documents$.next(documents.map(d => d.id));
+    }
 
-  constructor(private httpClient: HttpClient) {
-    console.log("the table get the file")
-    this.socket.on("document", async () => {
-      await this.fetchAllFiles();
-    })
+    // Update already exists
+    const alreadyExists = documents.filter(d => this.documents.find(e => e.id === d.id));
+    alreadyExists.forEach(d => this.documentChanged(d));
+
+    this.documents = documents;
   }
 
-
-  getAllFiles() {
-    return this.files;
-
+  private documentChanged(document: DocumentModel) {
+    const existing = this.documents.find(d => d.id === document.id);
+    if(!existing) throw new Error("Document not found");
+    Object.assign(existing, document);
+    this.documentChanged$.next(document);
   }
 
-  addFile(doc: DocumentModel) {
-    this.files.push(doc)
-    this.files$.next(this.files)
+  getDocument(documentId: string) {
+    return this.documents.find(d => d.id === documentId);
   }
-
-  async fetchAllFiles() {
-    await this.httpClient.get<DocumentModel[]>(`http://${hostname}:3000/document/files`).subscribe(files => {
-      files.map(file => {
-        if (!this.files.includes(file)) this.files.push(file)
-      })
-      this.files$.next(this.files)
-    })
-
-  }
-
-  async fetchFiles() {
-    return new Promise<DocumentModel[]>((resolve, reject) =>
-      this.httpClient.get<DocumentModel[]>(`http://${hostname}:3000/document/files`).subscribe(files => {
-        this.files = files;
-        resolve(this.files);
-      }, error => reject(error)))
-  }
-
 }
