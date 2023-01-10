@@ -33,7 +33,7 @@ export class IconComponent implements OnInit {
   dropPoint = {x: 0, y: 0};
   rotation=0;
   @Input() docName! : string[];
-  @Input() edit: boolean = true;
+  @Input() edit: boolean = false;
   @Input() docPath!: string;
 
   constructor(private iconService: IconService, private sanitizer: DomSanitizer,public documentService: DocumentService, private minimapService: MiniMapService) {

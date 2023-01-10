@@ -9,7 +9,7 @@ import {MiniMapComponent} from "./components/icon/mini-map/mini-map.component";
 const routes: Routes = [
   { path: '', component: SelectMeetingPageComponent },
   { path: 'meeting/:meetingId', component: TableRuntimeComponent },
-  {path: 'personalSpace', component:TableRuntimeComponent}
+  {path: 'personalSpace', component:IconComponent}
 ];
 
 @NgModule({
