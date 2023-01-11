@@ -12,6 +12,6 @@ import { UserService } from "./user/user.service";
 @Module({
   controllers: [MeetingController, UserController, SessionController,DocumentController, TestController],
   providers: [MeetingService, SessionService, TableService, UserService],
-  exports: [SessionService]
+  exports: [SessionService, MeetingService]
 })
 export class CoreModule {}

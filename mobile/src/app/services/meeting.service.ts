@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {MeetingModel} from "../models/meeting.model";
 import {serverHostname} from "./host.config";
 import {UserService} from "./user.service";
+import {DocumentModel} from "../models/document.model";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class MeetingService {
     if(!currentUser)
       throw 'User not logged.'
     this._meeting = await this.http
-      .get<MeetingModel>(`${serverHostname}/meeting/by_user/${currentUser}`)
+      .get<MeetingModel>(`{main}/meeting/by_user/${currentUser}`)
       .toPromise();
     if(!this._meeting)
       throw 'Fail to fetch meeting.'
@@ -35,6 +36,14 @@ export class MeetingService {
     const data = new FormData();
     files.forEach(file => data.append("file",file));
     data.append('user', this.userService.currentUser!.id);
-    await this.http.post(`${serverHostname}/document/upload`,data).toPromise();
+    await this.http.post(`{main}/document/upload`,data).toPromise();
+  }
+
+  async getDocuments(): Promise<DocumentModel[]> {
+    return this.http.get<DocumentModel[]>('{main}/meeting/current/files').toPromise().then(documents => {
+      if(!documents)
+        return [];
+      return documents;
+    });
   }
 }
