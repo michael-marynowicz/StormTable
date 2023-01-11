@@ -1,5 +1,10 @@
-<app-page-layout *ngIf="meeting">
-  <h1>Meeting: {{meeting.name}}</h1>
-  <app-file-view [documents]="meeting.documents"></app-file-view>
+<app-page-layout>
+  <div class="in-meeting" *ngIf="meeting">
+    <h1>Meeting: {{meeting.name}}</h1>
+    <app-file-view [documents]="meeting.documents"></app-file-view>
+  </div>
+  <div class="out-meeting" *ngIf="!meeting">
+    <h1>Not in a meeting</h1>
+  </div>
+
 </app-page-layout>
-<h1 *ngIf="!meeting">Loading...</h1>

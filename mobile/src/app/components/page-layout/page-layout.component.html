@@ -11,7 +11,9 @@
             <a
               class="nav-link {{ item.disabled || (!item.clicked && !item.link) ? 'disabled' : ''}}"
               [href]="item.link || '#'"
-              (click)="item.clicked?.()">{{item.label}}</a>
+              (click)="item.clicked?.()"
+              [ngClass]="{ 'active': page === item.link }"
+            >{{item.label}}</a>
           </li>
         </ul>
       </div>
