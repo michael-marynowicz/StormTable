@@ -23,6 +23,10 @@ export class PageLayoutComponent implements OnInit {
       label: 'Files',
       disabled: false,
       link: '/files'
+    }, {
+      label: 'Meetings',
+      disabled: false,
+      link: '/meetings'
     }
   ];
 

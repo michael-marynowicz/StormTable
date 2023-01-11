@@ -116,4 +116,8 @@ export class SessionService {
 
         this.meetingService.duplicateDocument(documentId, user.location, rotation);
     }
+
+    getAllSessionsByUser(user: string) {
+        return Object.values(this.sessions).filter(m => m.users.find(u => u.id === user));
+    }
 }

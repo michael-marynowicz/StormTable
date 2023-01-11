@@ -32,6 +32,23 @@ export class MeetingService {
     return this.meeting;
   }
 
+  async getMeetings(): Promise<MeetingModel[]> {
+    return this.http.get<MeetingModel[]>("{main}/meeting").toPromise().then(meetings => {
+      if(!meetings)
+        return [];
+      return meetings;
+    });
+  }
+
+  async getImplications(): Promise<MeetingModel[]> {
+    return this.http.get<MeetingModel[]>("{main}/meeting/implications").toPromise().then(meetings => {
+      console.log("Fetched meetings: ", meetings)
+      if(!meetings)
+        return [];
+      return meetings;
+    })
+  }
+
   async uploadFile(files: File[]) {
     const data = new FormData();
     files.forEach(file => data.append("file",file));
@@ -44,6 +61,22 @@ export class MeetingService {
       if(!documents)
         return [];
       return documents;
+    });
+  }
+
+  async getDocumentInMeeting(meeting: string): Promise<DocumentModel[]> {
+    return this.http.get<DocumentModel[]>(`{main}/meeting/${meeting}/files`).toPromise().then(documents => {
+      if(!documents)
+        return []
+      return documents;
+    })
+  }
+
+  getMeeting(meetingId: string) {
+    return this.http.get<MeetingModel>('{main}/meeting/' + meetingId).toPromise().then(meeting => {
+      if(!meeting)
+        throw "Meeting not found.";
+      return meeting;
     });
   }
 }

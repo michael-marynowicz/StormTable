@@ -1,0 +1,9 @@
+<app-page-layout>
+  <h1 *ngIf="!meeting">Loading...</h1>
+  <div class="container" *ngIf="meeting">
+    <h1>{{meeting.name}}</h1>
+    <h2>Documents: </h2>
+    <app-file-view [documents]="meeting.documents"></app-file-view>
+  </div>
+</app-page-layout>
+

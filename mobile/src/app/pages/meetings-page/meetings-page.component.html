@@ -1,0 +1,11 @@
+<app-page-layout>
+  <h1 *ngIf="!meetings">Loading...</h1>
+  <div class="container-sm">
+    <h1>Meetings</h1>
+    <div class="list-group">
+      <a href="/meetings/{{meeting.id}}" class="list-group-item list-group-item-action" aria-current="true" *ngFor="let meeting of meetings">
+        {{meeting.name}}
+      </a>
+    </div>
+  </div>
+</app-page-layout>

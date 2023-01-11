@@ -19,6 +19,8 @@ import { UploadFileComponent } from './pages/upload-file/upload-file.component';
 import { FileViewComponent } from './components/file-view/file-view.component';
 import {UserInterceptor} from "./services/user.interceptor";
 import {DomainInterceptor} from "./services/domain.interceptor";
+import { MeetingsPageComponent } from './pages/meetings-page/meetings-page.component';
+import { MeetingPageComponent } from './pages/meeting-page/meeting-page.component';
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/client', options: {
 }}
@@ -36,7 +38,9 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/client', option
     PageLayoutComponent,
     LoginComponent,
     UploadFileComponent,
-    FileViewComponent
+    FileViewComponent,
+    MeetingsPageComponent,
+    MeetingPageComponent
   ],
   imports: [
     BrowserModule,
