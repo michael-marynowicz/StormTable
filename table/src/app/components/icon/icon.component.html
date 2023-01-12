@@ -1,11 +1,13 @@
 <div class="example-box"
+     *ngIf="doc.parent===undefined"
      (press)="showMinimap()"
      (mousedown)="mousedown()"
      (touchstart)="touchstart()"
      (dblclick)="load()"
-     [ngStyle]="{'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'rad'}"
+     [ngStyle]="doc.type!=='DIRECTORY' ? {'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'rad'} : {'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'rad','box-shadow':'none','background-color':'transparent','border':'none'}"
 >
   <i class="fas fa-redo" (touchmove)="setRotation($event)" (touchend)="endRotate()" [ngStyle]="{'padding':'1%'}"></i>
+  <div *ngIf="doc.type!=='DIRECTORY'">
   <img *ngIf="isOpen===false" [src]=safeURL alt="{{doc.name}}"/>
   <div *ngIf="isOpen===true">
     <button class="btn-close" aria-label="Close" type="button" (click)="isOpen=false"></button>
@@ -20,6 +22,8 @@
     <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
 
   </div>
+  </div>
+  <app-directory *ngIf="doc.type==='DIRECTORY'" [color]="color" [directory]="doc"></app-directory>
   <app-mini-map (close)="minimapVisible=false" *ngIf="minimapVisible" [file]=doc
                 [style]="{'position': 'absolute', 'left': dropPoint.x+'px','top': dropPoint.y+'px'}"
                 (onSendTo)="onSendToUser($event)"

@@ -35,6 +35,6 @@ export class MeetingService {
     const data = new FormData();
     files.forEach(file => data.append("file",file));
     data.append('user', this.userService.currentUser!.id);
-    await this.http.post(`${serverHostname}/document/upload`,data).toPromise();
+    await this.http.post(`${serverHostname}/document/upload`,data).subscribe();
   }
 }

@@ -29,7 +29,8 @@ import {MiniMapComponent} from "./components/icon/mini-map/mini-map.component";
 import {NgxFileDropModule} from "ngx-file-drop";
 import {UserStandComponent} from './components/user-stand/user-stand.component';
 import {QRCodeModule} from "angularx-qrcode";
-import {DirectoryComponent} from "./components/icon/directory/directory.component";
+import {DirectoryGenerationComponent} from "./components/icon/directory-generator/directory-generation.component";
+import { DirectoryComponent } from './components/directory/directory.component';
 
 const socketConfig: SocketIoConfig = {url: 'ws://localhost:3000', options: {}}
 
@@ -51,6 +52,7 @@ const socketConfig: SocketIoConfig = {url: 'ws://localhost:3000', options: {}}
     IconComponent,
     MiniMapComponent,
     UserStandComponent,
+    DirectoryGenerationComponent,
     DirectoryComponent
   ],
   imports: [

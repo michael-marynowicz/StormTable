@@ -3,6 +3,7 @@ import {IconService} from "../../services/icon.service";
 import {Observable} from "rxjs";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import DocumentModel from "../../models/document.model";
+import DirectoryModel from "../../models/directory.model";
 import {Session} from "../../models/session.model";
 import MiniMapService from "../../services/mini-map.service";
 import {UserSession} from "../../models/user-session";
@@ -49,6 +50,11 @@ export class IconComponent implements OnInit {
   }
 
   private hold = false;
+
+
+  get color(){
+    return (this.doc as DirectoryModel).color
+  }
 
   mousedown() {
     this.dragStart()
@@ -101,15 +107,17 @@ export class IconComponent implements OnInit {
   setRotation($event: TouchEvent) {
     if (!$event) return;
     this.hold = false;
-    const angle = Math.atan(($event.targetTouches[0].clientY - this.doc.position.y) / ($event.targetTouches[0].clientX - this.doc.position.x)) + (($event.targetTouches[0].clientX - this.doc.position.x) < 0 ? Math.PI : 0);
+    const angle = Math.atan2($event.targetTouches[0].clientY - this.doc.position.y,$event.targetTouches[0].clientX - this.doc.position.x) + Math.PI/2
     if (angle) {
       this.doc.rotation = angle;
     }
-
-    console.log($event)
   }
 
   endRotate() {
     this.meetingService.moveDocument(this.doc);
+  }
+
+  test($event:TouchEvent) {
+    console.log("doooooooooooop end",$event)
   }
 }

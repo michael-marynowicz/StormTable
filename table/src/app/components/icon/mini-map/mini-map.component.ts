@@ -49,4 +49,8 @@ export class MiniMapComponent implements OnInit {
   async deleteIcon() {
     await this.miniMapService.deleteIcon(this.file)
   }
+
+  sendToDirectory(path: string) {
+    this.file.path = path+'/'+this.file.name;
+  }
 }

@@ -1,8 +1,0 @@
-<button type="button" class="btn btn-secondary" (click)="directory.length===0 ? createDirectory($event) : showAllDirectory=true"><i class="fa-solid fa-folder-plus"></i></button>
-<div *ngIf="showAllDirectory==true">
-  <div class="allDirectory">
-    <button type="button" class="btn btn-secondary" (click)="createDirectory($event)"><i class="fa-solid fa-folder-plus"></i></button>
-    <button *ngFor="let d of directory" type="button" class="btn btn-secondary" [ngStyle]="{'color': d.color}" (click)="openDirectory()"><i class="fa-solid fa-folder-plus"></i></button>
-  </div>
-</div>
-

@@ -6,7 +6,7 @@ export enum ElementType {
   WORD = "WORD",
   PPTX = "PPTX",
   TXT = "TXT",
-  DOC="DOC"
+  DIRECTORY="DIRECTORY"
 }
 
 export default interface BrainstormElementModel {
