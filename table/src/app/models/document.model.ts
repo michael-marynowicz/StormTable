@@ -7,5 +7,5 @@ export default interface DocumentModel {
   path: string;
   position: { x: number, y: number }
   rotation: number,
-  parent?:string
+  parent:string |undefined
 }

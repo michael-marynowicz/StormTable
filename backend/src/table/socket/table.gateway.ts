@@ -5,6 +5,8 @@ import {SessionService} from "../../core/session/session.service";
 import {UseFilters} from "@nestjs/common";
 import SocketErrorFilter from "./socket-error-filter";
 import {v4 as new_guid} from "uuid";
+import DocumentModel from "../../core/models/document.model";
+import DirectoryModel from "../../core/models/directory.model";
 
 @WebSocketGateway({
     cors: {
@@ -58,6 +60,13 @@ export class TableGateway {
     shareDocument(@MessageBody() payload: { id: string, user: string, rotation: number }) {
         this.sessionService.sendDocumentTo(payload.id, payload.user, payload.rotation);
     }
+
+    @SubscribeMessage('sendToDirectory')
+    sendToDirectory(@MessageBody() body: { file: DocumentModel, directory:DirectoryModel }){
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",body.file)
+        this.sessionService.sendToDirectory(body.file,body.directory)
+    }
+
 
 
 }

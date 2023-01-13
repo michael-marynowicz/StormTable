@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
 import DocumentModel from "../models/document.model";
-import {HttpClient} from "@angular/common/http";
-import {hostname} from "./server.config";
 import DirectoryModel from "../models/directory.model";
-import {DirectoryService} from "./directory.service";
+import {io} from "socket.io-client";
+import {hostname} from "./server.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
+  socket = io(`http://${hostname}:3000`)
 
   private documents: DocumentModel[] = [];
   documents$ = new BehaviorSubject<string[]>(this.documents.map(d => d.id));
   documentChanged$ = new Subject<DocumentModel>();
 
-  constructor(private httpClient:HttpClient) { }
+  constructor() { }
 
   inflateDocuments(documents: DocumentModel[]) {
     if(this.documents.length !== documents.length) {
@@ -30,7 +30,7 @@ export class DocumentService {
     this.documents = documents;
   }
 
-  private documentChanged(document: DocumentModel) {
+  documentChanged(document: DocumentModel) {
     const existing = this.documents.find(d => d.id === document.id);
     if(!existing) throw new Error("Document not found");
     Object.assign(existing, document);
@@ -42,11 +42,8 @@ export class DocumentService {
   }
 
   async moveFile(file: DocumentModel, directory: DirectoryModel) {
-    file.path = directory.path;
-    console.log(directory,"before", Object.assign({}, file))
+    file.parent = directory.path;
     directory.files.push( Object.assign({}, file));
-    console.log(directory,"after")
-    await this.httpClient.delete(`http://${hostname}:3000/document/${file.id}`).subscribe() //TODO ne pas supprimer
-
+    this.socket.emit("sendToDirectory",{file:file,directory:directory})
   }
 }

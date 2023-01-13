@@ -79,4 +79,14 @@ export class MeetingService {
         meeting.documents = meeting.documents.filter(d => d.name !== name);
         this.meetingChanged$.next(meeting.id);
     }
+
+    sendToDirectory(file: DocumentModel, directory: DirectoryModel) {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@3")
+        const meeting = this.meetings.find(m => m.documents.find(d => d.id === file.id));
+        meeting.documents.find(f => f.id===file.id).parent = directory.name;
+        (meeting.documents.find(f => f.id===directory.id) as DirectoryModel).files.push(file);
+        this.meetingChanged$.next(meeting.id);
+        console.log(this.meetings.find(m => m.documents.find(d => d.id === file.id)),file)
+
+    }
 }

@@ -27,13 +27,13 @@ export class DirectoryService {
       type: ElementType.DIRECTORY,
       id: "doc" + "-" + Date.now(),
       color: color,
-      files: []
+      files: [],
+      parent:undefined
     }
     file.path = dir.path + '/' + dir.name + "/" + file.name;
     file.parent = dir.name;
-    this.directory.push(dir)
-    this.directory$.next(this.directory);
     dir.files.push(file)
+    this.socket.emit("sendToDirectory",{file:file,directory:dir})
     await this.httpClient.post(`http://${hostname}:3000/directory/create`, {directory: dir, fileId: file.id}).subscribe()
   }
 

@@ -14,7 +14,6 @@ export class DirectoryController {
     async createDirectory(@MessageBody() body: { directory: DirectoryModel, fileId: string }): Promise<any> {
         this.meetingService.putDirectory(body.directory, body.fileId)
         this.directoryService.createDirectory(body.directory.path);
-        this.meetingService.deleteDocument(body.fileId)
 
     }
 }

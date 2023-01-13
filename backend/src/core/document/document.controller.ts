@@ -51,7 +51,7 @@ export class DocumentController {
             path: file.path,
             position: position,
             rotation: 0,
-            parent: undefined
+            parent: undefined,
         };
 
         this.meetingService.putDocument(session.meeting.id, doc);

@@ -25,10 +25,10 @@ export class DirectoryGenerationComponent {
     this.subs = directoryService.directory$.subscribe(directory => this.directory = directory)
   }
 
-  createDirectory($event: MouseEvent) {
+  createDirectory() {
     this.directoryService.createDirectory({
-      x: $event.clientX,
-      y: $event.clientY
+      x: this.file.position.x,
+      y: this.file.position.y
     }, "#" + Math.floor(Math.random() * 16777215).toString(16), this.file)
     this.showAllDirectory = false;
 
