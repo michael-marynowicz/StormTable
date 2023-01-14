@@ -56,12 +56,8 @@ export class MeetingService {
     await this.http.post(`{main}/document/upload`,data).toPromise();
   }
 
-  async getDocuments(): Promise<DocumentModel[]> {
-    return this.http.get<DocumentModel[]>('{main}/meeting/current/files').toPromise().then(documents => {
-      if(!documents)
-        return [];
-      return documents;
-    });
+  getDocuments(meeting: MeetingModel, parent: string|undefined = undefined): DocumentModel[] {
+    return meeting.documents.filter(d => d.parent === parent);
   }
 
   async getDocumentInMeeting(meeting: string): Promise<DocumentModel[]> {

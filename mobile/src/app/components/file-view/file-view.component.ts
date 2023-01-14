@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {DocumentModel} from "../../models/document.model";
 
 @Component({
@@ -8,4 +8,5 @@ import {DocumentModel} from "../../models/document.model";
 })
 export class FileViewComponent {
   @Input() documents!: DocumentModel[];
+  @Output() fileSelect: EventEmitter<DocumentModel> = new EventEmitter<DocumentModel>();
 }
