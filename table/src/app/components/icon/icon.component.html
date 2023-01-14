@@ -24,7 +24,7 @@
   </div>
   </div>
   <app-directory *ngIf="doc.type==='DIRECTORY'" [color]="color" [directory]="doc" [miniMap]="minimapVisible"></app-directory>
-  <app-mini-map (close)="minimapVisible=false" *ngIf="minimapVisible" [file]=doc
+  <app-mini-map (close)="minimapVisible=false" *ngIf="minimapVisible && doc.type!=='DIRECTORY'" [file]=doc
                 [style]="{'position': 'absolute', 'left': dropPoint.x+'px','top': dropPoint.y+'px'}"
                 (onSendTo)="onSendToUser($event)"
   ></app-mini-map>
