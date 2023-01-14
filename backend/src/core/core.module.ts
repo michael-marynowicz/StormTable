@@ -14,6 +14,6 @@ import {DirectoryService} from "./directory/directory.service";
 @Module({
   controllers: [MeetingController, UserController, SessionController,DocumentController, TestController,DirectoryController],
   providers: [MeetingService, SessionService, TableService, UserService,DirectoryService],
-  exports: [SessionService]
+  exports: [SessionService, MeetingService]
 })
 export class CoreModule {}

@@ -9,6 +9,9 @@ import {MeetingService} from "../../services/meeting.service";
 })
 export class HomePageComponent implements OnInit {
   meeting?: MeetingModel;
+  get documents() {
+    return this.meeting?.documents || [];
+  }
 
   constructor(private meetingService: MeetingService) {
   }
