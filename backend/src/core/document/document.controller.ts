@@ -17,6 +17,7 @@ import {Socket} from "socket.io";
 import {ConnectedSocket, MessageBody} from "@nestjs/websockets";
 import {SessionService} from "../session/session.service";
 import {MeetingService} from "../meeting/meeting.service";
+import aggregateDocument from "./aggregateDocument";
 
 
 @Controller("document")
@@ -64,7 +65,7 @@ export class DocumentController {
         const file = this.meetingService.getByDocument(params.id)?.documents.find(d => d.id === params.id);
         if (!file)
             throw new HttpException("File not found.", HttpStatus.NOT_FOUND);
-        return file;
+        return aggregateDocument(file);
 
     }
 

@@ -57,7 +57,7 @@ export class MeetingService {
   }
 
   getDocuments(meeting: MeetingModel, parent: string|undefined = undefined): DocumentModel[] {
-    return meeting.documents.filter(d => d.parent === parent);
+    return meeting.documents.filter(document => document.parent === parent) as DocumentModel[];
   }
 
   async getDocumentInMeeting(meeting: string): Promise<DocumentModel[]> {
