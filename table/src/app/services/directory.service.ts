@@ -28,7 +28,8 @@ export class DirectoryService {
       id: "doc" + "-" + Date.now(),
       color: color,
       files: [],
-      parent:undefined
+      parent:undefined,
+      url:""
     }
     file.path = dir.path + '/' + dir.name + "/" + file.name;
     file.parent = dir.name;

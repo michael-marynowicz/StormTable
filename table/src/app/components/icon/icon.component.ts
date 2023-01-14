@@ -21,8 +21,6 @@ export class IconComponent implements OnInit {
   doc!: DocumentModel;
   session!: Session
 
-  private URL = `http://${hostname}:3000/`
-
   safeURL!: SafeResourceUrl;
 
   loadFile: Observable<Object> | undefined
@@ -38,7 +36,7 @@ export class IconComponent implements OnInit {
   }
 
   load() {
-    this.loadFile = this.iconService.load(this.URL + this.doc.path)
+    this.loadFile = this.iconService.load(this.doc.url)
     this.isOpen = true;
   }
 
@@ -46,7 +44,7 @@ export class IconComponent implements OnInit {
     const doc = this.documentService.getDocument(this.docId);
     if(!doc) throw new Error("Document not found")
     this.doc = doc;
-    this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.URL + this.doc.path)
+    this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.doc.url)
   }
 
   private hold = false;

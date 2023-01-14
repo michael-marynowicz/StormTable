@@ -3,13 +3,14 @@ import SessionDto from "../models/session/dto/session.dto";
 import { UserService } from "../user/user.service";
 import { TableService } from "../table/table.service";
 import { MeetingService } from "../meeting/meeting.service";
+import aggregateMeeting from "../meeting/aggregateMeeting";
 
 export function aggregateDto(
   session: Session,
   userService: UserService,
   tableService: TableService,
   meetingService: MeetingService): SessionDto {
-  const meeting = meetingService.get(session.meeting.id)!;
+  const meeting = aggregateMeeting(meetingService.get(session.meeting.id)!);
   return {
     id: session.sessionId,
     table: {

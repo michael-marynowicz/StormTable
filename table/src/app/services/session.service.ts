@@ -6,6 +6,7 @@ import {Session} from "../models/session.model";
 import {DocumentService} from "./document.service";
 import {ElementType} from "../models/brainstorm-element.model";
 import DirectoryModel from "../models/directory.model";
+import DocumentModel from "../models/document.model";
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,8 @@ export default class SessionService {
   private inflateSession(session: Session) {
     this.session = session;
     this.session$.next(session);
-    this.documentService.inflateDocuments(session.meeting.meeting.documents);
+    const documents = session.meeting.meeting.documents as DocumentModel[];
+    this.documentService.inflateDocuments(documents);
   }
   getAllDirectory(){
     return this.session?.meeting.meeting.documents.filter(doc => doc.type===ElementType.DIRECTORY) as DirectoryModel[]

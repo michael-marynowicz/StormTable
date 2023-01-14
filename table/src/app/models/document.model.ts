@@ -9,4 +9,5 @@ export default interface DocumentModel {
   rotation: number,
   parent?:string ;
   folder?: string;
+  url: string;
 }
