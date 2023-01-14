@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import DirectoryModel from "../../models/directory.model";
 import DocumentModel from "../../models/document.model";
 
@@ -7,21 +7,19 @@ import DocumentModel from "../../models/document.model";
   templateUrl: './directory.component.html',
   styleUrls: ['./directory.component.less']
 })
-export class DirectoryComponent implements OnInit{
+export class DirectoryComponent{
   @Input() color!: string
   @Input() directory!: DocumentModel
-  printFiles:boolean=false;
-
-  ngOnInit(): void {
-    this.directory = this.directory as DirectoryModel
+  @Input() miniMap!: boolean
+  wantFiles:boolean=false;
+  get getDirectory(){
+    return this.directory as DirectoryModel
   }
 
-
-  saveFile() {
-
+  get printFiles(){
+    this.wantFiles = this.wantFiles && !this.miniMap
+    return this.wantFiles
   }
-
-
 
 
 }

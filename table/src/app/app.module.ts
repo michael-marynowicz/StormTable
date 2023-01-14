@@ -31,6 +31,7 @@ import {UserStandComponent} from './components/user-stand/user-stand.component';
 import {QRCodeModule} from "angularx-qrcode";
 import {DirectoryGenerationComponent} from "./components/icon/directory-generator/directory-generation.component";
 import { DirectoryComponent } from './components/directory/directory.component';
+import { DirectoryContentComponent } from './components/directory/directory-content/directory-content.component';
 
 const socketConfig: SocketIoConfig = {url: 'ws://localhost:3000', options: {}}
 
@@ -53,7 +54,8 @@ const socketConfig: SocketIoConfig = {url: 'ws://localhost:3000', options: {}}
     MiniMapComponent,
     UserStandComponent,
     DirectoryGenerationComponent,
-    DirectoryComponent
+    DirectoryComponent,
+    DirectoryContentComponent
   ],
   imports: [
     BrowserModule,

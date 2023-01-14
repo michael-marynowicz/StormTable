@@ -37,4 +37,5 @@ export class MeetingService {
     data.append('user', this.userService.currentUser!.id);
     await this.http.post(`${serverHostname}/document/upload`,data).subscribe();
   }
+
 }

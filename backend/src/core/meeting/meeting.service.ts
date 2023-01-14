@@ -81,12 +81,22 @@ export class MeetingService {
     }
 
     sendToDirectory(file: DocumentModel, directory: DirectoryModel) {
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@3")
         const meeting = this.meetings.find(m => m.documents.find(d => d.id === file.id));
-        meeting.documents.find(f => f.id===file.id).parent = directory.name;
-        (meeting.documents.find(f => f.id===directory.id) as DirectoryModel).files.push(file);
+        const fileToAdd = meeting.documents.find(f => f.id===file.id)
+        fileToAdd.parent = directory.name;
+        fileToAdd.path = directory.path + directory.name + "/" + file.path;
+        (meeting.documents.find(f => f.id===directory.id) as DirectoryModel).files.push(fileToAdd);
         this.meetingChanged$.next(meeting.id);
-        console.log(this.meetings.find(m => m.documents.find(d => d.id === file.id)),file)
 
+    }
+
+    reloadFile(file: DocumentModel, directory: DirectoryModel) {
+        const meeting = this.meetings.find(m => m.documents.find(d => d.id === file.id));
+        const fileToLoad = meeting.documents.find(f => f.id===file.id)
+        fileToLoad.parent = undefined;
+        fileToLoad.path = "./files/" + file.path.split('/').at(-1);
+        fileToLoad.position=directory.position;
+        (meeting.documents.find(f => f.id===directory.id) as DirectoryModel).files = (meeting.documents.find(f => f.id===directory.id) as DirectoryModel).files.filter(file => file.id!==fileToLoad.id);
+        this.meetingChanged$.next(meeting.id);
     }
 }

@@ -120,7 +120,10 @@ export class SessionService {
     }
 
     sendToDirectory(file: DocumentModel, directory: DirectoryModel) {
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2")
         this.meetingService.sendToDirectory(file,directory)
+    }
+
+    reloadFile(file: DocumentModel, directory: DirectoryModel) {
+        this.meetingService.reloadFile(file,directory)
     }
 }
