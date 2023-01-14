@@ -125,4 +125,8 @@ export class SessionService {
     getAllSessionsByUser(user: string) {
         return Object.values(this.sessions).filter(m => m.users.find(u => u.id === user));
     }
+
+    reloadFile(file: DocumentModel, directory: DirectoryModel) {
+        this.meetingService.reloadFile(file,directory)
+    }
 }

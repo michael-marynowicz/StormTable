@@ -31,11 +31,14 @@ export class DirectoryService {
       parent:undefined,
       url:""
     }
-    file.path = dir.path + '/' + dir.name + "/" + file.name;
-    file.parent = dir.name;
-    dir.files.push(file)
-    this.socket.emit("sendToDirectory",{file:file,directory:dir})
-    await this.httpClient.post(`http://${hostname}:3000/directory/create`, {directory: dir, fileId: file.id}).subscribe()
+    this.directory.push(dir)
+    await this.httpClient.post(`http://${hostname}:3000/directory/create`, {directory: dir, fileId: file.id}).subscribe(_ =>{
+      this.socket.emit("sendToDirectory",{file:file,directory:dir})
+    })
+
   }
 
+  uploadFile(file: DocumentModel,directory: DirectoryModel) {
+    this.socket.emit("reload-file",{file:file,directory: directory})
+  }
 }

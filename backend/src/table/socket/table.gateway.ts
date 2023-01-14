@@ -63,8 +63,12 @@ export class TableGateway {
 
     @SubscribeMessage('sendToDirectory')
     sendToDirectory(@MessageBody() body: { file: DocumentModel, directory:DirectoryModel }){
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",body.file)
-        this.sessionService.sendToDirectory(body.file,body.directory)
+        this.sessionService.sendToDirectory(body.file,body.directory);
+    }
+
+    @SubscribeMessage('reload-file')
+    reloadFile(@MessageBody() body: { file: DocumentModel, directory:DirectoryModel }){
+        this.sessionService.reloadFile(body.file,body.directory);
     }
 
 

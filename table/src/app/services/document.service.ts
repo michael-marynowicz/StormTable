@@ -42,8 +42,6 @@ export class DocumentService {
   }
 
   async moveFile(file: DocumentModel, directory: DirectoryModel) {
-    file.parent = directory.path;
-    directory.files.push( Object.assign({}, file));
     this.socket.emit("sendToDirectory",{file:file,directory:directory})
   }
 }
