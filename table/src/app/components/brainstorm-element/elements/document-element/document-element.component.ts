@@ -1,61 +1,55 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
-import WebViewer, {Core, WebViewerInstance} from "@pdftron/webviewer";
-import documentViewer = Core.documentViewer;
-
+import WebViewer from '@pdftron/webviewer'
+import { CollabClient } from '@pdftron/collab-client'
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from "@angular/core";
 
 @Component({
   selector: 'app-document-element',
   templateUrl: './document-element.component.html',
   styleUrls: ['./document-element.component.less']
 })
-export class DocumentElementComponent implements AfterViewInit {
-  @ViewChild('viewer1') viewerRef1!: ElementRef;
-  @ViewChild('viewer2') viewerRef2!: ElementRef;
 
+
+export class DocumentElementComponent implements AfterViewInit{
+  @ViewChild('viewer1') viewerRef1!: ElementRef;
   @Input()
   docPath!: any;
 
-  public currentpage!: number;
-  public scroll!: Element;
-  public viewer1!: WebViewerInstance;
-  public viewer2!: WebViewerInstance;
-
   ngAfterViewInit(): void {
-    WebViewer({
-      path: '../../../../../assets/lib',
-      initialDoc: this.docPath
-    }, this.viewerRef1.nativeElement).then(instance => {
-      this.viewer1 = instance;
+    WebViewer(
+      {
+        path: '/lib/webviewer'
+      },
+      this.viewerRef1.nativeElement
+    ).then(async instance => {
+
+      const client = new CollabClient({
+        instance,
+        url: `http://localhost:3001`,
+        subscriptionUrl: `ws://localhost:3001/subscribe`
+      })
+
+      const user = await client.loginAnonymously('PDFTron');
+
+      const filePath = 'https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf';
+
+      const createDocument = async () => {
+        const document = await user.createDocument({
+          document: filePath,
+          isPublic: true,
+          name: 'document.pdf'
+        });
+        await document.view(filePath);
+      }
+
+      let button =  document.getElementById('my-button')!;
+      button.onclick = createDocument;
+
+      const documents = await user.getAllDocuments();
+      if(documents.length > 0) {
+        const mostRecentDocument = documents[0];
+        await mostRecentDocument.view(filePath);
+      }
     });
-
-    WebViewer({
-      path: '../../../../../assets/lib',
-      initialDoc: this.docPath
-    }, this.viewerRef2.nativeElement).then(instance => {
-      this.viewer2 = instance;
-    });
-
-    const documentViewer = this.viewer1.Core.documentViewer;
-    const scrollViewElement = documentViewer.getScrollViewElement();
-    scrollViewElement.scroll({
-      left: 0, // Can set to null since we only care about vertical scrolling.
-      top: 3000,
-      behavior: 'smooth'
-    });
-
-    console.log(this.docPath);
-
   }
-
-
-
-  getPage() {
-    let currentScroll = this.viewer1.Core.documentViewer.getScrollViewElement();
-    this.viewer2.Core.documentViewer.setScrollViewElement(currentScroll);
-    this.currentpage = this.viewer1.Core.documentViewer.getCurrentPage();
-    this.viewer2.Core.documentViewer.setCurrentPage(this.currentpage, true);
-    this.viewer2.Core.documentViewer.updateView([this.currentpage], this.viewer2.Core.documentViewer.getCurrentPage());
-  }
-
 
 }
