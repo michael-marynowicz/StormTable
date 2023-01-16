@@ -7,11 +7,12 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {UserService} from "./user.service";
+import {UserSessionService} from "./user-session.service";
 
 @Injectable()
 export class UserInterceptor implements HttpInterceptor {
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserSessionService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const userId = this.userService.currentUser?.id;

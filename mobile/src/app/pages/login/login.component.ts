@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {UserService} from "../../services/user.service";
 import UserModel from "../../models/user.model";
 import {ActivatedRoute, Router} from "@angular/router";
+import {UserSessionService} from "../../services/user-session.service";
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class LoginComponent {
   private then?: string;
 
-  constructor(private userService: UserService, aroute: ActivatedRoute, private router: Router) {
+  constructor(private userService: UserService, private userSessionService: UserSessionService, aroute: ActivatedRoute, private router: Router) {
     aroute.queryParams.subscribe(_ => {
       const snapshot = aroute.snapshot;
       this.then = snapshot.queryParamMap.get('then') || undefined;
@@ -19,7 +20,7 @@ export class LoginComponent {
   }
 
   async login($event: UserModel) {
-    this.userService.login($event)
+    this.userSessionService.login($event)
     console.log(this.then)
     await this.router.navigate([this.then || '/']);
   }

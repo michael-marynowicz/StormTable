@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MeetingModel} from "../../models/meeting.model";
 import {MeetingService} from "../../services/meeting.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-home-page',

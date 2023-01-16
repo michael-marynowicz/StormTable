@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {MeetingModel} from "../models/meeting.model";
 import {UserService} from "./user.service";
 import {DocumentModel} from "../models/document.model";
+import {UserSessionService} from "./user-session.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,10 @@ export class MeetingService {
     return this._meeting!;
   }
 
-  constructor(private http: HttpClient, private userService: UserService) { }
+  constructor(private http: HttpClient, private userService: UserService, private userSessionService: UserSessionService) { }
 
   async getCurrentMeeting() {
-    const currentUser = this.userService.currentUser?.id;
+    const currentUser = this.userSessionService.currentUser?.id;
     if(!currentUser)
       throw 'User not logged.'
     this._meeting = await this.http
@@ -51,7 +52,7 @@ export class MeetingService {
   async uploadFile(files: File[]) {
     const data = new FormData();
     files.forEach(file => data.append("file",file));
-    data.append('user', this.userService.currentUser!.id);
+    data.append('user', this.userSessionService.currentUser!.id);
     await this.http.post(`{main}/document/upload`,data).toPromise();
   }
 

@@ -9,10 +9,9 @@ import {httpHostname} from "../config";
 })
 export class UserService {
   private users: UserModel[] = []
-  currentUser?: UserModel;
   users$ = new BehaviorSubject<UserModel[]>([]);
   constructor(private http: HttpClient) {
-    this.currentUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : undefined;
+    this.fetchAll();
   }
 
   fetchAll(): Promise<any> {
@@ -22,15 +21,9 @@ export class UserService {
       resolve({})
     }))
   }
-  auth(spotId: string, userId: string) {
-    return new Promise((resolve, reject)=> this.http.post<{ tableId: string }>("{main}/mobile/auth", { userId, spotId }).subscribe((_) => {
-      this.currentUser = this.users.find(user => user.id === userId);
-      resolve({})
-    }, error => reject(error)))
-  }
 
-  login($event: UserModel) {
-    localStorage.setItem('user', JSON.stringify($event));
-    this.currentUser = $event;
+  auth(spotId: string, userId: string) {
+    return this.http.post<unknown>("{main}/mobile/auth", {spotId, userId}).toPromise().then((_) => {
+    })
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import UserModel from "../../models/user.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
+import {UserSessionService} from "../../services/user-session.service";
 
 @Component({
   selector: 'app-spot-page',
@@ -12,15 +13,15 @@ export class SpotPageComponent implements OnInit {
 
   private spotId?: string;
 
-  constructor(aroute: ActivatedRoute, private authService: UserService, private router: Router) {
+  constructor(aroute: ActivatedRoute, private authService: UserService, private userSessionService: UserSessionService, private router: Router) {
     aroute.params.subscribe((_) => {
       this.spotId = aroute.snapshot.params['spotId']
     })
   }
 
   ngOnInit(): void {
-    if(this.authService.currentUser && this.spotId) {
-      this.authenticate(this.authService.currentUser)
+    if(this.userSessionService.currentUser && this.spotId) {
+      this.authenticate(this.userSessionService.currentUser)
     }
   }
 
