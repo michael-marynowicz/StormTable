@@ -28,5 +28,7 @@ export class UploadFileComponent {
     this.uploading = true;
     await this.meetingService.uploadFile(this.files);
     this.uploaded = true;
+    this.uploading = false;
+    this.files = []
   }
 }
