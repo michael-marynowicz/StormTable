@@ -37,16 +37,11 @@ export class IconComponent implements OnInit {
   @Input() docPath!: string;
 
   constructor(private iconService: IconService, private sanitizer: DomSanitizer,public documentService: DocumentService, private minimapService: MiniMapService, private meetingService: MeetingService) {
-    //this.docPath = this.URL + this.documentService.files[this.documentService.files.length-1].path.replace("\\","/");
-    //todo get the specific file pinched
-
   }
 
   pinch(){
     this.edit= ! this.edit;
-    console.log("looooonnnngggg piiinnnccchhhh");
-    this.docPath = this.URL + this.documentService.files[this.documentService.files.length-1].path.replace("\\","/");
-    //todo get the specific file pinched
+    console.log("pinch to open/close edition view");
   }
 
 
@@ -128,4 +123,9 @@ export class IconComponent implements OnInit {
   endRotate() {
     this.meetingService.moveDocument(this.doc);
   }
+
+  safePath(doc: DocumentModel) {
+    return this.URL + doc.path.replace("\\","/");
+  }
+
 }

@@ -1,7 +1,7 @@
 
 
 <div class="example-box"
-     (pinch)="pinch()"
+     (pinchout)="pinch()"
      cdkDrag
      *ngIf="edit === false"
      (press)="showMinimap()"
@@ -55,5 +55,5 @@
                 (onSendTo)="onSendToUser($event)"
   ></app-mini-map>
 </div>
-<app-document-element [docPath]=docPath *ngIf="edit"></app-document-element>
+<app-document-element [docPath]=safePath(doc) *ngIf="edit" (pinchin)="pinch()"></app-document-element>
 
