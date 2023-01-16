@@ -9,4 +9,8 @@ import {DocumentModel} from "../../models/document.model";
 export class FileViewComponent {
   @Input() documents!: DocumentModel[];
   @Output() fileSelect: EventEmitter<DocumentModel> = new EventEmitter<DocumentModel>();
+
+  directoryColor(document: DocumentModel) {
+    return document.type === "DIRECTORY" ? document.color : undefined;
+  }
 }

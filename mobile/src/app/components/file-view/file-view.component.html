@@ -1,5 +1,9 @@
 <div class="list-group">
-  <a class="list-group-item list-group-item-action" aria-current="true" *ngFor="let document of documents" (click)="fileSelect.emit(document)">
+  <a class="list-group-item list-group-item-action"
+     aria-current="true"
+     *ngFor="let document of documents"
+     [ngStyle]="{ 'background-color': directoryColor(document) }"
+     (click)="fileSelect.emit(document)">
     {{document.name}}
   </a>
 </div>
