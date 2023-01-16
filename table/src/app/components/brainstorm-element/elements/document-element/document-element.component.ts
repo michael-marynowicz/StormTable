@@ -18,7 +18,7 @@ export class DocumentElementComponent implements AfterViewInit{
     WebViewer(
       {
         path: '../../../../../assets/lib',
-        initialDoc:'https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf'
+        //initialDoc:'https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf'
       },
       this.viewerRef1.nativeElement
     ).then(async instance => {
@@ -30,11 +30,12 @@ export class DocumentElementComponent implements AfterViewInit{
         url: `http://localhost:3001`,
         subscriptionUrl: `ws://localhost:3001/subscribe`
       })
-      
-      const user = await client.loginAnonymously('PDFTron');
+
+      const user = client.loginAnonymously('PDFTron');
+      console.log("user", user);
       const filePath = 'https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf';
 
-      const createDocument = async () => {
+      /*const createDocument = async () => {
         const document = await user.createDocument({
           document: filePath,
           isPublic: true,
@@ -44,7 +45,7 @@ export class DocumentElementComponent implements AfterViewInit{
       }
 
       let button =  document.getElementById('my-button')!;
-      button.onclick = createDocument;
+      button.onclick = createDocument;*/
 
      /* const documents = await user.getAllDocuments();
       if(documents.length > 0) {
@@ -54,4 +55,3 @@ export class DocumentElementComponent implements AfterViewInit{
     });
   }
 }
-
