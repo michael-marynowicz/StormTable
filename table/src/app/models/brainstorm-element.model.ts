@@ -5,7 +5,8 @@ export enum ElementType {
   PDF = "PDF",
   WORD = "WORD",
   PPTX = "PPTX",
-  TXT = "TXT"
+  TXT = "TXT",
+  DIRECTORY="DIRECTORY"
 }
 
 export default interface BrainstormElementModel {

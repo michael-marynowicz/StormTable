@@ -7,5 +7,8 @@ export default interface DocumentModel {
     type: ElementType;
     path: string;
     position: { x: number, y: number }
-    rotation: number;
+    rotation: number,
+    parent?: string;
+
+    folder?: string;
 }

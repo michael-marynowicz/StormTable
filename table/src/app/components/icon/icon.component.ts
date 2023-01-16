@@ -3,6 +3,7 @@ import {IconService} from "../../services/icon.service";
 import {Observable} from "rxjs";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import DocumentModel from "../../models/document.model";
+import DirectoryModel from "../../models/directory.model";
 import {Session} from "../../models/session.model";
 import {DocumentService} from "../../services/document.service";
 import MiniMapService from 'src/app/services/mini-map.service';
@@ -46,7 +47,7 @@ export class IconComponent implements OnInit {
 
 
   load() {
-    this.loadFile = this.iconService.load(this.URL + this.doc.path)
+    this.loadFile = this.iconService.load(this.doc.url)
     this.isOpen = true;
   }
 
@@ -54,12 +55,16 @@ export class IconComponent implements OnInit {
     const doc = this.documentService.getDocument(this.docId);
     if(!doc) throw new Error("Document not found")
     this.doc = doc;
-    this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.URL + this.doc.path)
-    console.log("safeurl",this.safeURL);
     this.docName  = this.doc.name.split(".", 3);
+    this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.doc.url)
   }
 
   private hold = false;
+
+
+  get color(){
+    return (this.doc as DirectoryModel).color
+  }
 
   mousedown() {
     this.dragStart()
@@ -95,7 +100,6 @@ export class IconComponent implements OnInit {
   private dragEnd() {
     if (!this.hold) return;
     this.hold = false;
-    //this.minimapVisible = false;
     this.meetingService.moveDocument(this.doc);
   }
 
@@ -110,14 +114,12 @@ export class IconComponent implements OnInit {
   }
 
   setRotation($event: TouchEvent) {
-    console.log('settingRotation');
     if (!$event) return;
     this.hold = false;
-    const angle = Math.atan(($event.targetTouches[0].clientY - this.doc.position.y) / ($event.targetTouches[0].clientX - this.doc.position.x)) + (($event.targetTouches[0].clientX - this.doc.position.x) < 0 ? Math.PI : 0);
-    if (angle) this.doc.rotation = angle;
-    console.log('rotate');
-
-
+    const angle = Math.atan2($event.targetTouches[0].clientY - this.doc.position.y,$event.targetTouches[0].clientX - this.doc.position.x) + Math.PI/2
+    if (angle) {
+      this.doc.rotation = angle;
+    }
   }
 
   endRotate() {

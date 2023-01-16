@@ -1,7 +1,8 @@
 export enum ElementType {
-  PICTURE = "PICTURE",
-  PDF = "PDF",
-  WORD = "WORD",
-  PPTX = "PPTX",
-  TXT="TXT"
+    PICTURE = "PICTURE",
+    PDF = "PDF",
+    WORD = "WORD",
+    PPTX = "PPTX",
+    TXT = "TXT",
+    DIRECTORY = "DIRECTORY"
 }

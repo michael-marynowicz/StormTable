@@ -36,12 +36,13 @@ export class TableRuntimeComponent {
       console.log("Creating session")
       sessionService.createSession(id)
     });
-
   }
-
 
   doubleTap(event: MouseEvent) {
     this.sessionService.createSpot({x: event.clientX, y: event.clientY})
   }
 
+  allIconsToPrint(){
+    return this.sessionService.session?.meeting.meeting.documents.filter(doc =>doc.parent===undefined).map(doc => doc.id)
+  }
 }

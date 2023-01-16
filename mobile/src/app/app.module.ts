@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SelectUserPageComponent } from './pages/select-user-page/select-user-page.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { PromptSpotIdComponent } from './pages/prompt-spot-id/prompt-spot-id.component';
 import {FormsModule} from "@angular/forms";
 import { SelectUserComponent } from './components/select-user/select-user.component';
@@ -16,6 +16,12 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { PageLayoutComponent } from './components/page-layout/page-layout.component';
 import { LoginComponent } from './pages/login/login.component';
 import { UploadFileComponent } from './pages/upload-file/upload-file.component';
+import { FileViewComponent } from './components/file-view/file-view.component';
+import {UserInterceptor} from "./services/user.interceptor";
+import {DomainInterceptor} from "./services/domain.interceptor";
+import { MeetingsPageComponent } from './pages/meetings-page/meetings-page.component';
+import { MeetingPageComponent } from './pages/meeting-page/meeting-page.component';
+import { NoDirectoryPipe } from './pipes/no-directory.pipe';
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/client', options: {
 }}
@@ -32,7 +38,11 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/client', option
     HomePageComponent,
     PageLayoutComponent,
     LoginComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    FileViewComponent,
+    MeetingsPageComponent,
+    MeetingPageComponent,
+    NoDirectoryPipe
   ],
   imports: [
     BrowserModule,
@@ -41,7 +51,10 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/client', option
     FormsModule,
     SocketIoModule.forRoot(socketConfig)
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: UserInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: DomainInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

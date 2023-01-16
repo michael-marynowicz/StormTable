@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
 import DocumentModel from "../models/document.model";
+import DirectoryModel from "../models/directory.model";
+import {io} from "socket.io-client";
+import {hostname} from "./server.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
+  socket = io(`http://${hostname}:3000`)
 
   private documents: DocumentModel[] = [];
   documents$ = new BehaviorSubject<string[]>(this.documents.map(d => d.id));
@@ -32,7 +36,7 @@ export class DocumentService {
     this.documents = documents;
   }
 
-  private documentChanged(document: DocumentModel) {
+  documentChanged(document: DocumentModel) {
     const existing = this.documents.find(d => d.id === document.id);
     if(!existing) throw new Error("Document not found");
     Object.assign(existing, document);
@@ -41,5 +45,9 @@ export class DocumentService {
 
   getDocument(documentId: string) {
     return this.documents.find(d => d.id === documentId);
+  }
+
+  async moveFile(file: DocumentModel, directory: DirectoryModel) {
+    this.socket.emit("sendToDirectory",{file:file,directory:directory})
   }
 }

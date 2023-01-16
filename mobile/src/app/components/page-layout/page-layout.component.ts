@@ -6,6 +6,7 @@ export interface NavigationElement {
   disabled: boolean;
   link?: string;
   clicked?: () => void;
+  active?: boolean;
 }
 
 @Component({
@@ -23,10 +24,16 @@ export class PageLayoutComponent implements OnInit {
       label: 'Files',
       disabled: false,
       link: '/files'
+    }, {
+      label: 'Meetings',
+      disabled: false,
+      link: '/meetings'
     }
   ];
 
   alert?: string;
+
+  @Input() page?: string;
 
   constructor(private meetingService: MeetingService) {
   }

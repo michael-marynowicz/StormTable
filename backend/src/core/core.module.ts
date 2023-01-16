@@ -8,10 +8,12 @@ import { DocumentController } from './document/document.controller';
 import { TestController } from './test/test.controller';
 import { TableService } from "./table/table.service";
 import { UserService } from "./user/user.service";
+import {DirectoryController} from "./directory/directory.controller";
+import {DirectoryService} from "./directory/directory.service";
 
 @Module({
-  controllers: [MeetingController, UserController, SessionController,DocumentController, TestController],
-  providers: [MeetingService, SessionService, TableService, UserService],
-  exports: [SessionService]
+  controllers: [MeetingController, UserController, SessionController,DocumentController, TestController,DirectoryController],
+  providers: [MeetingService, SessionService, TableService, UserService,DirectoryService],
+  exports: [SessionService, MeetingService]
 })
 export class CoreModule {}

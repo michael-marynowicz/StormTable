@@ -9,7 +9,6 @@ import {TestPageComponent} from "./pages/test-page/test-page.component";
 
 const routes: Routes = [
   {path: '', component: SelectMeetingPageComponent},
-  {path: 'test', component: TestPageComponent},
   {path: 'meeting/:meetingId', component: TableRuntimeComponent},
   {path: 'personalSpace', component: IconComponent}
 ];
