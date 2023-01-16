@@ -28,7 +28,7 @@ export class MeetingPageComponent implements OnInit {
 
     aroute.queryParams.subscribe(_ => {
       this.parent = aroute.snapshot.queryParamMap.get('parent') || undefined;
-      //this.loadData();
+      this.loadData();
     });
   }
 
