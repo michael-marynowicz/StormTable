@@ -1,5 +1,3 @@
-
-
 <div class="example-box"
      *ngIf="doc.parent===undefined && edit === false"
      (pinchout)="pinch()"
@@ -13,44 +11,45 @@
   <div *ngIf="doc.type!=='DIRECTORY'">
     <!--If the file is pdf-->
     <span *ngIf="isOpen===false && doc.type === 'PDF'">
-    <i id="fa-file-pdf" class="fa-solid fa-file-pdf fa-7x"></i>
+    <i id="fa-file-pdf" class="fa-solid fa-file-pdf fa-7x icon"></i>
       {{docName[0]}}
-  </span>
+    </span>
     <!--If the file is png-->
     <span *ngIf="isOpen===false && doc.type === 'PICTURE'">
-     <i id="fa-file-image" class="fa-solid fa-file-image fa-7x"></i>
+     <i id="fa-file-image" class="fa-solid fa-file-image fa-7x icon"></i>
       {{docName[0]}}
-   </span>
+    </span>
     <!--If the file is doc-->
     <span *ngIf="isOpen===false && doc.type === 'WORD'">
-    <i  id="fa-file-word" class="fa-solid fa-file-word fa-7x"> </i>
+    <i id="fa-file-word" class="fa-solid fa-file-word fa-7x icon"> </i>
       {{docName[0]}}
-  </span>
+    </span>
     <!--If the file is txt-->
     <span *ngIf="isOpen===false && doc.type === 'TXT'">
-    <i  id="fa-file-lines" class="fa-solid fa-file-lines fa-7x"> </i>
+    <i id="fa-file-lines" class="fa-solid fa-file-lines fa-7x icon"> </i>
       {{docName[0]}}
-  </span>
+    </span>
     <!--If the file is pptx-->
     <span *ngIf="isOpen===false && doc.type === 'PPTX'">
-    <i  id="fa-file-powerpoint" class="fa-solid fa-file-powerpoint fa-7x"></i>
+    <i id="fa-file-powerpoint" class="fa-solid fa-file-powerpoint fa-7x icon"></i>
       {{docName[0]}}
-  </span>
-  <div *ngIf="isOpen===true">
-    <button class="btn-close" aria-label="Close" type="button" (click)="isOpen=false"></button>
-    <iframe *ngIf="doc.type!=='PICTURE'" id="inlineFrameExample"
-            title="Inline Frame Example"
-            style="width: 10cm; height: 10cm;"
-            [src]=safeURL
-            [ngStyle]="{'position':'relative','top' : '125px'}"
-    >
-    </iframe>
+    </span>
+    <div *ngIf="isOpen===true">
+      <button class="btn-close" aria-label="Close" type="button" (click)="isOpen=false"></button>
+      <iframe *ngIf="doc.type!=='PICTURE'" id="inlineFrameExample"
+              title="Inline Frame Example"
+              style="width: 10cm; height: 10cm;"
+              [src]=safeURL
+              [ngStyle]="{'position':'relative','top' : '125px'}"
+      >
+      </iframe>
 
-    <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
+      <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
 
+    </div>
   </div>
-  </div>
-  <app-directory *ngIf="doc.type==='DIRECTORY'" [color]="color" [directory]="doc" [miniMap]="minimapVisible"></app-directory>
+  <app-directory *ngIf="doc.type==='DIRECTORY'" [color]="color" [directory]="doc"
+                 [miniMap]="minimapVisible"></app-directory>
   <app-mini-map (close)="minimapVisible=false" *ngIf="minimapVisible && doc.type!=='DIRECTORY'" [file]=doc
                 [style]="{'position': 'absolute', 'left': dropPoint.x+'px','top': dropPoint.y+'px'}"
                 (onSendTo)="onSendToUser($event)"
