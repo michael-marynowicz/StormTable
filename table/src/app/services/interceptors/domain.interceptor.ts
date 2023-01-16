@@ -6,8 +6,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-import {serverDomain} from '../../../../table/domain.config';
+import {serverDomain} from "../../../../domain.config";
 
 @Injectable()
 export class DomainInterceptor implements HttpInterceptor {
@@ -15,18 +14,11 @@ export class DomainInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-
-    let domain: string|undefined = undefined;
-    if(request.url.startsWith("{main}/"))
-      domain = serverDomain;
-
-    if(!domain)
-      throw "Domain not know.";
-
-    const req = request.clone({
-      url: domain + request.url.substring(request.url.indexOf("/"))
-    })
-
-    return next.handle(req);
+    console.log("Interceptor called.")
+    const url = request.url.replace("{main}/", serverDomain + "/");
+    console.log("Call urr: ", url);
+    return next.handle(request.clone({
+      url
+    }));
   }
 }

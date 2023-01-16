@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {BehaviorSubject} from "rxjs";
 import {Socket} from "ngx-socket-io";
-import {HttpClient} from "@angular/common/http";
 import {Session} from "../models/session.model";
 import {DocumentService} from "./document.service";
 import {ElementType} from "../models/brainstorm-element.model";
@@ -16,7 +15,7 @@ export default class SessionService {
   session$ = new BehaviorSubject<Session|undefined>(undefined);
   private tableId = "00bb39f2-eb16-45cf-ad7e-1c7c37b1ed2f";
 
-  constructor(private socket: Socket, private http: HttpClient, private documentService: DocumentService) {
+  constructor(private socket: Socket, private documentService: DocumentService) {
   }
 
   createSession(meetingId: string) {

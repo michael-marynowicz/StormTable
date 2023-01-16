@@ -3,13 +3,13 @@ import {BehaviorSubject, Subject} from "rxjs";
 import DocumentModel from "../models/document.model";
 import DirectoryModel from "../models/directory.model";
 import {io} from "socket.io-client";
-import {hostname} from "./server.config";
+import {socketDomain} from "../../../domain.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
-  socket = io(`http://${hostname}:3000`)
+  socket = io(socketDomain)
 
   private documents: DocumentModel[] = [];
   documents$ = new BehaviorSubject<string[]>(this.documents.map(d => d.id));

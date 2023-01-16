@@ -9,7 +9,6 @@ import {DocumentService} from "../../services/document.service";
 import MiniMapService from 'src/app/services/mini-map.service';
 import {UserSession} from "../../models/user-session";
 import {MeetingService} from "../../services/meeting.service";
-import {hostname} from "../../services/server.config";
 
 @Component({
   selector: 'app-icon',
@@ -20,8 +19,6 @@ export class IconComponent implements OnInit {
   @Input() docId!: string;
   doc!: DocumentModel;
   session!: Session
-
-  private URL = `http://${hostname}:3000/`
 
   safeURL!: SafeResourceUrl;
 
@@ -127,7 +124,7 @@ export class IconComponent implements OnInit {
   }
 
   safePath(doc: DocumentModel) {
-    return this.URL + doc.path.replace("\\","/");
+    return doc.url;
   }
 
 }

@@ -9,7 +9,7 @@ import {ErrorAlertComponent} from './components/alert/alerts/error-alert/error-a
 import {AlertDrawerComponent} from './components/alert-drawer/alert-drawer.component';
 import {LoadingAlertComponent} from './components/loading-alert/loading-alert.component';
 import {ListSelectionDialogComponent} from './components/list-selection-dialog/list-selection-dialog.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
 import {TableRuntimeComponent} from './pages/table-runtime/table-runtime.component';
 import {SpotComponent} from './components/spot/spot.component';
@@ -33,8 +33,10 @@ import {MatIconModule} from "@angular/material/icon";
 import {DirectoryGenerationComponent} from "./components/icon/directory-generator/directory-generation.component";
 import {DirectoryComponent} from './components/directory/directory.component';
 import {DirectoryContentComponent} from './components/directory/directory-content/directory-content.component';
+import {DomainInterceptor} from "./services/interceptors/domain.interceptor";
+import {socketDomain} from "../../domain.config";
 
-const socketConfig: SocketIoConfig = {url: 'ws://localhost:3000', options: {}}
+const socketConfig: SocketIoConfig = {url: socketDomain, options: {}}
 
 @NgModule({
   declarations: [
@@ -71,7 +73,11 @@ const socketConfig: SocketIoConfig = {url: 'ws://localhost:3000', options: {}}
     QRCodeModule,
     MatIconModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: DomainInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
