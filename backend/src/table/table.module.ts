@@ -6,6 +6,6 @@ import {MeetingService} from "../core/meeting/meeting.service";
 @Module({
   controllers: [],
   imports: [CoreModule],
-  providers: [TableGateway,MeetingService]
+  providers: [TableGateway]
 })
 export class TableModule {}

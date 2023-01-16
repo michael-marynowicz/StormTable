@@ -11,4 +11,5 @@ export default interface DocumentModel {
     parent?: string;
 
     folder?: string;
+    user?: string;
 }

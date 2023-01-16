@@ -4,11 +4,11 @@ import { MobileController } from './mobile/mobile.controller';
 import { ClientService } from './client/client.service';
 import { CoreModule } from "../core/core.module";
 import { MeetingController } from './meeting/meeting.controller';
-import {MeetingService} from "../core/meeting/meeting.service";
+import { DocumentController } from './document/document.controller';
 
 @Module({
   imports: [CoreModule],
-  providers: [ClientGateway, ClientService, MeetingService],
-  controllers: [MobileController, MeetingController]
+  providers: [ClientGateway, ClientService],
+  controllers: [MobileController, MeetingController, DocumentController]
 })
 export class ClientModule {}

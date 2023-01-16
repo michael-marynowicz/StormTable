@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable, Scope} from '@nestjs/common';
 import MeetingModel from "../models/meeting.model";
 import {Subject} from "rxjs";
 import DocumentModel from "../models/document.model";
@@ -98,5 +98,13 @@ export class MeetingService {
         fileToLoad.position=directory.position;
         (meeting.documents.find(f => f.id===directory.id) as DirectoryModel).files = (meeting.documents.find(f => f.id===directory.id) as DirectoryModel).files.filter(file => file.id!==fileToLoad.id);
         this.meetingChanged$.next(meeting.id);
+    }
+
+    setDocumentOwner(id: string, owner: string) {
+        console.log("Looking for the document ", id, " in the meetings ", this.meetings);
+        const document = this.meetings.find(m => m.documents.find(d => d.id === id))?.documents.find(d => d.id === id);
+        if(!document)
+            throw new HttpException("Document not found", HttpStatus.NOT_FOUND);
+        document.user = owner;
     }
 }

@@ -10,7 +10,7 @@
       </button>
       <h2>Documents in {{parent}}</h2>
     </div>
-    <app-file-view [documents]="documents" (fileSelect)="documentClicked($event)"></app-file-view>
+    <app-file-view [documents]="documents | visible" (fileSelect)="documentClicked($event)"></app-file-view>
   </div>
 </app-page-layout>
 

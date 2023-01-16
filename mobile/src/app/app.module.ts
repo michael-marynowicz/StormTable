@@ -22,6 +22,7 @@ import {DomainInterceptor} from "./services/domain.interceptor";
 import { MeetingsPageComponent } from './pages/meetings-page/meetings-page.component';
 import { MeetingPageComponent } from './pages/meeting-page/meeting-page.component';
 import { NoDirectoryPipe } from './pipes/no-directory.pipe';
+import { VisiblePipe } from './pipes/visible.pipe';
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/client', options: {
 }}
@@ -42,7 +43,8 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/client', option
     FileViewComponent,
     MeetingsPageComponent,
     MeetingPageComponent,
-    NoDirectoryPipe
+    NoDirectoryPipe,
+    VisiblePipe
   ],
   imports: [
     BrowserModule,

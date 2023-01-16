@@ -1,7 +1,7 @@
 <app-page-layout>
   <div class="in-meeting" *ngIf="meeting">
     <h1>Meeting: {{meeting.name}}</h1>
-    <app-file-view [documents]="meeting.documents | noDirectory"></app-file-view>
+    <app-file-view [documents]="meeting.documents | noDirectory | visible"></app-file-view>
   </div>
   <div class="out-meeting" *ngIf="!meeting">
     <h1>Not in a meeting</h1>
