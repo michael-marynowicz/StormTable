@@ -28,7 +28,7 @@ export class MeetingPageComponent implements OnInit {
 
     aroute.queryParams.subscribe(_ => {
       this.parent = aroute.snapshot.queryParamMap.get('parent') || undefined;
-      this.loadData();
+      //this.loadData();
     });
   }
 
@@ -38,11 +38,8 @@ export class MeetingPageComponent implements OnInit {
 
     this.meetingService.meetings$.subscribe(m => {
       this.meeting = m.find(m => m.id === this.meetingId);
-      if(!this.meeting) {
-        this.router.navigate(['/']);
-        return;
-      }
-      this.documents = this.meetingService.getDocuments(this.meeting, this.parent);
+      if(this.meeting)
+        this.documents = this.meetingService.getDocuments(this.meeting, this.parent);
     })
   }
 
