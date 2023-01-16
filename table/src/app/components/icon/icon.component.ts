@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {IconService} from "../../services/icon.service";
 import {Observable} from "rxjs";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
@@ -30,6 +30,8 @@ export class IconComponent implements OnInit {
 
   dropPoint = {x: 0, y: 0};
   rotation=0;
+  private hold = false;
+  printAllName: Boolean = false;
   @Input() docName! : string[];
   @Input() edit: boolean = false;
   @Input() docPath!: string;
@@ -56,8 +58,6 @@ export class IconComponent implements OnInit {
     this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.doc.url)
   }
 
-  private hold = false;
-
 
   get color(){
     return (this.doc as DirectoryModel).color
@@ -74,6 +74,7 @@ export class IconComponent implements OnInit {
   }
 
   touchstart() {
+    this.printAllName=true;
     this.dragStart()
     document.addEventListener('touchend', () => {
       this.dragEnd()
@@ -98,6 +99,7 @@ export class IconComponent implements OnInit {
     if (!this.hold) return;
     this.hold = false;
     this.meetingService.moveDocument(this.doc);
+    this.printAllName=false;
   }
 
   showMinimap() {
@@ -121,6 +123,7 @@ export class IconComponent implements OnInit {
 
   endRotate() {
     this.meetingService.moveDocument(this.doc);
+    this.printAllName=false;
   }
 
   safePath(doc: DocumentModel) {

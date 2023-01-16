@@ -10,9 +10,9 @@
   <i class="fas fa-redo" (touchmove)="setRotation($event)" (touchend)="endRotate()" [ngStyle]="{'padding':'1%'}"></i>
   <div *ngIf="doc.type!=='DIRECTORY'">
     <!--If the file is pdf-->
-    <span *ngIf="isOpen===false && doc.type === 'PDF'">
+    <span *ngIf="isOpen===false && doc.type === 'PDF'" [style]="{'width':'max-content'}">
     <i id="fa-file-pdf" class="fa-solid fa-file-pdf fa-7x icon"></i>
-      {{docName[0]}}
+      {{docName[0].length<12 || printAllName ? docName[0] : docName[0].substr(0, 12) + "..."}}
     </span>
     <!--If the file is png-->
     <span *ngIf="isOpen===false && doc.type === 'PICTURE'">
