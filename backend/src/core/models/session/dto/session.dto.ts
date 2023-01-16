@@ -15,6 +15,7 @@ export interface UserSessionDto {
   id: string;
   user: UserModel;
   location: { x: number, y: number };
+  rotation: number;
 }
 
 export interface MeetingDto {

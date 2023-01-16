@@ -15,6 +15,8 @@ export class TestPageComponent {
     },
     location: {
       x: 100, y: 100
-    }
+    },
+    rotation: 0
+
   }
 }
