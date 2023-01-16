@@ -13,9 +13,7 @@ export class LoggedGuard implements CanActivate {
   async canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
-    console.log(this.userSessionService.currentUser)
     if(!this.userSessionService.currentUser) {
-      console.log(state.url)
       await this.router.navigate(['login'], { queryParams: { then: state.url }});
       return false;
     }

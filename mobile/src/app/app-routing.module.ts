@@ -12,15 +12,15 @@ import {MeetingsPageComponent} from "./pages/meetings-page/meetings-page.compone
 import {MeetingPageComponent} from "./pages/meeting-page/meeting-page.component";
 
 const routes: Routes = [
-  {path: '', component: WelcomeComponent},
-  {path: 'user/:userId', component: PromptSpotIdComponent},
+  {path: '', component: HomePageComponent, canActivate: [LoggedGuard]},
+  {path: 'user/:userId', component: PromptSpotIdComponent, canActivate: [LoggedGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'spot/:spotId', component: SpotPageComponent, canActivate: [LoggedGuard]},
-  {path: 'home', component: HomePageComponent},
-  {path: 'files', component: UploadFileComponent},
-  {path: 'success', component: SuccessPageComponent},
-  {path: 'meetings', component: MeetingsPageComponent},
-  {path: 'meetings/:meetingId', component: MeetingPageComponent}
+  {path: 'home', component: HomePageComponent, canActivate: [LoggedGuard]},
+  {path: 'files', component: UploadFileComponent, canActivate: [LoggedGuard]},
+  {path: 'success', component: SuccessPageComponent, canActivate: [LoggedGuard]},
+  {path: 'meetings', component: MeetingsPageComponent, canActivate: [LoggedGuard]},
+  {path: 'meetings/:meetingId', component: MeetingPageComponent, canActivate: [LoggedGuard]}
 ];
 
 @NgModule({

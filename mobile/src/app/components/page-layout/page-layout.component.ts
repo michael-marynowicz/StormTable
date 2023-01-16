@@ -31,7 +31,7 @@ export class PageLayoutComponent implements OnInit {
     }
   ];
 
-  alert?: string;
+  inMeeting?: string;
 
   @Input() page?: string;
 
@@ -41,7 +41,7 @@ export class PageLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.meetingService.getCurrentMeeting().then((meeting) => {
       if (meeting) {
-        this.alert = `You are in meeting ${meeting.name}`;
+        this.inMeeting = `You are in meeting ${meeting.name}`;
       }
     })
   }

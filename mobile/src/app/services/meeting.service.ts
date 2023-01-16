@@ -126,4 +126,8 @@ export class MeetingService {
       throw "Directory not found.";
     return this.rename(directory.id, newName);
   }
+
+  isInMeeting(): boolean {
+    return !!this._meeting;
+  }
 }

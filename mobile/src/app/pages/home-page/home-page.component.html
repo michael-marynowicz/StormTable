@@ -1,4 +1,4 @@
-<app-page-layout>
+<app-page-layout page="/home">
   <div class="in-meeting" *ngIf="meeting">
     <h1>Meeting: {{meeting.name}}</h1>
     <app-file-view [documents]="meeting.documents | noDirectory | visible"></app-file-view>
