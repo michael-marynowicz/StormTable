@@ -4,6 +4,9 @@ import {MeetingModel} from "../models/meeting.model";
 import {UserService} from "./user.service";
 import {DocumentModel} from "../models/document.model";
 import {UserSessionService} from "./user-session.service";
+import {Socket} from "ngx-socket-io";
+import {BehaviorSubject} from "rxjs";
+import {SocketGatewayService} from "./socket-gateway.service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +21,28 @@ export class MeetingService {
     return this._meeting!;
   }
 
-  constructor(private http: HttpClient, private userService: UserService, private userSessionService: UserSessionService) { }
+  private meetings: MeetingModel[] = [];
+  meetings$ = new BehaviorSubject<MeetingModel[]>([]);
+
+  constructor(private http: HttpClient, private userService: UserService, private userSessionService: UserSessionService, socketGatewayService: SocketGatewayService) {
+    socketGatewayService.documentChanged$.subscribe((meetingId) => {
+      this.getMeeting(meetingId).then(meeting => {
+        const oldMeeting = this.meetings.find(meeting => meeting.id === meetingId);
+        if(this._meeting && this._meeting.id === meetingId)
+          Object.assign(this._meeting, meeting);
+
+        if(oldMeeting) {
+          Object.assign(oldMeeting, meeting);
+        } else {
+          this.meetings.push(meeting);
+          this.meetings$.next(this.meetings);
+        }
+      })
+    });
+
+    this.meetings$.subscribe((meetings) => console.log("Meetings: ", meetings));
+
+  }
 
   async getCurrentMeeting() {
     const currentUser = this.userSessionService.currentUser?.id;
@@ -29,6 +53,10 @@ export class MeetingService {
       .toPromise();
     if(!this._meeting)
       throw 'Fail to fetch meeting.'
+
+    this.meetings = [...this.meetings.filter(m => m.id !== this._meeting?.id), this._meeting];
+    this.meetings$.next(this.meetings);
+
     return this.meeting;
   }
 
@@ -36,6 +64,10 @@ export class MeetingService {
     return this.http.get<MeetingModel[]>("{main}/meeting").toPromise().then(meetings => {
       if(!meetings)
         return [];
+
+      this.meetings = meetings;
+      this.meetings$.next(this.meetings);
+
       return meetings;
     });
   }
@@ -45,6 +77,10 @@ export class MeetingService {
       console.log("Fetched meetings: ", meetings)
       if(!meetings)
         return [];
+
+      this.meetings = [...this.meetings.filter(m => !meetings.find(meeting => meeting.id === m.id)), ...meetings];
+      this.meetings$.next(this.meetings);
+
       return meetings;
     })
   }
@@ -72,6 +108,10 @@ export class MeetingService {
     return this.http.get<MeetingModel>('{main}/meeting/' + meetingId).toPromise().then(meeting => {
       if(!meeting)
         throw "Meeting not found.";
+
+      this.meetings = [...this.meetings.filter(m => m.id !== meetingId), meeting];
+      this.meetings$.next(this.meetings);
+
       return meeting;
     });
   }

@@ -4,7 +4,9 @@ import {Subject} from "rxjs";
 import DocumentModel from "../models/document.model";
 import DirectoryModel from "../models/directory.model";
 
-@Injectable()
+@Injectable({
+    scope: Scope.DEFAULT
+})
 export class MeetingService {
     private meetings: MeetingModel[] = [
         {
@@ -14,6 +16,7 @@ export class MeetingService {
         }
     ]
     meetingChanged$ = new Subject<string>();
+    documentsChanged$ = new Subject<string>();
 
     getAll() {
         return this.meetings;
@@ -33,6 +36,7 @@ export class MeetingService {
             throw 'Meeting not found.'
         meeting.documents.push(doc);
         this.meetingChanged$.next(id);
+        this.documentsChanged$.next(id);
     }
 
     putDirectory(directory: DirectoryModel, fileId: string) {
@@ -48,6 +52,7 @@ export class MeetingService {
         document.position = position;
         document.rotation = rotation;
         this.meetingChanged$.next(meeting.id);
+        this.documentsChanged$.next(id);
     }
 
     duplicateDocument(source: string, position: { x: number, y: number }, rotation: number) {
@@ -62,6 +67,7 @@ export class MeetingService {
             rotation
         }));
         this.meetingChanged$.next(meeting.id);
+        this.documentsChanged$.next(meeting.id);
     }
 
     deleteDocument(id: string) {
@@ -70,6 +76,7 @@ export class MeetingService {
             throw 'Meeting not found.'
         meeting.documents = meeting.documents.filter(d => d.id !== id);
         this.meetingChanged$.next(meeting.id);
+        this.documentsChanged$.next(id);
     }
 
     deleteDocumentByName(name: string) {
@@ -78,6 +85,7 @@ export class MeetingService {
             throw 'Meeting not found.'
         meeting.documents = meeting.documents.filter(d => d.name !== name);
         this.meetingChanged$.next(meeting.id);
+        this.documentsChanged$.next(meeting.id);
     }
 
     sendToDirectory(file: DocumentModel, directory: DirectoryModel) {
@@ -87,7 +95,7 @@ export class MeetingService {
         fileToAdd.path = directory.path + directory.name + "/" + file.path;
         (meeting.documents.find(f => f.id===directory.id) as DirectoryModel).files.push(fileToAdd);
         this.meetingChanged$.next(meeting.id);
-
+        this.documentsChanged$.next(meeting.id);
     }
 
     reloadFile(file: DocumentModel, directory: DirectoryModel) {
@@ -98,6 +106,7 @@ export class MeetingService {
         fileToLoad.position=directory.position;
         (meeting.documents.find(f => f.id===directory.id) as DirectoryModel).files = (meeting.documents.find(f => f.id===directory.id) as DirectoryModel).files.filter(file => file.id!==fileToLoad.id);
         this.meetingChanged$.next(meeting.id);
+        this.documentsChanged$.next(meeting.id);
     }
 
     setDocumentOwner(id: string, owner: string) {
@@ -106,5 +115,7 @@ export class MeetingService {
         if(!document)
             throw new HttpException("Document not found", HttpStatus.NOT_FOUND);
         document.user = owner;
+        this.meetingChanged$.next(document.id);
+        this.documentsChanged$.next(id);
     }
 }

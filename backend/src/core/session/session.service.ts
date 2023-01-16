@@ -92,6 +92,10 @@ export class SessionService {
         return Object.values(this.sessions).find(s => s.meeting.id === meetingId);
     }
 
+    getSessionsByMeeting(meetingId: string) {
+        return Object.values(this.sessions).filter(s => s.meeting.id === meetingId);
+    }
+
     getSessionByDocument(documentId: string) {
         return Object.values(this.sessions).find(s => this.meetingService.get(s.meeting.id).documents.find(d => d.id === documentId))
     }

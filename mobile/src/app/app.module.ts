@@ -24,7 +24,7 @@ import { MeetingPageComponent } from './pages/meeting-page/meeting-page.componen
 import { NoDirectoryPipe } from './pipes/no-directory.pipe';
 import { VisiblePipe } from './pipes/visible.pipe';
 
-const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/client', options: {
+const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/mobile', options: {
 }}
 
 @NgModule({

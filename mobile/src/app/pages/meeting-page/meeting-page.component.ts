@@ -34,6 +34,15 @@ export class MeetingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+
+    this.meetingService.meetings$.subscribe(m => {
+      this.meeting = m.find(m => m.id === this.meetingId);
+      if(!this.meeting) {
+        this.router.navigate(['/']);
+        return;
+      }
+      this.documents = this.meetingService.getDocuments(this.meeting, this.parent);
+    })
   }
 
   loadData() {
