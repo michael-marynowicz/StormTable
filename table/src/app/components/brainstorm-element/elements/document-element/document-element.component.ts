@@ -17,7 +17,7 @@ export class DocumentElementComponent implements AfterViewInit{
   ngAfterViewInit(): void {
     WebViewer(
       {
-        path: '/lib/webviewer'
+        path: '../../../../../assets/lib'
       },
       this.viewerRef1.nativeElement
     ).then(async instance => {
