@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {MeetingModel} from "../models/meeting.model";
-import {serverHostname} from "./host.config";
 import {UserService} from "./user.service";
 import {DocumentModel} from "../models/document.model";
 

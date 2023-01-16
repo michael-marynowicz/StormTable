@@ -12,7 +12,7 @@ export class UserStandComponent {
   @Input() user!: UserSession;
 
   get positionStyle() {
-    this.user.location.y = this.user.location.y > window.window.innerHeight / 2 ? window.window.innerHeight - 200 : 200
+    this.user.location.y = this.user.location.y<window.window.innerHeight/2 ? window.window.innerHeight/5 : window.window.innerHeight-window.window.innerHeight/5
     return transform(fromPosition(this.user.location.x, this.user.location.y))
   }
 
