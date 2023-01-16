@@ -33,20 +33,15 @@ export class IconComponent implements OnInit {
   dropPoint = {x: 0, y: 0};
   rotation=0;
   @Input() docName! : string[];
-  @Input() edit: boolean = false;
+  @Input() edit: boolean = true;
   @Input() docPath!: string;
 
   constructor(private iconService: IconService, private sanitizer: DomSanitizer,public documentService: DocumentService, private minimapService: MiniMapService, private meetingService: MeetingService) {
-    //this.docPath = this.URL + this.documentService.files[this.documentService.files.length-1].path.replace("\\","/");
-    //todo get the specific file pinched
-
   }
 
   pinch(){
     this.edit= ! this.edit;
-    console.log("looooonnnngggg piiinnnccchhhh");
-    this.docPath = this.URL + this.documentService.files[this.documentService.files.length-1].path.replace("\\","/");
-    //todo get the specific file pinched
+    console.log("pinch");
   }
 
 

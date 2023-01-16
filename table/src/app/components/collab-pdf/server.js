@@ -18,7 +18,8 @@ const db = new CollabDatabase({
 
   const server = new CollabServer({
     resolvers: db.getResolvers(),
-
+    logLevel: CollabServer.LogLevels.DEBUG,
+    filterLogsByTag: CollabServer.LogTags.AUTH,
     // Allow requests from all domains
     corsOption: {
       origin: true
