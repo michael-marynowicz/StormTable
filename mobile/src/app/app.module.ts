@@ -23,6 +23,7 @@ import { MeetingsPageComponent } from './pages/meetings-page/meetings-page.compo
 import { MeetingPageComponent } from './pages/meeting-page/meeting-page.component';
 import { NoDirectoryPipe } from './pipes/no-directory.pipe';
 import { VisiblePipe } from './pipes/visible.pipe';
+import { RenameButtonComponent } from './pages/meeting-page/rename-button/rename-button.component';
 
 const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/mobile', options: {
 }}
@@ -44,7 +45,8 @@ const socketConfig: SocketIoConfig = { url: 'ws://localhost:3000/mobile', option
     MeetingsPageComponent,
     MeetingPageComponent,
     NoDirectoryPipe,
-    VisiblePipe
+    VisiblePipe,
+    RenameButtonComponent
   ],
   imports: [
     BrowserModule,

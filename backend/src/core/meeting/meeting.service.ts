@@ -38,6 +38,15 @@ export class MeetingService {
         this.meetingChanged$.next(id);
         this.documentsChanged$.next(id);
     }
+    putDocuments(id: string, docs: DocumentModel[]) {
+        const meeting = this.meetings.find(m => m.id === id)
+        if (!meeting)
+            throw 'Meeting not found.'
+        meeting.documents = [...meeting.documents, ...docs];
+
+        this.meetingChanged$.next(id);
+        this.documentsChanged$.next(id);
+    }
 
     putDirectory(directory: DirectoryModel, fileId: string) {
         const meeting = this.meetings.find(m => m.documents.find(d => d.id === fileId));
@@ -52,7 +61,7 @@ export class MeetingService {
         document.position = position;
         document.rotation = rotation;
         this.meetingChanged$.next(meeting.id);
-        this.documentsChanged$.next(id);
+        this.documentsChanged$.next(meeting.id);
     }
 
     duplicateDocument(source: string, position: { x: number, y: number }, rotation: number) {
@@ -76,7 +85,7 @@ export class MeetingService {
             throw 'Meeting not found.'
         meeting.documents = meeting.documents.filter(d => d.id !== id);
         this.meetingChanged$.next(meeting.id);
-        this.documentsChanged$.next(id);
+        this.documentsChanged$.next(meeting.id);
     }
 
     deleteDocumentByName(name: string) {
@@ -111,11 +120,27 @@ export class MeetingService {
 
     setDocumentOwner(id: string, owner: string) {
         console.log("Looking for the document ", id, " in the meetings ", this.meetings);
-        const document = this.meetings.find(m => m.documents.find(d => d.id === id))?.documents.find(d => d.id === id);
-        if(!document)
+        const meeting = this.meetings.find(m => m.documents.find(d => d.id === id));
+        if(!meeting)
             throw new HttpException("Document not found", HttpStatus.NOT_FOUND);
+        const document = meeting.documents.find(d => d.id === id)!;
+
         document.user = owner;
-        this.meetingChanged$.next(document.id);
-        this.documentsChanged$.next(id);
+        this.meetingChanged$.next(meeting.id);
+        this.documentsChanged$.next(meeting.id);
+    }
+
+    renameDocument(id: string, name: string) {
+        const meeting = this.meetings.find(m => m.documents.find(d => d.id === id));
+        if(!meeting)
+            throw new HttpException("Document not found", HttpStatus.NOT_FOUND);
+        const document = meeting.documents.find(d => d.id === id)!;
+        if(document.type === 'DIRECTORY') {
+            meeting.documents.filter(d => d.parent === document.name).forEach(d => d.parent = name);
+        }
+        document.name = name;
+
+        this.meetingChanged$.next(meeting.id);
+        this.documentsChanged$.next(meeting.id);
     }
 }

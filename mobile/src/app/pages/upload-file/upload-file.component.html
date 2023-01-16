@@ -3,7 +3,7 @@
     Uploading file(s)...
   </div>
   <div class="alert alert-success" *ngIf="uploaded">
-    {{files.length}} files uploaded successfully.
+    {{uploadedFiles}} files uploaded successfully.
   </div>
   <h1>Upload file</h1>
   <ul class="list-group mb-3">
@@ -14,7 +14,7 @@
       </button>
     </li>
   </ul>
-  <input class="form-control mb-3" type="file" (change)="onFilesChange($event)" [disabled]="uploading">
+  <input class="form-control mb-3" type="file" multiple="true" (change)="onFilesChange($event)" [disabled]="uploading">
   <div class="d-flex justify-content-end">
     <button class="btn btn-lg btn-primary d-flex align-items-center" [disabled]="uploading" (click)="upload()">
       <span class="material-icons me-1">upload_file</span>

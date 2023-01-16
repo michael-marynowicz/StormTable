@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {MeetingService} from "../../services/meeting.service";
 
 @Component({
@@ -9,6 +9,7 @@ import {MeetingService} from "../../services/meeting.service";
 export class UploadFileComponent {
   uploading = false;
   uploaded = false;
+  uploadedFiles = 0;
 
   files: File[] = [];
 
@@ -18,6 +19,7 @@ export class UploadFileComponent {
   onFilesChange(files: Event) {
     const target = files.target as HTMLInputElement;
     this.files = [...this.files, ...Array.from(target.files as FileList)];
+    target.value = "";
   }
 
   removeFile(file: File) {
@@ -29,6 +31,7 @@ export class UploadFileComponent {
     await this.meetingService.uploadFile(this.files);
     this.uploaded = true;
     this.uploading = false;
+    this.uploadedFiles = this.files.length;
     this.files = []
   }
 }

@@ -32,6 +32,7 @@ export class MeetingPageComponent implements OnInit {
     });
   }
 
+
   ngOnInit(): void {
     this.loadData();
 
@@ -65,5 +66,11 @@ export class MeetingPageComponent implements OnInit {
     if (this.parent) {
       this.router.navigate([`/meetings/${this.meetingId}`], {queryParams: {parent: undefined}});
     }
+  }
+
+  async renameByName(newName: string) {
+    if(!this.parent) return;
+    await this.meetingService.renameDirectoryByName(this.parent, newName);
+    await this.router.navigate([`/meetings/${this.meetingId}`], {queryParams: {parent: newName}});
   }
 }

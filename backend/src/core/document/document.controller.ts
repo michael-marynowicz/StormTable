@@ -1,14 +1,14 @@
 import {
     Controller, Delete,
-    Get,
+    Get, Headers,
     HttpException,
     HttpStatus,
     Param,
-    Post,
-    UploadedFile,
+    Post, Put,
+    UploadedFiles,
     UseInterceptors
 } from "@nestjs/common";
-import {FileInterceptor} from "@nestjs/platform-express";
+import {FilesInterceptor} from "@nestjs/platform-express";
 import {diskStorage} from "multer";
 import DocumentModel from "../models/document.model";
 import {v4 as get_uid} from "uuid";
@@ -26,7 +26,7 @@ export class DocumentController {
     }
 
     @Post("upload")
-    @UseInterceptors(FileInterceptor("file", {
+    @UseInterceptors(FilesInterceptor('files', undefined, {
         storage: diskStorage({
             destination: "./files",
             filename: (req, file, cb) => {
@@ -34,28 +34,31 @@ export class DocumentController {
                 let extension = extArray[extArray.length - 1];
                 cb(null, file.fieldname + "-" + Date.now() + "." + extension);
             }
-
         })
-
     }))
-    async save(@UploadedFile() file, @MessageBody() body: { user: string }, @ConnectedSocket() socket: Socket): Promise<any> {
-        const session = this.sessionService.getSessionByUser(body.user);
+    async save(@UploadedFiles() files, @Headers('user') user: string, @ConnectedSocket() socket: Socket): Promise<any> {
+        const session = this.sessionService.getSessionByUser(user);
         if (!session)
             throw "Session not found";
 
-        const position = session?.users.find(u => u.id === body.user)?.location || {x: 0, y: 0};
+        const position = session?.users.find(u => u.id === user)?.location || {x: 0, y: 0};
 
-        const doc: DocumentModel = {
-            id: get_uid(),
-            name: file.originalname,
-            type: file.path.endsWith(".pdf") ? ElementType.PDF : ElementType.PICTURE,
-            path: file.path,
-            position: position,
-            rotation: 0,
-            parent: undefined,
-        };
+        const docs: DocumentModel[] = files.map((file, i) => {
+            return {
+                id: get_uid(),
+                name: file.originalname,
+                type: file.path.endsWith(".pdf") ? ElementType.PDF : ElementType.PICTURE,
+                path: file.path,
+                position: {
+                    x: position.x + i * 10,
+                    y: position.y + i * 10
+                },
+                rotation: 0,
+                parent: undefined,
+            };
+        })
 
-        this.meetingService.putDocument(session.meeting.id, doc);
+        this.meetingService.putDocuments(session.meeting.id, docs);
 
         return;
     }
@@ -76,6 +79,11 @@ export class DocumentController {
         } catch (e) {
             throw new HttpException("File not found.", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Put(':id/rename')
+    renameFile(@Param('id') id: string, @MessageBody() body: { name: string }) {
+        this.meetingService.renameDocument(id, body.name);
     }
 
 }

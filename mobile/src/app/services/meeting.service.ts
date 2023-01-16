@@ -87,7 +87,7 @@ export class MeetingService {
 
   async uploadFile(files: File[]) {
     const data = new FormData();
-    files.forEach(file => data.append("file",file));
+    files.forEach(file => data.append('files', file, file.name));
     data.append('user', this.userSessionService.currentUser!.id);
     await this.http.post(`{main}/document/upload`,data).toPromise();
   }
@@ -116,4 +116,14 @@ export class MeetingService {
     });
   }
 
+  rename(documentId: string, newName: string) {
+    return this.http.put<{message: string}>(`{main}/document/${documentId}/rename`, {name: newName}).toPromise();
+  }
+
+  renameDirectoryByName(directoryName: string, newName: string) {
+    const directory = this.meetings.find(m => m.documents.find(d => d.name === directoryName))?.documents.find(d => d.name === directoryName);
+    if(!directory)
+      throw "Directory not found.";
+    return this.rename(directory.id, newName);
+  }
 }

@@ -2,15 +2,21 @@
   <h1 *ngIf="!meeting">Loading...</h1>
   <div class="container" *ngIf="meeting && documents">
     <h1>{{meeting.name}}</h1>
-    <h2 *ngIf="!parent">Documents in session</h2>
-    <div class="d-flex align-items-center mb-3"  *ngIf="parent">
-      <button class="btn btn-sm btn-primary d-flex align-items-center me-3" (click)="back()">
-        <span class="material-icons me-1">arrow_back</span>
-        back
-      </button>
-      <h2>Documents in {{parent}}</h2>
+    <h2>Documents in session</h2>
+    <div class="mb-3"  *ngIf="parent">
+      <div class="d-flex align-items-center ">
+        <button class="btn btn-sm btn-primary d-flex align-items-center me-3" (click)="back()">
+          <span class="material-icons me-1">arrow_back</span>
+          back
+        </button>
+        <h2 style="flex: 1">{{parent}}</h2>
+        <app-rename-button [name]="parent" (rename)="renameByName($event)"></app-rename-button>
+      </div>
     </div>
     <app-file-view [documents]="documents | visible" (fileSelect)="documentClicked($event)"></app-file-view>
   </div>
 </app-page-layout>
+
+
+
 
