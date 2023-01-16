@@ -2,7 +2,6 @@
 
 <div class="example-box"
      (pinch)="pinch()"
-     cdkDrag
      *ngIf="edit === false"
      (press)="showMinimap()"
      (mousedown)="mousedown()"
@@ -10,6 +9,7 @@
      (dblclick)="load()"
      [ngStyle]="{'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'rad'}">
 
+  <i class="fas fa-redo" (touchmove)="setRotation($event)" [ngStyle]="{'padding':'1%'}"></i>
   <!--If the file is pdf-->
   <span *ngIf="isOpen===false && doc.type === 'PDF'">
     <i id="fa-file-pdf" class="fa-solid fa-file-pdf fa-7x"></i>
@@ -36,7 +36,6 @@
     {{docName[0]}}
   </span>
 
-  <i class="fas fa-redo" (touchmove)="setRotation($event)" [ngStyle]="{'padding':'1%'}"></i>
   <div *ngIf="isOpen===true">
     <button class="btn-close" aria-label="Close" type="button" (click)="isOpen=false"></button>
     <iframe *ngIf="doc.type!=='PICTURE'" id="inlineFrameExample"
