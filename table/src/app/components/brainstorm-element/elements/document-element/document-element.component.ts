@@ -1,57 +1,62 @@
-import WebViewer from '@pdftron/webviewer'
-import { CollabClient } from '@pdftron/collab-client'
-import {AfterViewInit, Component, ElementRef, Input, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, Directive, ElementRef, HostListener, Inject, Input, ViewChild} from '@angular/core';
+import WebViewer, {UI, WebViewerInstance} from "@pdftron/webviewer";
+
 
 @Component({
   selector: 'app-document-element',
   templateUrl: './document-element.component.html',
   styleUrls: ['./document-element.component.less']
 })
+export class DocumentElementComponent implements AfterViewInit {
+  @ViewChild('viewer1')  viewerRef1! : ElementRef;
+  @ViewChild('viewer2')  viewerRef2! : ElementRef;
+  @Input() docPath!: any;
 
-
-export class DocumentElementComponent implements AfterViewInit{
-  @ViewChild('viewer1') viewerRef1!: ElementRef;
-  @Input()
-  docPath!: any;
+  public currentpage! : number;
+  public scroll! : Element;
+  public viewer1! : WebViewerInstance;
+  public viewer2! : WebViewerInstance;
+  public master1 : boolean = true;
+  public master2 : boolean = false;
 
   ngAfterViewInit(): void {
-    WebViewer(
-      {
-        path: '../../../../../assets/lib',
-        //initialDoc:'https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf'
-      },
-      this.viewerRef1.nativeElement
-    ).then(async instance => {
 
-      const client = new CollabClient({
-        instance,
-        logLevel: CollabClient.LogLevels.DEBUG,
-        filterLogsByTag: CollabClient.LogTags.AUTH,
-        url: `http://localhost:3001`,
-        subscriptionUrl: `ws://localhost:3001/subscribe`
-      })
-
-      const user = client.loginAnonymously('PDFTron');
-      console.log("user", user);
-      const filePath = 'https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf';
-
-      /*const createDocument = async () => {
-        const document = await user.createDocument({
-          document: filePath,
-          isPublic: true,
-          name: 'document.pdf'
-        });
-        await document.view(filePath);
-      }
-
-      let button =  document.getElementById('my-button')!;
-      button.onclick = createDocument;*/
-
-     /* const documents = await user.getAllDocuments();
-      if(documents.length > 0) {
-        const mostRecentDocument = documents[0];
-        await mostRecentDocument.view(filePath);
-      }*/
+    WebViewer({
+      path: '../../../../../assets/lib',
+      initialDoc: this.docPath
+    }, this.viewerRef1.nativeElement).then(instance => {
+      this.viewer1 = instance;
+      instance.Core.documentViewer.addEventListener('pageNumberUpdated', pageNumber => {
+        if(this.master1){
+          this.getPage_viewer1();
+        }
+      });
     });
+
+    WebViewer({
+      path: '../../../../../assets/lib',
+      initialDoc: this.docPath
+    }, this.viewerRef2.nativeElement).then(instance => {
+      this.viewer2 = instance;
+      instance.Core.documentViewer.addEventListener('pageNumberUpdated', pageNumber => {
+        if(this.master2){
+          this.getPage_viewer2();
+        }
+      });
+    });
+
   }
+
+  getPage_viewer1(){
+    this.currentpage = this.viewer1.Core.documentViewer.getCurrentPage();
+    console.log(this.currentpage);
+    this.viewer2.Core.documentViewer.setCurrentPage(this.currentpage,true);
+  }
+  getPage_viewer2(){
+    this.currentpage = this.viewer2.Core.documentViewer.getCurrentPage();
+    console.log(this.currentpage);
+    this.viewer1.Core.documentViewer.setCurrentPage(this.currentpage,true);
+  }
+
+
 }
