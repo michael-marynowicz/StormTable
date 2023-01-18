@@ -1,8 +1,9 @@
 <div>
   <div 
     class="positionable stand center" 
-    [ngStyle]="{'rotate':rotation+'deg',
+    [ngStyle]="{
                 'top':user.location.x+'px',
+                'rotate':rotation+'deg',
                 'left':user.location.y+'px',
                 'width':userStandWidth+'px',
                 'height':userStandHeight+'px'}"

@@ -12,8 +12,8 @@ import SessionService from "../../services/session.service";
 export class UserStandComponent {
   @Input() user!: UserSession;
 
-  userStandWidth : number =400;
-  userStandHeight : number=200;
+  userStandWidth : number = 400;
+  userStandHeight : number= 400;
 
   onDrag:Boolean=false;
   centerX: number = 0;
@@ -23,22 +23,27 @@ export class UserStandComponent {
   }
 
   mousedown(){
+    console.log("user : %s",this.user.user.name);
     document.addEventListener('touchmove', (event) => {
     var touchPoint = {x:event.touches[0].clientX, y: event.touches[0].clientY};
+    if(this.isPointInside(touchPoint))
+      this.onDrag=true;
     console.log("User touched : %s",this.user.user.name);
 
       if(this.onDrag){
         this.dragging({x: event.touches[0].clientX, y: event.touches[0].clientY});
-
       }
     });
     document.addEventListener('touchend', () => {
+      if(this.onDrag){
+
       this.onDrag =false;
       this.stick();
       this.center();
-
       // Sync with server
       this.sessionService.setUserPosition(this.user.id, this.user.location, this.user.rotation);
+      }
+
     });
   }
   private dragging(position: { x: number, y: number } = {x: 0, y: 0}) {
@@ -54,7 +59,7 @@ export class UserStandComponent {
       this.user.location.x= window.innerHeight- this.userStandHeight;
     break;
     case 90: 
-      this.user.location.y= 0;
+      this.user.location.y= 0;//this.userStandWidth;
     break;
     case -90:
       this.user.location.y= window.innerWidth-this.userStandWidth + this.userStandHeight/2;
