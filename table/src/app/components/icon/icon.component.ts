@@ -9,6 +9,7 @@ import {DocumentService} from "../../services/document.service";
 import MiniMapService from 'src/app/services/mini-map.service';
 import {UserSession} from "../../models/user-session";
 import {MeetingService} from "../../services/meeting.service";
+import {WebViewerInstance} from "@pdftron/webviewer";
 
 @Component({
   selector: 'app-icon',
@@ -32,6 +33,7 @@ export class IconComponent implements OnInit {
   rotation=0;
   private hold = false;
   printAllName: Boolean = false;
+  public viewer1!: WebViewerInstance;
   @Input() docName! : string[];
   @Input() edit: boolean = false;
   @Input() docPath!: string;
@@ -130,4 +132,7 @@ export class IconComponent implements OnInit {
     return doc.url;
   }
 
+  test() {
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@")
+  }
 }

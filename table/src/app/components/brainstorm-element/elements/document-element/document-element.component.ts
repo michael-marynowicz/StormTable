@@ -1,6 +1,5 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
-import WebViewer, {Core, WebViewerInstance} from "@pdftron/webviewer";
-import documentViewer = Core.documentViewer;
+import {AfterViewInit, Component, ElementRef, HostListener, Input, ViewChild} from '@angular/core';
+import WebViewer, {WebViewerInstance} from "@pdftron/webviewer";
 
 
 @Component({
@@ -43,19 +42,32 @@ export class DocumentElementComponent implements AfterViewInit {
       behavior: 'smooth'
     });
 
-    console.log(this.docPath);
-
   }
 
 
+  getPage2() {
+    console.log("##################################",this.viewer2.Core.documentViewer.getCurrentPage())
+    this.currentpage = this.viewer2.Core.documentViewer.getCurrentPage();
+    this.viewer1.Core.documentViewer.setCurrentPage(this.currentpage, true);
+    //this.viewer2.Core.documentViewer.scrollViewUpdated();
+  }
 
-  getPage() {
-    let currentScroll = this.viewer1.Core.documentViewer.getScrollViewElement();
-    this.viewer2.Core.documentViewer.setScrollViewElement(currentScroll);
+
+  getPage1() {
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",this.viewer1.Core.documentViewer.getCurrentPage())
     this.currentpage = this.viewer1.Core.documentViewer.getCurrentPage();
     this.viewer2.Core.documentViewer.setCurrentPage(this.currentpage, true);
-    this.viewer2.Core.documentViewer.updateView([this.currentpage], this.viewer2.Core.documentViewer.getCurrentPage());
+    //this.viewer1.Core.documentViewer.scrollViewUpdated();
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  doSomething(event:MouseEvent) {
+    console.log("Scroll Event", window.pageYOffset );
+
   }
 
 
+  test() {
+    console.log("okokokokkkokokko")
+  }
 }

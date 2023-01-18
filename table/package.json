@@ -26,8 +26,8 @@
     "angular-hammer": "^2.2.0",
     "angularx-qrcode": "^15.0.1",
     "circular-menu": "^1.0.6",
-    "hammerjs": "^2.0.8",
     "file-saver": "^2.0.5",
+    "hammerjs": "^2.0.8",
     "move-rotate-resizer": "^1.0.5",
     "mrr": "^1.4.12",
     "ngx-file-drop": "^14.0.2",
@@ -37,6 +37,7 @@
     "save": "^2.9.0",
     "subjx": "^1.1.0",
     "tslib": "^2.3.0",
+    "webviews": "^1.0.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

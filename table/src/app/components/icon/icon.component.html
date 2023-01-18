@@ -1,6 +1,6 @@
 <div class="example-box"
      *ngIf="doc.parent===undefined && edit === false"
-     (pinchout)="pinch()"
+     (click)="pinch()"
      (press)="showMinimap()"
      (mousedown)="mousedown()"
      (touchstart)="touchstart()"
@@ -35,12 +35,13 @@
       {{docName[0]}}
     </span>
     <div *ngIf="isOpen===true">
-      <button class="btn-close" aria-label="Close" type="button" (click)="isOpen=false"></button>
+      <button class="btn-close" aria-label="Close" type="button" (click)="this.isOpen=false"></button>
       <iframe *ngIf="doc.type!=='PICTURE'" id="inlineFrameExample"
               title="Inline Frame Example"
               style="width: 10cm; height: 10cm;"
               [src]=safeURL
               [ngStyle]="{'position':'relative','top' : '125px'}"
+              (blur)="test()"
       >
       </iframe>
 
@@ -55,5 +56,5 @@
                 (onSendTo)="onSendToUser($event)"
   ></app-mini-map>
 </div>
-<app-document-element [docPath]=safePath(doc) *ngIf="edit" (pinchin)="pinch()"></app-document-element>
+<app-document-element [docPath]=safePath(doc) *ngIf="edit" (click)="pinch()"></app-document-element>
 
