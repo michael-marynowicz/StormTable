@@ -17,12 +17,15 @@ export class UserStandComponent {
   onDrag:Boolean=false;
   centerX: number = 0; 
   centerY: number = 0; 
-  mousedown(){
+  mousedown(ev:TouchEvent){
+   if(this.isPointInside({x:ev.touches[0].clientX,y:ev.touches[0].clientY}))
+    this.onDrag=true;
+
     document.addEventListener('touchmove', (event) => {
     var touchPoint = {x:event.touches[0].clientX, y: event.touches[0].clientY};
+    console.log("User touched : %s",this.user.user.name);
 
-      if(this.onDrag || this.isPointInside(touchPoint)){
-        this.onDrag =true;
+      if(this.onDrag){
         this.dragging({x: event.touches[0].clientX, y: event.touches[0].clientY});
 
       }
@@ -34,6 +37,7 @@ export class UserStandComponent {
     });
   }
   private dragging(position: { x: number, y: number } = {x: 0, y: 0}) {
+    console.log("curently dragging");
       this.user.location.x = position.y-this.userStandHeight/2;
       this.user.location.y = position.x-this.userStandWidth/2;
       this.center();
@@ -45,7 +49,7 @@ export class UserStandComponent {
       this.user.location.x= window.innerHeight- this.userStandHeight;
     break;
     case 90: 
-      this.user.location.y= -this.userStandHeight/2;
+      this.user.location.y= 0;
     break;
     case -90: 
       this.user.location.y= window.innerWidth-this.userStandWidth + this.userStandHeight/2;

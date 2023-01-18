@@ -79,7 +79,7 @@ export class SessionService {
         session.table.spots = session.table.spots.filter(s => s.id !== spotId);
         session.users.push({
             id: userId,
-            location: spot.location,
+            location: {x:150,y:150},//spot.location,
             rotation:0
         })
         this.sessionChanged.next(session)
