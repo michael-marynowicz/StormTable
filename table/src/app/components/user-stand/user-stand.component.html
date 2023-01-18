@@ -1,13 +1,28 @@
 <div>
-  <div class="positionable stand-holder stand-size" [style]="positionStyle">
-    <div class="player-position stand-size"></div>
-    <div class="stand stand-content center">
-      <div class="stand-label" [ngStyle]="{'rotate':rotation+'deg'}">
+  <div 
+    class="positionable stand center" 
+    [ngStyle]="{'rotate':rotation+'deg',
+                'top':user.location.x+'px',
+                'left':user.location.y+'px',
+                'width':userStandWidth+'px',
+                'height':userStandHeight+'px'}"
+    
+     (touchstart)="mousedown()"
+      >
+      <input type="button" value="rotate" (click)="rotate()">
+    <div class="stand-label">
+
         {{username}}
-      </div>
     </div>
   </div>
 </div>
-
-
+<div
+style="position:absolute ;color: red; ; left:50px"
+[ngStyle]="{
+  'top':centerY+'px',
+  'left':centerX+'px'
+}"
+ >
+o
+</div>
 
