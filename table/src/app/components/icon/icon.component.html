@@ -54,5 +54,5 @@
                 (onSendTo)="onSendToUser($event)"
   ></app-mini-map>
 </div>
-<app-document-element [docPath]=safePath(doc) *ngIf="edit"></app-document-element>
+<app-document-element [docPath]=safePath(doc) *ngIf="edit" (click)="pinch()"></app-document-element>
 

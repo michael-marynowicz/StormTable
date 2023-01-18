@@ -1,5 +1,7 @@
 import {AfterViewInit, Component, Directive, ElementRef, HostListener, Inject, Input, ViewChild} from '@angular/core';
-import WebViewer, {UI, WebViewerInstance} from "@pdftron/webviewer";
+import WebViewer, {Core, UI, WebViewerInstance} from "@pdftron/webviewer";
+import annotationManager = Core.annotationManager;
+import DocumentModel from "../../../../models/document.model";
 
 
 @Component({
@@ -31,6 +33,7 @@ export class DocumentElementComponent implements AfterViewInit {
           this.getPage_viewer1();
         }
       });
+
     });
 
     WebViewer({
@@ -59,4 +62,13 @@ export class DocumentElementComponent implements AfterViewInit {
   }
 
 
+  master(number: number) {
+    if(number == 1){
+      this.master1 = true;
+      this.master2 = false
+    }else{
+      this.master1 =false;
+      this.master2 = true;
+    }
+  }
 }

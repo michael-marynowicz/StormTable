@@ -1,9 +1,7 @@
 <div id="body">
-  <div #viewer1 id="viewer1">
+  <div #viewer1 id="viewer1" (pointermove)="master(1)">
   </div>
-  <div #viewer2 id="viewer2">
-  </div>
-  <div id="master">
-
+  <div #viewer2 id="viewer2" (drag)="master(2)" (pointerover)="master(2)" (pointerdown)="master(2)"
+       (pointermove)="master(2)"  >
   </div>
 </div>
