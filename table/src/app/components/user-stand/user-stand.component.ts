@@ -14,18 +14,21 @@ export class UserStandComponent {
   userStandWidth : number =400;
   userStandHeight : number=200;
 
+  onDrag:Boolean=false;
   centerX: number = 0; 
   centerY: number = 0; 
   mousedown(){
     document.addEventListener('touchmove', (event) => {
     var touchPoint = {x:event.touches[0].clientX, y: event.touches[0].clientY};
 
-      if(this.isPointInside(touchPoint)){
-      this.dragging({x: event.touches[0].clientX, y: event.touches[0].clientY});
+      if(this.onDrag || this.isPointInside(touchPoint)){
+        this.onDrag =true;
+        this.dragging({x: event.touches[0].clientX, y: event.touches[0].clientY});
 
       }
     });
     document.addEventListener('touchend', () => {
+      this.onDrag =false;
       this.stick();
       this.center();
     });
