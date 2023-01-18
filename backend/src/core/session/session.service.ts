@@ -14,6 +14,7 @@ import SessionDto from "../models/session/dto/session.dto";
 import { aggregateDto } from "./session.dto-converter";
 import DirectoryModel from "../models/directory.model";
 import DocumentModel from "../models/document.model";
+import UserNotFoundError from "../errors/user-not-found.error";
 
 @Injectable({
     scope: Scope.DEFAULT
@@ -133,5 +134,17 @@ export class SessionService {
 
     reloadFile(file: DocumentModel, directory: DirectoryModel) {
         this.meetingService.reloadFile(file,directory)
+    }
+
+    setUserPosition(userId: string, position: { x: number, y: number }, rotation: number) {
+        const session = this.getSessionByUser(userId);
+        if (!session)
+            throw SessionNotFoundError()
+        const user = session.users.find(u => u.id === userId)
+        if (!user)
+            throw UserNotFoundError();
+        user.location = position;
+        user.rotation = rotation;
+        this.sessionChanged.next(session)
     }
 }
