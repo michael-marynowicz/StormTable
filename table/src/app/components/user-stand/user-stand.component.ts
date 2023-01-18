@@ -18,7 +18,12 @@ export class UserStandComponent {
   centerY: number = 0; 
   mousedown(){
     document.addEventListener('touchmove', (event) => {
+    var touchPoint = {x:event.touches[0].clientX, y: event.touches[0].clientY};
+
+      if(this.isPointInside(touchPoint)){
       this.dragging({x: event.touches[0].clientX, y: event.touches[0].clientY});
+
+      }
     });
     document.addEventListener('touchend', () => {
       this.stick();
@@ -46,6 +51,29 @@ export class UserStandComponent {
       this.user.location.x= 0;
     break;
   }
+  }
+  private isPointInside(point:{x:number,y:number}){
+    var center = this.center();
+    if(Math.abs(this.user.rotation)==90){//vertical box 
+      console.log("vertical box ")
+      return(  
+        point.x <=(center.x+this.userStandHeight/2) &&
+        point.x >=(center.x-this.userStandHeight/2) &&
+        point.y <=(center.y+this.userStandWidth/2) &&
+        point.y >=(center.y-this.userStandWidth/2) 
+      )
+
+    }else{//horizontal box 
+      console.log("Horizontal box ")
+      return (
+        point.x <=(center.x+this.userStandWidth/2) &&
+        point.x >=(center.x-this.userStandWidth/2) &&
+        point.y <=(center.y+this.userStandHeight/2) &&
+        point.y >=(center.y-this.userStandHeight/2) 
+      )
+
+    }
+
   }
   private getNearestBorder(){
     var center = this.center();
