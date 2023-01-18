@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {UserSession} from "../../models/user-session";
 import {transform} from "../../../utils/style.utils";
 import {fromPosition} from "../../models/viewport.model";
+import SessionService from "../../services/session.service";
 
 @Component({
   selector: 'app-user-stand',
@@ -15,8 +16,12 @@ export class UserStandComponent {
   userStandHeight : number=200;
 
   onDrag:Boolean=false;
-  centerX: number = 0; 
-  centerY: number = 0; 
+  centerX: number = 0;
+  centerY: number = 0;
+
+  constructor(private sessionService: SessionService) {
+  }
+
   mousedown(){
     document.addEventListener('touchmove', (event) => {
     var touchPoint = {x:event.touches[0].clientX, y: event.touches[0].clientY};
@@ -31,6 +36,9 @@ export class UserStandComponent {
       this.onDrag =false;
       this.stick();
       this.center();
+
+      // Sync with server
+      this.sessionService.setUserPosition(this.user.id, this.user.location, this.user.rotation);
     });
   }
   private dragging(position: { x: number, y: number } = {x: 0, y: 0}) {
@@ -41,38 +49,38 @@ export class UserStandComponent {
   }
   private stick(){
   switch(this.user.rotation){
-    case 0: 
+    case 0:
       this.user.location.x= window.innerHeight- this.userStandHeight;
     break;
-    case 90: 
+    case 90:
       this.user.location.y= -this.userStandHeight/2;
     break;
-    case -90: 
+    case -90:
       this.user.location.y= window.innerWidth-this.userStandWidth + this.userStandHeight/2;
     break;
-    case 180: 
+    case 180:
       this.user.location.x= 0;
     break;
   }
   }
   private isPointInside(point:{x:number,y:number}){
     var center = this.center();
-    if(Math.abs(this.user.rotation)==90){//vertical box 
+    if(Math.abs(this.user.rotation)==90){//vertical box
       console.log("vertical box ")
-      return(  
+      return(
         point.x <=(center.x+this.userStandHeight/2) &&
         point.x >=(center.x-this.userStandHeight/2) &&
         point.y <=(center.y+this.userStandWidth/2) &&
-        point.y >=(center.y-this.userStandWidth/2) 
+        point.y >=(center.y-this.userStandWidth/2)
       )
 
-    }else{//horizontal box 
+    }else{//horizontal box
       console.log("Horizontal box ")
       return (
         point.x <=(center.x+this.userStandWidth/2) &&
         point.x >=(center.x-this.userStandWidth/2) &&
         point.y <=(center.y+this.userStandHeight/2) &&
-        point.y >=(center.y-this.userStandHeight/2) 
+        point.y >=(center.y-this.userStandHeight/2)
       )
 
     }
@@ -81,11 +89,11 @@ export class UserStandComponent {
   private getNearestBorder(){
     var center = this.center();
         var distBorder = [
-          center.y, // top 
+          center.y, // top
           window.innerHeight - center.y,//bot
           center.x,//left
           window.innerWidth - center.x//right
-        ]; 
+        ];
     var nearestBorder = distBorder.indexOf( Math.min(...distBorder))
     console.log("Nearest border [%s]is %d",distBorder.toString(), nearestBorder);
     return nearestBorder;
