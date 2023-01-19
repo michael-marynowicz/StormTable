@@ -16,10 +16,5 @@ export class DirectoryComponent{
     return this.directory as DirectoryModel
   }
 
-  get printFiles(){
-    this.wantFiles = this.wantFiles && !this.miniMap
-    return this.wantFiles
-  }
-
 
 }

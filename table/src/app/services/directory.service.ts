@@ -16,9 +16,12 @@ export class DirectoryService {
 
   directory$ = new BehaviorSubject<DirectoryModel[]>([]);
   directory : DirectoryModel[] = [];
+
+  colors= ["7dff57","ff284c","2ddcff","d558ff","ffc3a7","fff373","a25ad6","a23866","335c9a","b54d1c"];
+
   constructor(private meetingService: MeetingService,private httpClient: HttpClient) { }
 
-  async createDirectory(p: { x: number; y: number }, color: string, file: DocumentModel) {
+  async createDirectory(p: { x: number; y: number }, file: DocumentModel) {
     const dir: DirectoryModel = {
       name: "doc" + "-" + this.directory.length,
       path: "./files/",
@@ -26,7 +29,7 @@ export class DirectoryService {
       rotation: 0,
       type: ElementType.DIRECTORY,
       id: "doc" + "-" + Date.now(),
-      color: color,
+      color: "#"+(this.colors.length>0 ? this.colors.shift() : Math.floor(Math.random() * 16777215).toString(16)),
       files: [],
       parent:undefined,
       url:""

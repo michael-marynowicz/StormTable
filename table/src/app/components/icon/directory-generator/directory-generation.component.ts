@@ -11,7 +11,7 @@ import SessionService from "../../../services/session.service";
   templateUrl: './directory-generation.component.html',
   styleUrls: ['./directory-generation.component.less']
 })
-export class DirectoryGenerationComponent {
+export class DirectoryGenerationComponent{
 
   directory: DirectoryModel[] = [];
   @Input() file!: DocumentModel;
@@ -19,6 +19,7 @@ export class DirectoryGenerationComponent {
   subs?: Subscription
   showAllDirectory: boolean = false;
 
+  colors! : string[];
   @Output() onSendToDirectory = new EventEmitter<string>();
 
   constructor(private directoryService: DirectoryService, private documentService: DocumentService, private sessionService:SessionService) {
@@ -29,7 +30,7 @@ export class DirectoryGenerationComponent {
     this.directoryService.createDirectory({
       x: this.file.position.x,
       y: this.file.position.y
-    }, "#" + Math.floor(Math.random() * 16777215).toString(16), this.file)
+    },this.file)
     this.showAllDirectory = false;
 
   }
@@ -43,4 +44,6 @@ export class DirectoryGenerationComponent {
     console.log(this.sessionService.getAllDirectory())
     return this.sessionService.getAllDirectory()
   }
+
+
 }
