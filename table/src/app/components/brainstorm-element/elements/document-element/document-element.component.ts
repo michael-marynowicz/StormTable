@@ -26,6 +26,10 @@ export class DocumentElementComponent implements AfterViewInit {
   public annotations_viewer2! : any;
   public files: File[] = [];
 
+  get width() {
+    return (window.innerWidth / 2) + "px";
+  }
+
   constructor(private meetingService: MeetingService) {
   }
 
@@ -51,7 +55,7 @@ export class DocumentElementComponent implements AfterViewInit {
       const { annotationManager } = this.viewer1.Core;
       annotationManager.addEventListener('annotationChanged', (annotations, action) => {
         if(this.master1) {
-          this.viewer2.Core.annotationManager.drawAnnotationsFromList(annotations).then(r => {
+          this.viewer2.Core.annotationManager.drawAnnotationsFromList(this.viewer2.Core.annotationManager.getAnnotationsList()).then(r => {
             console.log('this is a change that added annotations');
           });
           if (action === 'add') {
@@ -62,9 +66,26 @@ export class DocumentElementComponent implements AfterViewInit {
               console.log('this is a change that added annotations');
             });
           } else if (action === 'modify') {
-            console.log('this change modified annotations');
+            this.annotations_viewer1 = annotationManager.getAnnotationsList();
+            this.viewer2.Core.annotationManager.deleteAnnotations(this.viewer2.Core.annotationManager.getAnnotationsList());
+            this.viewer2.Core.annotationManager.addAnnotations(this.annotations_viewer1);
+            this.viewer2.Core.annotationManager.drawAnnotationsFromList(annotations).then(r => {
+              console.log('this change modified annotations');
+            });
           } else if (action === 'delete') {
-            console.log('there were annotations deleted');
+            this.annotations_viewer1 = annotationManager.getAnnotationsList();
+            this.viewer2.Core.annotationManager.deleteAnnotations(this.viewer2.Core.annotationManager.getAnnotationsList());
+            this.viewer2.Core.annotationManager.addAnnotations(this.annotations_viewer1);
+            this.viewer2.Core.annotationManager.drawAnnotationsFromList(annotations).then(r => {
+              console.log('there were annotations deleted');
+            });
+          } else{
+            this.annotations_viewer1 = annotationManager.getAnnotationsList();
+            this.viewer2.Core.annotationManager.deleteAnnotations(this.viewer2.Core.annotationManager.getAnnotationsList());
+            this.viewer2.Core.annotationManager.addAnnotations(this.annotations_viewer1);
+            this.viewer2.Core.annotationManager.drawAnnotationsFromList(annotations).then(r => {
+              console.log('there were annotations');
+            });
           }
           annotations.forEach((annot: any) => {
             console.log('annotation page number', annot.PageNumber);
@@ -120,7 +141,7 @@ export class DocumentElementComponent implements AfterViewInit {
       const { annotationManager } = this.viewer2.Core;
       annotationManager.addEventListener('annotationChanged', (annotations, action) => {
         if (this.master2) {
-          this.viewer1.Core.annotationManager.drawAnnotationsFromList(annotations).then(r => {
+          this.viewer1.Core.annotationManager.drawAnnotationsFromList(this.viewer1.Core.annotationManager.getAnnotationsList()).then(r => {
             console.log('this is a change that added annotations');
           });
           if (action === 'add') {
