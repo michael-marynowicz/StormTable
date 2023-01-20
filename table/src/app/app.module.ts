@@ -9,11 +9,10 @@ import {ErrorAlertComponent} from './components/alert/alerts/error-alert/error-a
 import {AlertDrawerComponent} from './components/alert-drawer/alert-drawer.component';
 import {LoadingAlertComponent} from './components/loading-alert/loading-alert.component';
 import {ListSelectionDialogComponent} from './components/list-selection-dialog/list-selection-dialog.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
 import {TableRuntimeComponent} from './pages/table-runtime/table-runtime.component';
 import {SpotComponent} from './components/spot/spot.component';
-import {TestPageComponent} from './pages/test-page/test-page.component';
 import {
   BrainstormElementComponentComponent
 } from "./components/brainstorm-element/brainstorm-element-component.component";
@@ -26,14 +25,18 @@ import {FormsModule} from "@angular/forms";
 import {
   DocumentElementComponent
 } from "./components/brainstorm-element/elements/document-element/document-element.component";
-
 import {MiniMapComponent} from "./components/icon/mini-map/mini-map.component";
 import {NgxFileDropModule} from "ngx-file-drop";
 import {UserStandComponent} from './components/user-stand/user-stand.component';
 import {QRCodeModule} from "angularx-qrcode";
 import {MatIconModule} from "@angular/material/icon";
+import {DirectoryGenerationComponent} from "./components/icon/directory-generator/directory-generation.component";
+import {DirectoryComponent} from './components/directory/directory.component';
+import {DirectoryContentComponent} from './components/directory/directory-content/directory-content.component';
+import {DomainInterceptor} from "./services/interceptors/domain.interceptor";
+import {socketDomain} from "../../domain.config";
 
-const socketConfig: SocketIoConfig = {url: 'ws://localhost:3000', options: {}}
+const socketConfig: SocketIoConfig = {url: socketDomain, options: {}}
 
 @NgModule({
   declarations: [
@@ -46,29 +49,35 @@ const socketConfig: SocketIoConfig = {url: 'ws://localhost:3000', options: {}}
     LoadingAlertComponent,
     ListSelectionDialogComponent,
     TableRuntimeComponent,
-    TestPageComponent,
     SpotComponent,
     BrainstormElementComponentComponent,
     PictureElementComponent,
     DocumentElementComponent,
     IconComponent,
     MiniMapComponent,
-    UserStandComponent
+    UserStandComponent,
+    DirectoryGenerationComponent,
+    DirectoryComponent,
+    DirectoryContentComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        SocketIoModule.forRoot(socketConfig),
-        HammerModule,
-        CdkDrag,
-        DragDropModule,
-        FormsModule,
-        NgxFileDropModule,
-        QRCodeModule,
-        MatIconModule
-    ],
-  providers: [],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    SocketIoModule.forRoot(socketConfig),
+    HammerModule,
+    CdkDrag,
+    DragDropModule,
+    FormsModule,
+    NgxFileDropModule,
+    QRCodeModule,
+    MatIconModule
+  ],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: DomainInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -31,6 +31,7 @@
     "dotenv": "^16.0.3",
     "file-saver": "^2.0.5",
     "hammerjs": "^2.0.8",
+    "file-saver": "^2.0.5",
     "move-rotate-resizer": "^1.0.5",
     "mrr": "^1.4.12",
     "ngx-file-drop": "^14.0.2",

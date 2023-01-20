@@ -20,8 +20,10 @@ export interface UserSessionDto {
 export interface MeetingDto {
   id: string;
   name: string;
-  documents: DocumentModel[];
+  documents: DocumentDto[];
 }
+
+type DocumentDto = DocumentModel & { url: string };
 
 export interface MeetingSessionDto {
   id: string;

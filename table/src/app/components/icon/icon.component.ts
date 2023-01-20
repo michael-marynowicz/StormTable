@@ -1,14 +1,14 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {IconService} from "../../services/icon.service";
 import {Observable} from "rxjs";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import DocumentModel from "../../models/document.model";
+import DirectoryModel from "../../models/directory.model";
 import {Session} from "../../models/session.model";
 import {DocumentService} from "../../services/document.service";
 import MiniMapService from 'src/app/services/mini-map.service';
 import {UserSession} from "../../models/user-session";
 import {MeetingService} from "../../services/meeting.service";
-import {hostname} from "../../services/server.config";
 
 @Component({
   selector: 'app-icon',
@@ -20,8 +20,6 @@ export class IconComponent implements OnInit {
   doc!: DocumentModel;
   session!: Session
 
-  private URL = `http://${hostname}:3000/`
-
   safeURL!: SafeResourceUrl;
 
   loadFile: Observable<Object> | undefined
@@ -32,6 +30,8 @@ export class IconComponent implements OnInit {
 
   dropPoint = {x: 0, y: 0};
   rotation=0;
+  private hold = false;
+  printAllName: Boolean = false;
   @Input() docName! : string[];
   @Input() edit: boolean = false;
   @Input() docPath!: string;
@@ -41,12 +41,12 @@ export class IconComponent implements OnInit {
 
   pinch(){
     this.edit= ! this.edit;
-    console.log("pinch");
+    console.log("pinch to open/close edition view");
   }
 
 
   load() {
-    this.loadFile = this.iconService.load(this.URL + this.doc.path)
+    this.loadFile = this.iconService.load(this.doc.url)
     this.isOpen = true;
   }
 
@@ -54,12 +54,14 @@ export class IconComponent implements OnInit {
     const doc = this.documentService.getDocument(this.docId);
     if(!doc) throw new Error("Document not found")
     this.doc = doc;
-    this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.URL + this.doc.path)
-    console.log("safeurl",this.safeURL);
     this.docName  = this.doc.name.split(".", 3);
+    this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.doc.url)
   }
 
-  private hold = false;
+
+  get color(){
+    return (this.doc as DirectoryModel).color
+  }
 
   mousedown() {
     this.dragStart()
@@ -72,6 +74,7 @@ export class IconComponent implements OnInit {
   }
 
   touchstart() {
+    this.printAllName=true;
     this.dragStart()
     document.addEventListener('touchend', () => {
       this.dragEnd()
@@ -95,8 +98,8 @@ export class IconComponent implements OnInit {
   private dragEnd() {
     if (!this.hold) return;
     this.hold = false;
-    //this.minimapVisible = false;
     this.meetingService.moveDocument(this.doc);
+    this.printAllName=false;
   }
 
   showMinimap() {
@@ -110,19 +113,22 @@ export class IconComponent implements OnInit {
   }
 
   setRotation($event: TouchEvent) {
-    console.log('settingRotation');
     if (!$event) return;
     this.hold = false;
-    const angle = Math.atan(($event.targetTouches[0].clientY - this.doc.position.y) / ($event.targetTouches[0].clientX - this.doc.position.x)) + (($event.targetTouches[0].clientX - this.doc.position.x) < 0 ? Math.PI : 0);
-    if (angle) this.doc.rotation = angle;
-    console.log('rotate');
+    const angle = Math.atan2($event.targetTouches[0].clientY - this.doc.position.y,$event.targetTouches[0].clientX - this.doc.position.x) + Math.PI/2
+    if (angle) {
+      this.doc.rotation = angle;
+    }
   }
 
   endRotate() {
     this.meetingService.moveDocument(this.doc);
+    this.printAllName=false;
   }
 
   safePath(doc: DocumentModel) {
-    return this.URL + doc.path.replace("\\","/");
+    //return this.URL + doc.path.replace("\\","/");
+    return doc.url;
   }
+
 }

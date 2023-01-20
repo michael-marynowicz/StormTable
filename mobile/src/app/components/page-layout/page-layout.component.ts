@@ -6,6 +6,7 @@ export interface NavigationElement {
   disabled: boolean;
   link?: string;
   clicked?: () => void;
+  active?: boolean;
 }
 
 @Component({
@@ -23,10 +24,16 @@ export class PageLayoutComponent implements OnInit {
       label: 'Files',
       disabled: false,
       link: '/files'
+    }, {
+      label: 'Meetings',
+      disabled: false,
+      link: '/meetings'
     }
   ];
 
-  alert?: string;
+  inMeeting?: string;
+
+  @Input() page?: string;
 
   constructor(private meetingService: MeetingService) {
   }
@@ -34,7 +41,7 @@ export class PageLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.meetingService.getCurrentMeeting().then((meeting) => {
       if (meeting) {
-        this.alert = `You are in meeting ${meeting.name}`;
+        this.inMeeting = `You are in meeting ${meeting.name}`;
       }
     })
   }

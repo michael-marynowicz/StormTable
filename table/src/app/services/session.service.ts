@@ -1,20 +1,21 @@
 import {Injectable} from "@angular/core";
-import {BehaviorSubject, Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {Socket} from "ngx-socket-io";
-import {HttpClient} from "@angular/common/http";
 import {Session} from "../models/session.model";
-import {hostname} from "./server.config";
 import {DocumentService} from "./document.service";
+import {ElementType} from "../models/brainstorm-element.model";
+import DirectoryModel from "../models/directory.model";
+import DocumentModel from "../models/document.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export default class SessionService {
-  private session?: Session;
+  session?: Session;
   session$ = new BehaviorSubject<Session|undefined>(undefined);
   private tableId = "00bb39f2-eb16-45cf-ad7e-1c7c37b1ed2f";
 
-  constructor(private socket: Socket, private http: HttpClient, private documentService: DocumentService) {
+  constructor(private socket: Socket, private documentService: DocumentService) {
   }
 
   createSession(meetingId: string) {
@@ -43,7 +44,10 @@ export default class SessionService {
   private inflateSession(session: Session) {
     this.session = session;
     this.session$.next(session);
-    console.log("Documents: ", session.meeting.meeting.documents)
-    this.documentService.inflateDocuments(session.meeting.meeting.documents);
+    const documents = session.meeting.meeting.documents as DocumentModel[];
+    this.documentService.inflateDocuments(documents);
+  }
+  getAllDirectory(){
+    return this.session?.meeting.meeting.documents.filter(doc => doc.type===ElementType.DIRECTORY) as DirectoryModel[]
   }
 }

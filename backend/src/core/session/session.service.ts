@@ -12,6 +12,8 @@ import MeetingNotFound from "../errors/meeting-not-found.error";
 import SessionNotFoundError from "../errors/session-not-found.error";
 import SessionDto from "../models/session/dto/session.dto";
 import { aggregateDto } from "./session.dto-converter";
+import DirectoryModel from "../models/directory.model";
+import DocumentModel from "../models/document.model";
 
 @Injectable({
     scope: Scope.DEFAULT
@@ -90,6 +92,10 @@ export class SessionService {
         return Object.values(this.sessions).find(s => s.meeting.id === meetingId);
     }
 
+    getSessionsByMeeting(meetingId: string) {
+        return Object.values(this.sessions).filter(s => s.meeting.id === meetingId);
+    }
+
     getSessionByDocument(documentId: string) {
         return Object.values(this.sessions).find(s => this.meetingService.get(s.meeting.id).documents.find(d => d.id === documentId))
     }
@@ -115,5 +121,16 @@ export class SessionService {
         }
 
         this.meetingService.duplicateDocument(documentId, user.location, rotation);
+    }
+    sendToDirectory(file: DocumentModel, directory: DirectoryModel) {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2")
+        this.meetingService.sendToDirectory(file, directory)
+    }
+    getAllSessionsByUser(user: string) {
+        return Object.values(this.sessions).filter(m => m.users.find(u => u.id === user));
+    }
+
+    reloadFile(file: DocumentModel, directory: DirectoryModel) {
+        this.meetingService.reloadFile(file,directory)
     }
 }

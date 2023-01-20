@@ -7,18 +7,33 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item" *ngFor="let item of menuItems">
+          <li class="nav-item">
             <a
-              class="nav-link {{ item.disabled || (!item.clicked && !item.link) ? 'disabled' : ''}}"
-              [href]="item.link || '#'"
-              (click)="item.clicked?.()">{{item.label}}</a>
+              class="nav-link"
+              routerLink="/"
+              [ngClass]="{ 'active': page === '/home' || page === '' }"
+            >Home</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/files"
+              [ngClass]="{ 'active': page === '/files', disabled: !inMeeting }"
+            >Files</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/meetings"
+              [ngClass]="{ 'active': page === '/meetings' }"
+            >Meetings</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-  <div class="alert alert-info" *ngIf="alert">
-    {{alert}}
+  <div class="alert alert-info" *ngIf="inMeeting">
+    {{inMeeting}}
   </div>
   <div class="container my-5">
     <ng-content></ng-content>
