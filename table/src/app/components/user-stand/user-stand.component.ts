@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
-import {UserSession} from "../../models/user-session";
-import {transform} from "../../../utils/style.utils";
-import {fromPosition} from "../../models/viewport.model";
+import { Component, Input } from '@angular/core';
+import { UserSession } from "../../models/user-session";
+import { transform } from "../../../utils/style.utils";
+import { fromPosition } from "../../models/viewport.model";
 import SessionService from "../../services/session.service";
 
 @Component({
@@ -12,96 +12,89 @@ import SessionService from "../../services/session.service";
 export class UserStandComponent {
   @Input() user!: UserSession;
 
-  userStandWidth : number = 400;
-  userStandHeight : number= 400;
+  userStandWidth: number = 500;
+  userStandHeight: number = 350;
 
-  onDrag:Boolean=false;
+  onDrag: Boolean = false;
   centerX: number = 0;
   centerY: number = 0;
 
   constructor(private sessionService: SessionService) {
   }
 
-  mousedown(){
-    console.log("user : %s",this.user.user.name);
-    document.addEventListener('touchmove', (event) => {
-    var touchPoint = {x:event.touches[0].clientX, y: event.touches[0].clientY};
-    if(this.isPointInside(touchPoint))
-      this.onDrag=true;
-    console.log("User touched : %s",this.user.user.name);
+  onmouseDown(event: TouchEvent) {
 
-      if(this.onDrag){
-        this.dragging({x: event.touches[0].clientX, y: event.touches[0].clientY});
-      }
-    });
-    document.addEventListener('touchend', () => {
-      if(this.onDrag){
-
-      this.onDrag =false;
+    var touchPoint = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    if (this.isPointInside(touchPoint))
+      this.onDrag = true;
+    if (this.onDrag) {
+      this.dragging({ x: event.touches[0].clientX, y: event.touches[0].clientY });
+    }
+  }
+  onMouseUp(event: Event) {
+    if (this.onDrag) {
+      this.onDrag = false;
       this.stick();
-      this.center();
       // Sync with server
       this.sessionService.setUserPosition(this.user.id, this.user.location, this.user.rotation);
-      }
 
-    });
+    }
   }
-  private dragging(position: { x: number, y: number } = {x: 0, y: 0}) {
-    console.log("curently dragging");
-      this.user.location.x = position.y-this.userStandHeight/2;
-      this.user.location.y = position.x-this.userStandWidth/2;
-      this.center();
-      this.rotate();
+  private dragging(position: { x: number, y: number } = { x: 0, y: 0 }) {
+    this.user.location.x = position.y - this.userStandHeight / 2;
+    this.user.location.y = position.x - this.userStandWidth / 2;
+    this.center();
+    this.rotate();
   }
-  private stick(){
-  switch(this.user.rotation){
-    case 0:
-      this.user.location.x= window.innerHeight- this.userStandHeight;
-    break;
-    case 90: 
-      this.user.location.y= 0;//this.userStandWidth;
-    break;
-    case -90:
-      this.user.location.y= window.innerWidth-this.userStandWidth + this.userStandHeight/2;
-    break;
-    case 180:
-      this.user.location.x= 0;
-    break;
+  private stick() {
+    switch (this.user.rotation) {
+      case 0:
+        this.user.location.x = window.innerHeight - this.userStandHeight;
+        break;
+      case 90:
+        this.user.location.y = -this.userStandWidth / 2 + this.userStandHeight / 2;//this.userStandWidth;
+        break;
+      case -90:
+        this.user.location.y = window.innerWidth - this.userStandHeight;
+        break;
+      case 180:
+        this.user.location.x = 0;
+        break;
+    }
   }
-  }
-  private isPointInside(point:{x:number,y:number}){
+  private isPointInside(point: { x: number, y: number }) {
     var center = this.center();
-    if(Math.abs(this.user.rotation)==90){//vertical box
+    if (Math.abs(this.user.rotation) == 90) {//vertical box
       console.log("vertical box ")
-      return(
-        point.x <=(center.x+this.userStandHeight/2) &&
-        point.x >=(center.x-this.userStandHeight/2) &&
-        point.y <=(center.y+this.userStandWidth/2) &&
-        point.y >=(center.y-this.userStandWidth/2)
+      return (
+        point.x <= (center.x + this.userStandHeight / 2) &&
+        point.x >= (center.x - this.userStandHeight / 2) &&
+        point.y <= (center.y + this.userStandWidth / 2) &&
+        point.y >= (center.y - this.userStandWidth / 2)
       )
 
-    }else{//horizontal box
+    } else {//horizontal box
       console.log("Horizontal box ")
       return (
-        point.x <=(center.x+this.userStandWidth/2) &&
-        point.x >=(center.x-this.userStandWidth/2) &&
-        point.y <=(center.y+this.userStandHeight/2) &&
-        point.y >=(center.y-this.userStandHeight/2)
+        point.x <= (center.x + this.userStandWidth / 2) &&
+        point.x >= (center.x - this.userStandWidth / 2) &&
+        point.y <= (center.y + this.userStandHeight / 2) &&
+        point.y >= (center.y - this.userStandHeight / 2)
       )
 
     }
 
   }
-  private getNearestBorder(){
+  private getNearestBorder() {
     var center = this.center();
-        var distBorder = [
-          center.y, // top
-          window.innerHeight - center.y,//bot
-          center.x,//left
-          window.innerWidth - center.x//right
-        ];
-    var nearestBorder = distBorder.indexOf( Math.min(...distBorder))
-    console.log("Nearest border [%s]is %d",distBorder.toString(), nearestBorder);
+    var distBorder = [
+      center.y, // top
+      window.innerHeight - center.y,//bot
+      center.x,//left
+      window.innerWidth - center.x//right
+    ];
+    var nearestBorder = distBorder.indexOf(Math.min(...distBorder))
+    console.log("Nearest border [%s]is %d", distBorder.toString(), nearestBorder);
     return nearestBorder;
   }
   get username() {
@@ -111,14 +104,13 @@ export class UserStandComponent {
   get rotation() {
     return this.user.rotation;
   }
-  center(){
-    console.log("Screen DImension: [%d,%d]", window.innerWidth,window.innerHeight)
-    var center = {y: this.user.location.x+this.userStandHeight/2, x : this.user.location.y+this.userStandWidth/2}
+  center() {
+    var center = { y: this.user.location.x + this.userStandHeight / 2, x: this.user.location.y + this.userStandWidth / 2 }
     this.centerX = center.x;
     this.centerY = center.y;
     return center;
   }
-  rotate(){
+  rotate() {
     switch (this.getNearestBorder()) {
       case 0://top
         console.log("orient top")

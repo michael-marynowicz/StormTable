@@ -1,29 +1,22 @@
-<div>
+<div >
   <div 
     class="positionable stand center" 
+    style="transform-origin: 50% 50%;"
     [ngStyle]="{
+                
                 'top':user.location.x+'px',
                 'rotate':rotation+'deg',
                 'left':user.location.y+'px',
                 'width':userStandWidth+'px',
                 'height':userStandHeight+'px'}"
     
-     (touchstart)="mousedown()"
+     (touchmove)="onmouseDown($event)"
+     (touchend)="onMouseUp($event)"
       >
-      <input type="button" value="rotate" (click)="rotate()">
     <div class="stand-label">
 
         {{username}}
     </div>
   </div>
-</div>
-<div
-style="position:absolute ;color: red; ; left:50px"
-[ngStyle]="{
-  'top':centerY+'px',
-  'left':centerX+'px'
-}"
- >
-o
 </div>
 
