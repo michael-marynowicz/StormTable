@@ -33,7 +33,7 @@ export class IconComponent implements OnInit {
   private hold = false;
   printAllName: Boolean = false;
   @Input() docName! : string[];
-  @Input() edit: boolean = false;
+  @Input() edit: boolean = true;
   @Input() docPath!: string;
 
   constructor(private iconService: IconService, private sanitizer: DomSanitizer,public documentService: DocumentService, private minimapService: MiniMapService, private meetingService: MeetingService) {
