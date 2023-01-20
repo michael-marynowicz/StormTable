@@ -20,6 +20,8 @@ export class DocumentElementComponent implements AfterViewInit {
   public viewer2! : WebViewerInstance;
   public master1 : boolean = true;
   public master2 : boolean = false;
+  public annotations_viewer1! : any;
+  public annotations_viewer2! : any;
 
   ngAfterViewInit(): void {
 
@@ -28,23 +30,94 @@ export class DocumentElementComponent implements AfterViewInit {
       initialDoc: this.docPath
     }, this.viewerRef1.nativeElement).then(instance => {
       this.viewer1 = instance;
-      instance.Core.documentViewer.addEventListener('pageNumberUpdated', pageNumber => {
+      //switch master
+      this.viewer1.Core.documentViewer.addEventListener('mouseMove', evt => {
+        console.log("onHover: ");
+        this.master(1)
+      });
+      //synchronise scrolling
+      this.viewer1.Core.documentViewer.addEventListener('pageNumberUpdated', pageNumber => {
         if(this.master1){
           this.getPage_viewer1();
         }
       });
+      //annotations
+      const { annotationManager } = this.viewer1.Core;
+      annotationManager.addEventListener('annotationChanged', (annotations, action) => {
+        if(this.master1) {
+          this.viewer2.Core.annotationManager.drawAnnotationsFromList(annotations).then(r => {
+            console.log('this is a change that added annotations');
+          });
+          if (action === 'add') {
+            this.annotations_viewer1 = annotationManager.getAnnotationsList();
+            this.viewer2.Core.annotationManager.deleteAnnotations(this.viewer2.Core.annotationManager.getAnnotationsList());
+            this.viewer2.Core.annotationManager.addAnnotations(this.annotations_viewer1);
+            this.viewer2.Core.annotationManager.drawAnnotationsFromList(annotations).then(r => {
+              console.log('this is a change that added annotations');
+            });
+          } else if (action === 'modify') {
+            console.log('this change modified annotations');
+          } else if (action === 'delete') {
+            console.log('there were annotations deleted');
+          }
+          annotations.forEach((annot: any) => {
+            console.log('annotation page number', annot.PageNumber);
+          });
+        }
+      });
 
     });
+
 
     WebViewer({
       path: '../../../../../assets/lib',
       initialDoc: this.docPath
     }, this.viewerRef2.nativeElement).then(instance => {
       this.viewer2 = instance;
-      instance.Core.documentViewer.addEventListener('pageNumberUpdated', pageNumber => {
+      //switch master
+      this.viewer2.Core.documentViewer.addEventListener('mouseMove', evt => {
+        console.log("onHover: ");
+        this.master(2)
+      });
+      //synchronise scrolling
+      this.viewer2.Core.documentViewer.addEventListener('pageNumberUpdated', pageNumber => {
         if(this.master2){
           this.getPage_viewer2();
         }
+      });
+      //annotations
+      const { annotationManager } = this.viewer2.Core;
+      annotationManager.addEventListener('annotationChanged', (annotations, action) => {
+        if (this.master2) {
+          this.viewer1.Core.annotationManager.drawAnnotationsFromList(annotations).then(r => {
+            console.log('this is a change that added annotations');
+          });
+          if (action === 'add') {
+            this.annotations_viewer2 = annotationManager.getAnnotationsList();
+            this.viewer1.Core.annotationManager.deleteAnnotations(this.viewer1.Core.annotationManager.getAnnotationsList());
+            this.viewer1.Core.annotationManager.addAnnotations(this.annotations_viewer2);
+            this.viewer1.Core.annotationManager.drawAnnotationsFromList(annotations).then(r => {
+              console.log('this is a change that added annotations');
+            });
+          } else if (action === 'modify') {
+            this.annotations_viewer2 = annotationManager.getAnnotationsList();
+            this.viewer1.Core.annotationManager.deleteAnnotations(this.viewer1.Core.annotationManager.getAnnotationsList());
+            this.viewer1.Core.annotationManager.addAnnotations(this.annotations_viewer2);
+            this.viewer1.Core.annotationManager.drawAnnotationsFromList(annotations).then(r => {
+              console.log('this change modified annotations');
+            });
+          } else if (action === 'delete') {
+            this.annotations_viewer2 = annotationManager.getAnnotationsList();
+            this.viewer1.Core.annotationManager.deleteAnnotations(this.viewer1.Core.annotationManager.getAnnotationsList());
+            this.viewer1.Core.annotationManager.addAnnotations(this.annotations_viewer2);
+            this.viewer1.Core.annotationManager.drawAnnotationsFromList(annotations).then(r => {
+              console.log('there were annotations deleted');
+            });
+          }
+          annotations.forEach((annot: any) => {
+            console.log('annotation page number', annot.PageNumber);
+          });
+      }
       });
     });
 
@@ -52,12 +125,10 @@ export class DocumentElementComponent implements AfterViewInit {
 
   getPage_viewer1(){
     this.currentpage = this.viewer1.Core.documentViewer.getCurrentPage();
-    console.log(this.currentpage);
     this.viewer2.Core.documentViewer.setCurrentPage(this.currentpage,true);
   }
   getPage_viewer2(){
     this.currentpage = this.viewer2.Core.documentViewer.getCurrentPage();
-    console.log(this.currentpage);
     this.viewer1.Core.documentViewer.setCurrentPage(this.currentpage,true);
   }
 
