@@ -73,23 +73,26 @@ export class DocumentElementComponent implements AfterViewInit {
       });
 
       //save document
-      /*const target = this.viewer1.Core.documentViewer.getDocument().getPDFDoc().;
-      this.files = [...this.files, ...Array.from(target.files as FileList)];*/
-
       this.viewer1.UI.setHeaderItems(header => {
         header.push({
           type: 'actionButton',
-          img: 'save',
+          img: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>',
           onClick: async () => {
             console.log("button clicked");
             const doc = this.viewer1.Core.documentViewer.getDocument();
+            const xfdfString = await annotationManager.exportAnnotations();
             console.log(doc);
             const data = await doc.getFileData({
               // saves the document with annotations in it
-
+              xfdfString
             });
             const arr = new Uint8Array(data);
             const blob = new Blob([arr], { type: 'application/pdf' });
+            console.log("blob",blob);
+            const myFile = this.blobToFile(blob, "annoted_"+doc.getFilename());
+            console.log("file", myFile);
+            this.files.push(myFile);
+            await this.meetingService.uploadFile(this.files);
           }
         });
       });
@@ -147,6 +150,32 @@ export class DocumentElementComponent implements AfterViewInit {
           });
       }
       });
+
+      //save document
+      this.viewer2.UI.setHeaderItems(header => {
+        header.push({
+          type: 'actionButton',
+          img: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>',
+          onClick: async () => {
+            console.log("button clicked");
+            const doc = this.viewer2.Core.documentViewer.getDocument();
+            const xfdfString = await annotationManager.exportAnnotations();
+            console.log(doc);
+            const data = await doc.getFileData({
+              // saves the document with annotations in it
+              xfdfString
+            });
+            const arr = new Uint8Array(data);
+            const blob = new Blob([arr], { type: 'application/pdf' });
+            console.log("blob",blob);
+            const myFile = this.blobToFile(blob, "annoted_"+doc.getFilename());
+            console.log("file", myFile);
+            this.files.push(myFile);
+            await this.meetingService.uploadFile(this.files);
+          }
+        });
+      });
+
     });
 
   }
@@ -161,8 +190,18 @@ export class DocumentElementComponent implements AfterViewInit {
     this.viewer1.Core.documentViewer.setCurrentPage(this.currentpage,true);
   }
 
+  public blobToFile = (theBlob: Blob, fileName:string): File => {
+    var b: any = theBlob;
+    //A Blob() is almost a File() - it's just missing the two properties below which we will add
+    b.lastModifiedDate = new Date();
+    b.name = fileName;
+    //Cast to a File() type
+    return <File>theBlob;
+  }
 
   master(number: number) {
+    //master 1 = viewer 1
+    //master 2 = viewer 2
     if(number == 1){
       this.master1 = true;
       this.master2 = false

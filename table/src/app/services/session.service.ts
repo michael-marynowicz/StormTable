@@ -6,6 +6,7 @@ import {DocumentService} from "./document.service";
 import {ElementType} from "../models/brainstorm-element.model";
 import DirectoryModel from "../models/directory.model";
 import DocumentModel from "../models/document.model";
+import {UserModel} from "../models/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,13 @@ export default class SessionService {
   session?: Session;
   session$ = new BehaviorSubject<Session|undefined>(undefined);
   private tableId = "00bb39f2-eb16-45cf-ad7e-1c7c37b1ed2f";
+  private allUsers! : any;
 
   constructor(private socket: Socket, private documentService: DocumentService) {
+  }
+
+  getUsers(){
+    return this.allUsers;
   }
 
   createSession(meetingId: string) {
@@ -26,6 +32,7 @@ export default class SessionService {
     this.socket.on('session', (content: { session: Session }) => {
       console.log("Update session: ", content.session);
       console.log("Spots: ", content.session.table.spots.map(s => s.id));
+      this.allUsers = content.session.users;
       if (content.session.id === this.session?.id) {
         this.inflateSession(content.session)
       }
@@ -46,6 +53,7 @@ export default class SessionService {
     this.session$.next(session);
     const documents = session.meeting.meeting.documents as DocumentModel[];
     this.documentService.inflateDocuments(documents);
+
   }
   getAllDirectory(){
     return this.session?.meeting.meeting.documents.filter(doc => doc.type===ElementType.DIRECTORY) as DirectoryModel[]
