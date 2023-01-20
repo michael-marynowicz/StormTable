@@ -24,9 +24,4 @@ export class MeetingService {
     await this.http.delete(`{main}/document/${doc.id}`).toPromise();
   }
 
-  async uploadFile(files: File[]) {
-    const data = new FormData();
-    files.forEach(file => data.append("file",file));
-    await this.http.post(`${hostname}/document/upload`,data).toPromise();
-  }
 }

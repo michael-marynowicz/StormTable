@@ -151,9 +151,6 @@ export class DocumentElementComponent implements AfterViewInit {
 
   }
 
-  async upload() {
-    await this.meetingService.uploadFile(this.files);
-  }
 
   getPage_viewer1(){
     this.currentpage = this.viewer1.Core.documentViewer.getCurrentPage();

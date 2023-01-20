@@ -16,5 +16,4 @@ export class DirectoryComponent{
     return this.directory as DirectoryModel
   }
 
-
 }
