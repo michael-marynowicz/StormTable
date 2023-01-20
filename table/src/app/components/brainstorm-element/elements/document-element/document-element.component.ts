@@ -2,6 +2,7 @@ import {AfterViewInit, Component, Directive, ElementRef, HostListener, Inject, I
 import WebViewer, {Core, UI, WebViewerInstance} from "@pdftron/webviewer";
 import annotationManager = Core.annotationManager;
 import DocumentModel from "../../../../models/document.model";
+import {MeetingService} from "../../../../services/meeting.service";
 
 
 @Component({
@@ -13,6 +14,7 @@ export class DocumentElementComponent implements AfterViewInit {
   @ViewChild('viewer1')  viewerRef1! : ElementRef;
   @ViewChild('viewer2')  viewerRef2! : ElementRef;
   @Input() docPath!: any;
+  @Input() doc!: DocumentModel;
 
   public currentpage! : number;
   public scroll! : Element;
@@ -22,6 +24,10 @@ export class DocumentElementComponent implements AfterViewInit {
   public master2 : boolean = false;
   public annotations_viewer1! : any;
   public annotations_viewer2! : any;
+  public files: File[] = [];
+
+  constructor(private meetingService: MeetingService) {
+  }
 
   ngAfterViewInit(): void {
 
@@ -64,6 +70,28 @@ export class DocumentElementComponent implements AfterViewInit {
             console.log('annotation page number', annot.PageNumber);
           });
         }
+      });
+
+      //save document
+      /*const target = this.viewer1.Core.documentViewer.getDocument().getPDFDoc().;
+      this.files = [...this.files, ...Array.from(target.files as FileList)];*/
+
+      this.viewer1.UI.setHeaderItems(header => {
+        header.push({
+          type: 'actionButton',
+          img: 'save',
+          onClick: async () => {
+            console.log("button clicked");
+            const doc = this.viewer1.Core.documentViewer.getDocument();
+            console.log(doc);
+            const data = await doc.getFileData({
+              // saves the document with annotations in it
+
+            });
+            const arr = new Uint8Array(data);
+            const blob = new Blob([arr], { type: 'application/pdf' });
+          }
+        });
       });
 
     });
@@ -121,6 +149,10 @@ export class DocumentElementComponent implements AfterViewInit {
       });
     });
 
+  }
+
+  async upload() {
+    await this.meetingService.uploadFile(this.files);
   }
 
   getPage_viewer1(){

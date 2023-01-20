@@ -5,6 +5,7 @@ import {hostname} from "./server.config";
 import DocumentModel from "../models/document.model";
 import {Socket} from "ngx-socket-io";
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,5 +23,11 @@ export class MeetingService {
 
   async removeDocument(doc: DocumentModel) {
     await this.http.delete(`http://${hostname}:3000/document/${doc.id}`).toPromise();
+  }
+
+  async uploadFile(files: File[]) {
+    const data = new FormData();
+    files.forEach(file => data.append("file",file));
+    await this.http.post(`${hostname}/document/upload`,data).toPromise();
   }
 }
