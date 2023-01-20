@@ -115,6 +115,7 @@ export class IconComponent implements OnInit {
   setRotation($event: TouchEvent) {
     if (!$event) return;
     this.hold = false;
+    console.log("@@@@@@@@@",$event)
     const angle = Math.atan2($event.targetTouches[0].clientY - this.doc.position.y,$event.targetTouches[0].clientX - this.doc.position.x) + Math.PI/2
     if (angle) {
       this.doc.rotation = angle;
@@ -131,4 +132,7 @@ export class IconComponent implements OnInit {
     return doc.url;
   }
 
+  name(docName: string) {
+    return docName.length<12 || this.printAllName ? docName : docName.substr(0, 12) + "..."
+  }
 }
