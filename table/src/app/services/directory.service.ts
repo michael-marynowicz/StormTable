@@ -7,6 +7,7 @@ import {MeetingService} from "./meeting.service";
 import {HttpClient} from "@angular/common/http";
 import DocumentModel from "../models/document.model";
 import {socketDomain} from "../../../domain.config";
+import SessionService from "./session.service";
 
 @Injectable({
   providedIn: 'root'
@@ -30,17 +31,17 @@ export class DirectoryService {
     "#b54d1c"
   ];
 
-  constructor(private meetingService: MeetingService,private httpClient: HttpClient) { }
+  constructor(private meetingService: MeetingService,private httpClient: HttpClient,private sessionService : SessionService) { }
 
   async createDirectory(p: { x: number; y: number }, file: DocumentModel) {
     const dir: DirectoryModel = {
-      name: "doc" + "-" + this.directory.length,
+      name: "doc" + "-" + this.getDirectory.length,
       path: "./files/",
       position: {x: p.x, y: p.y},
       rotation: 0,
       type: ElementType.DIRECTORY,
       id: "doc" + "-" + Date.now(),
-      color: ""+(this.colors.length>0 ? this.colors.shift() : "#"+Math.floor(Math.random() * 16777215).toString(16)),
+      color: ""+(this.getDirectory.length<9 ? this.colors[this.getDirectory.length] : "#"+Math.floor(Math.random() * 16777215).toString(16)),
       files: [],
       parent:undefined,
       url:""
@@ -54,5 +55,9 @@ export class DirectoryService {
 
   uploadFile(file: DocumentModel,directory: DirectoryModel) {
     this.socket.emit("reload-file",{file:file,directory: directory})
+  }
+
+  get getDirectory(){
+    return this.sessionService.session?.meeting.meeting.documents.filter(doc =>doc.type==="DIRECTORY") as DirectoryModel[]
   }
 }
