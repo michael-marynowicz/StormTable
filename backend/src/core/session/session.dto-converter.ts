@@ -22,7 +22,9 @@ export function aggregateDto(
       return {
         id: us.id,
         user: userService.get(us.id)!,
-        location: us.location
+        location: us.location,
+        rotation:us.rotation
+
       }
     }),
     meeting: {

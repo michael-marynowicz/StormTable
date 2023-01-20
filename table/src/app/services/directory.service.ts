@@ -17,7 +17,18 @@ export class DirectoryService {
   directory$ = new BehaviorSubject<DirectoryModel[]>([]);
   directory : DirectoryModel[] = [];
 
-  colors= ["7dff57","ff284c","2ddcff","d558ff","ffc3a7","fff373","a25ad6","a23866","335c9a","b54d1c"];
+  colors= [
+    "#7dff57",
+    "#ff284c",
+    "#2ddcff",
+    "#f2d5ff",
+    "#ffc3a7",
+    "#fff373",
+    "#a25ad6",
+    "#ff9215",
+    "#335c9a",
+    "#b54d1c"
+  ];
 
   constructor(private meetingService: MeetingService,private httpClient: HttpClient) { }
 
@@ -29,7 +40,7 @@ export class DirectoryService {
       rotation: 0,
       type: ElementType.DIRECTORY,
       id: "doc" + "-" + Date.now(),
-      color: "#"+(this.colors.length>0 ? this.colors.shift() : Math.floor(Math.random() * 16777215).toString(16)),
+      color: ""+(this.colors.length>0 ? this.colors.shift() : "#"+Math.floor(Math.random() * 16777215).toString(16)),
       files: [],
       parent:undefined,
       url:""

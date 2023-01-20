@@ -71,6 +71,11 @@ export class TableGateway {
         this.sessionService.reloadFile(body.file,body.directory);
     }
 
+    @SubscribeMessage('set_user_position')
+    setUserPosition(@MessageBody() body: { userId: string, position: { x: number, y: number }, rotation: number }, @ConnectedSocket() socket) {
+        this.sessionService.setUserPosition(body.userId, body.position, body.rotation)
+    }
+
 
 
 }

@@ -55,7 +55,12 @@ export default class SessionService {
     this.documentService.inflateDocuments(documents);
 
   }
+
   getAllDirectory(){
     return this.session?.meeting.meeting.documents.filter(doc => doc.type===ElementType.DIRECTORY) as DirectoryModel[]
+  }
+
+  setUserPosition(userId: string, position: { x: number, y: number }, rotation: number) {
+    this.socket.emit("set_user_position", {userId, position, rotation})
   }
 }

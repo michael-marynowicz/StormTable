@@ -12,6 +12,7 @@ export interface TableSessionDto {
 }
 
 export interface UserSessionDto {
+  rotation: number;
   id: string;
   user: UserModel;
   location: { x: number, y: number };

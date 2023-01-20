@@ -1,13 +1,22 @@
-<div>
-  <div class="positionable stand-holder stand-size" [style]="positionStyle">
-    <div class="player-position stand-size"></div>
-    <div class="stand stand-content center">
-      <div class="stand-label" [ngStyle]="{'rotate':rotation+'deg'}">
+<div >
+  <div 
+    class="positionable stand center" 
+    style="transform-origin: 50% 50%;"
+    [ngStyle]="{
+                
+                'top':user.location.x+'px',
+                'rotate':rotation+'deg',
+                'left':user.location.y+'px',
+                'width':userStandWidth+'px',
+                'height':userStandHeight+'px'}"
+    
+     (touchmove)="onmouseDown($event)"
+     (touchend)="onMouseUp($event)"
+      >
+    <div class="stand-label">
+
         {{username}}
-      </div>
     </div>
   </div>
 </div>
-
-
 
