@@ -12,8 +12,8 @@ import SessionService from "../../services/session.service";
 export class UserStandComponent {
   @Input() user!: UserSession;
 
-  userStandWidth: number = 500;
-  userStandHeight: number = 350;
+  userStandWidth: number = 800;
+  userStandHeight: number = 650;
 
   onDrag: Boolean = false;
   centerX: number = 0;
