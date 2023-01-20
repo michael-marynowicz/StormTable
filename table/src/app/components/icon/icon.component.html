@@ -45,7 +45,7 @@
       >
       </iframe>
 
-    <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg"/>
+    <img *ngIf="doc.type==='PICTURE'" [src]=safeURL alt="picture" class="bigImg" [ngStyle]="{'position':'relative','top' : '125px'}"/>
 
     </div>
   </div>

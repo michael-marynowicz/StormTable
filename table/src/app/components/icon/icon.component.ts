@@ -40,8 +40,10 @@ export class IconComponent implements OnInit {
   }
 
   pinch(){
-    this.edit= ! this.edit;
-    console.log("pinch to open/close edition view");
+    if (this.doc.type=="PDF"){
+      this.edit = !this.edit;
+      console.log("pinch to open/close edition view");
+    }
   }
 
 
