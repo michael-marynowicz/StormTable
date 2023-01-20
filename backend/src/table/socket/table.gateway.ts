@@ -36,7 +36,7 @@ export class TableGateway {
 
     @SubscribeMessage('create_spot')
     @UseFilters(new SocketErrorFilter())
-    createSpot(@MessageBody() body: { location: { x: number, y: number } }, @ConnectedSocket() socket) {
+    createSpot(@MessageBody() body: { location: { x: number, y: number }, rotation: number }, @ConnectedSocket() socket) {
         const sessionId = this.sessions[socket.id];
         console.log(socket.id)
         if (!sessionId)
@@ -44,7 +44,8 @@ export class TableGateway {
         this.sessionService.updateSession(sessionId, socket, session => {
             session.table.spots.push({
                 id: new_guid(),
-                location: body.location
+                location: body.location,
+                rotation: body.rotation
             })
         })
     }

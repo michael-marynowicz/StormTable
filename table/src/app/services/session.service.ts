@@ -45,7 +45,8 @@ export default class SessionService {
 
   createSpot(location: { x: number, y: number }) {
     console.log("Create spot at : " + JSON.stringify(location))
-    this.socket.emit("create_spot", {location})
+    var rotation = location.y > window.window.innerHeight / 2 ? 0 : 3.141;
+    this.socket.emit("create_spot", {location, rotation})
   }
 
   private inflateSession(session: Session) {
