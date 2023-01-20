@@ -1,3 +1,5 @@
-<i class="fas fa-folder" [ngStyle]="{'color': color}" (click)="wantFiles=true"></i>
-<app-directory-content *ngIf="this.wantFiles" [directory]="getDirectory" class="content" (close)="wantFiles=false"> </app-directory-content>
-
+<div (click)="wantFiles=true">
+  <i class="fas fa-folder" [ngStyle]="{'color': color}" ></i>
+  <div class="numberOfFile">{{getFiles.length}}</div>
+</div>
+  <app-directory-content *ngIf="this.wantFiles" [directory]="getDirectory" class="content" (close)="wantFiles=false"></app-directory-content>
