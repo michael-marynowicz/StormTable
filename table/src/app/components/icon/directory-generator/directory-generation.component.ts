@@ -41,7 +41,6 @@ export class DirectoryGenerationComponent{
   }
 
   getAllDirectory() : DirectoryModel[]{
-    console.log(this.sessionService.getAllDirectory())
     return this.sessionService.getAllDirectory()
   }
 

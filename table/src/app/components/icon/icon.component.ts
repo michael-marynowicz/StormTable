@@ -33,15 +33,17 @@ export class IconComponent implements OnInit {
   private hold = false;
   printAllName: Boolean = false;
   @Input() docName! : string[];
-  @Input() edit: boolean = true;
+  @Input() edit: boolean = false;
   @Input() docPath!: string;
 
   constructor(private iconService: IconService, private sanitizer: DomSanitizer,public documentService: DocumentService, private minimapService: MiniMapService, private meetingService: MeetingService) {
   }
 
   pinch(){
-    this.edit= ! this.edit;
-    console.log("pinch to open/close edition view");
+    if (this.doc.type=="PDF"){
+      this.edit = !this.edit;
+      console.log("pinch to open/close edition view");
+    }
   }
 
 

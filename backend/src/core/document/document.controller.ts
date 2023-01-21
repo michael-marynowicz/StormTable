@@ -42,6 +42,7 @@ export class DocumentController {
             throw "Session not found";
 
         const position = session?.users.find(u => u.id === user)?.location || {x: 0, y: 0};
+        const rotation = session?.users.find(u => u.id === user)?.rotation * Math.PI / 180 || 0;
 
         const docs: DocumentModel[] = files.map((file, i) => {
             return {
@@ -50,10 +51,10 @@ export class DocumentController {
                 type: file.path.endsWith(".pdf") ? ElementType.PDF : ElementType.PICTURE,
                 path: file.path,
                 position: {
-                    x: position.x + i * 10,
-                    y: position.y + i * 10
+                    x: position.y + i * 10,
+                    y: position.x + i * 10
                 },
-                rotation: 0,
+                rotation: rotation,
                 parent: undefined,
             };
         })

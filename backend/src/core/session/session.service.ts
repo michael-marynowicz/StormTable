@@ -80,8 +80,8 @@ export class SessionService {
         session.table.spots = session.table.spots.filter(s => s.id !== spotId);
         session.users.push({
             id: userId,
-            location: {x:150,y:150},//spot.location,
-            rotation:0
+            location: { x: spot.location.y, y: spot.location.x },
+            rotation: spot.rotation
         })
         this.sessionChanged.next(session)
     }
@@ -122,7 +122,9 @@ export class SessionService {
             throw "There is no user with this id in this session.";
         }
 
-        this.meetingService.duplicateDocument(documentId, user.location, rotation);
+        // convert to radians
+        const rotationRadians = user.rotation * Math.PI / 180;
+        this.meetingService.duplicateDocument(documentId, { x: user.location.y, y: user.location.x }, rotationRadians);
     }
     sendToDirectory(file: DocumentModel, directory: DirectoryModel) {
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2")
