@@ -13,4 +13,8 @@ export class FileViewComponent {
   directoryColor(document: DocumentModel) {
     return document.type === "DIRECTORY" ? document.color : undefined;
   }
+
+  download(document: DocumentModel) {
+    this.fileSelect.emit(document);
+  }
 }

@@ -3,6 +3,7 @@ import {DocumentModel} from "../../models/document.model";
 import {MeetingService} from "../../services/meeting.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MeetingModel} from "../../models/meeting.model";
+import {saveAs} from "file-saver";
 //import {saveAs} from "file-saver";
 
 @Component({
@@ -55,7 +56,7 @@ export class MeetingPageComponent implements OnInit {
     if (document.type === "DIRECTORY") {
       this.router.navigate([`/meetings/${this.meetingId}`], {queryParams: {parent: document.name}});
     } else {
-      //saveAs(document.url, document.name);
+      saveAs(document.url, document.name);
     }
   }
 

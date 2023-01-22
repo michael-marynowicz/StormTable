@@ -1,9 +1,10 @@
 <div class="list-group">
-  <a class="list-group-item list-group-item-action"
+  <a class="list-group-item list-group-item-action pointer"
      aria-current="true"
      *ngFor="let document of documents"
      [ngStyle]="{ 'background-color': directoryColor(document) }"
-     (click)="fileSelect.emit(document)">
+     (click)="download(document)"
+  >
     {{document.name}}
   </a>
 </div>
