@@ -1,9 +1,10 @@
 <div class="example-box"
      *ngIf="doc.parent===undefined && edit === false"
-     (dblclick)="pinch()"
+     (pinchout)="pinch()"
      (press)="showMinimap()"
      (mousedown)="mousedown()"
      (touchstart)="touchstart()"
+     (dblclick)="load()"
      [ngStyle]="doc.type!=='DIRECTORY' ? {'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'rad'} : {'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'rad','box-shadow':'none','background-color':'transparent','border':'none'}"
 >
 <!--  (dblclick)="load()"-->
