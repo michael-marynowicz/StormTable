@@ -1,6 +1,16 @@
 <div id="body" [ngStyle]="{ '--window-width': width }">
-  <div #viewer1 id="viewer1" >
+  <div class="documentView">
+    <div *ngIf="saveSuccess" class="alert alert-success" role="alert">
+      File is saved
+    </div>
+    <div #viewer1 id="viewer1" class="documentContent">
+    </div>
   </div>
-  <div #viewer2 id="viewer2" >
+  <div class="documentView">
+    <div #viewer2 id="viewer2" class="documentContent">
+    <div *ngIf="saveSuccess" class="alert alert-success" role="alert" [ngStyle]="{'rotation':'180deg'}">
+      File is saved
+    </div>
+    </div>
   </div>
 </div>
