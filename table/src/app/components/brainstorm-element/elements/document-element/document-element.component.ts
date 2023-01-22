@@ -1,6 +1,5 @@
-import {AfterViewInit, Component, Directive, ElementRef, HostListener, Inject, Input, ViewChild} from '@angular/core';
-import WebViewer, {Core, UI, WebViewerInstance} from "@pdftron/webviewer";
-import annotationManager = Core.annotationManager;
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import WebViewer, {WebViewerInstance} from "@pdftron/webviewer";
 import DocumentModel from "../../../../models/document.model";
 import {MeetingService} from "../../../../services/meeting.service";
 

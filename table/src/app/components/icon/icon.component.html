@@ -1,12 +1,13 @@
 <div class="example-box"
      *ngIf="doc.parent===undefined && edit === false"
-     (pinchout)="pinch()"
+     (dblclick)="pinch()"
      (press)="showMinimap()"
      (mousedown)="mousedown()"
      (touchstart)="touchstart()"
-     (dblclick)="load()"
      [ngStyle]="doc.type!=='DIRECTORY' ? {'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'rad'} : {'position':'relative','left':doc.position.x+'px', 'top':doc.position.y+'px','rotate': doc.rotation+'rad','box-shadow':'none','background-color':'transparent','border':'none'}"
 >
+<!--  (dblclick)="load()"-->
+
 
   <i class="fas fa-redo" (touchmove)="setRotation($event)" (touchend)="endRotate()" [ngStyle]="{'padding':'1%'}"></i>
   <div *ngIf="doc.type!=='DIRECTORY'">

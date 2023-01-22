@@ -25,11 +25,15 @@ export class MeetingService {
     await this.http.delete(`{main}/document/${doc.id}`).toPromise();
   }
 
-  async uploadFile(files: File[]) {
+  async uploadFile(files: File[]): Promise<unknown> {
     const data = new FormData();
+    const user = this.sessionService.getUsers()[0].id;
     files.forEach(file => data.append('files', file, file.name));
-    data.append('user', this.sessionService.getUsers()[0].id);
-    await this.http.post(`{main}/document/upload`,data).toPromise();
+    data.append('user', user);
+    return this.http.post(`{main}/document/upload`,data, {
+      headers: {
+        user
+      }
+    }).toPromise();
   }
-
 }
