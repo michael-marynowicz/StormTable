@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {DocumentModel} from "../../models/document.model";
-import {MeetingService} from "../../services/meeting.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MeetingModel} from "../../models/meeting.model";
-import {saveAs} from "file-saver";
+import { Component, OnInit } from '@angular/core';
+import { DocumentModel } from "../../models/document.model";
+import { MeetingService } from "../../services/meeting.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MeetingModel } from "../../models/meeting.model";
 //import {saveAs} from "file-saver";
 
 @Component({
@@ -39,7 +38,7 @@ export class MeetingPageComponent implements OnInit {
 
     this.meetingService.meetings$.subscribe(m => {
       this.meeting = m.find(m => m.id === this.meetingId);
-      if(this.meeting)
+      if (this.meeting)
         this.documents = this.meetingService.getDocuments(this.meeting, this.parent);
     })
   }
@@ -54,21 +53,19 @@ export class MeetingPageComponent implements OnInit {
   documentClicked(document: DocumentModel) {
     console.log("Document clicked", document)
     if (document.type === "DIRECTORY") {
-      this.router.navigate([`/meetings/${this.meetingId}`], {queryParams: {parent: document.name}});
-    } else {
-      saveAs(document.url, document.name);
+      this.router.navigate([`/meetings/${this.meetingId}`], { queryParams: { parent: document.name } });
     }
   }
 
   back() {
     if (this.parent) {
-      this.router.navigate([`/meetings/${this.meetingId}`], {queryParams: {parent: undefined}});
+      this.router.navigate([`/meetings/${this.meetingId}`], { queryParams: { parent: undefined } });
     }
   }
 
   async renameByName(newName: string) {
-    if(!this.parent) return;
+    if (!this.parent) return;
     await this.meetingService.renameDirectoryByName(this.parent, newName);
-    await this.router.navigate([`/meetings/${this.meetingId}`], {queryParams: {parent: newName}});
+    await this.router.navigate([`/meetings/${this.meetingId}`], { queryParams: { parent: newName } });
   }
 }

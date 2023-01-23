@@ -61,6 +61,18 @@ export class UserStandComponent {
         this.user.location.x = 0;
         break;
     }
+    if(this.rotation==0 || this.rotation==180){
+        if(this.user.location.y+this.userStandWidth>window.innerWidth)
+          this.user.location.y =window.innerWidth-this.userStandWidth; 
+        if(this.user.location.y<0)
+          this.user.location.y =0; 
+    }
+    if(this.rotation==90 || this.rotation==-90){
+        if(this.user.location.x+this.userStandHeight>window.innerHeight)
+          this.user.location.x =window.innerHeight-this.userStandHeight; 
+        if(this.user.location.x<0)
+          this.user.location.x =0; 
+    }
   }
   private isPointInside(point: { x: number, y: number }) {
     var center = this.center();
