@@ -41,13 +41,21 @@ export class TableGateway {
         console.log(socket.id)
         if (!sessionId)
             throw new TableError(TableErrorTypes.SESSION_NOT_FOUND, "Session not found.")
+        var qr_code = {
+            id: new_guid(),
+            location: body.location,
+            rotation: body.rotation
+        }
         this.sessionService.updateSession(sessionId, socket, session => {
-            session.table.spots.push({
-                id: new_guid(),
-                location: body.location,
-                rotation: body.rotation
-            })
+
+            session.table.spots.push(qr_code)
+
         })
+        setInterval(()=>{
+            this.sessionService.updateSession(sessionId, socket, session => {
+                session.table.spots.splice(session.table.spots.indexOf(qr_code),1)
+            })
+        },15000)
     }
 
     @SubscribeMessage('document-position')
