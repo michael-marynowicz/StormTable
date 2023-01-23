@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import WebViewer, {WebViewerInstance} from "@pdftron/webviewer";
 import DocumentModel from "../../../../models/document.model";
 import {MeetingService} from "../../../../services/meeting.service";
@@ -30,7 +30,7 @@ export class DocumentElementComponent implements AfterViewInit {
     return (window.innerWidth / 2) + "px";
   }
 
-  constructor(private meetingService: MeetingService) {
+  constructor(private meetingService: MeetingService,private cd: ChangeDetectorRef) {
   }
 
   ngAfterViewInit(): void {
@@ -114,10 +114,6 @@ export class DocumentElementComponent implements AfterViewInit {
             console.log("file", myFile);
             this.files.push(myFile);
             await this.meetingService.uploadFile(this.files);
-
-            if(confirm("Are you sure to delete ")) {
-              console.log("Implement delete functionality here");
-            }
           },
           dataElement: 'alertButton'
         });
@@ -208,8 +204,13 @@ export class DocumentElementComponent implements AfterViewInit {
 
   saveAlert() {
     this.saveSuccess=true;
-    setTimeout(()=>{
-      this.saveSuccess=false;},50)
+    setTimeout(() => {
+      console.log('hide');
+      this.saveSuccess=false;
+      this.cd.detectChanges();
+      },1000);
+
+
   }
 
 
