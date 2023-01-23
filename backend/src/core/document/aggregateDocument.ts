@@ -1,7 +1,9 @@
 import DocumentModel from "../models/document.model";
+import {serverDomain} from "../../../config";
+
 
 export default function(document: DocumentModel) {
     return Object.assign(document, {
-       url: "http://localhost:3000/" + document.path.replace(/\\/g, "/")
+       url: serverDomain + "/" + document.path.replace(/\\/g, "/")
     });
 }
