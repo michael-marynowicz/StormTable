@@ -1,5 +1,5 @@
 <div (click)="wantFiles=true">
   <i class="fas fa-folder" [ngStyle]="{'color': color}" ></i>
-  <div class="numberOfFile">{{getFiles.length}}</div>
+  <div class="numberOfFile">{{getFiles.length}} files</div>
 </div>
   <app-directory-content *ngIf="this.wantFiles" [directory]="getDirectory" class="content" (close)="wantFiles=false"></app-directory-content>
