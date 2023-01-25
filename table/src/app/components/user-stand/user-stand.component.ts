@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { UserSession } from "../../models/user-session";
 import { transform } from "../../../utils/style.utils";
 import { fromPosition } from "../../models/viewport.model";
@@ -9,7 +9,7 @@ import SessionService from "../../services/session.service";
   templateUrl: './user-stand.component.html',
   styleUrls: ['./user-stand.component.less']
 })
-export class UserStandComponent {
+export class UserStandComponent implements OnInit{
   @Input() user!: UserSession;
 
   userStandWidth: number = 800;
@@ -129,5 +129,12 @@ export class UserStandComponent {
         this.user.rotation = -90;
         break;
     }
+  }
+
+  ngOnInit(): void {
+    this.sessionService.session$.subscribe(_ => {
+      this.stick();
+      this.rotate();
+    })
   }
 }
