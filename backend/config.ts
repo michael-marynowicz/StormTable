@@ -1,3 +1,4 @@
 import * as Process from "process";
+import {serverDomain as tableSD} from "../table/domain.config";
 
-export const serverDomain = Process.env['DOMAIN'] || 'http://localhost:3000';
+export const serverDomain = tableSD;
