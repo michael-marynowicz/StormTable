@@ -17,7 +17,7 @@ export default class MiniMapService {
     this.socket.emit('share-document', {
       id: file,
       user: user.id,
-      rotation: user.location.y > window.window.innerHeight / 2 ? 0 : 3.141
+      rotation: user.rotation
     })
   }
 
