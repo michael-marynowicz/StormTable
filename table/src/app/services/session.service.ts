@@ -6,7 +6,6 @@ import {DocumentService} from "./document.service";
 import {ElementType} from "../models/brainstorm-element.model";
 import DirectoryModel from "../models/directory.model";
 import DocumentModel from "../models/document.model";
-import {UserModel} from "../models/user.model";
 
 @Injectable({
   providedIn: 'root'

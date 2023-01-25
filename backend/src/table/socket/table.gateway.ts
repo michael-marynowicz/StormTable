@@ -49,13 +49,15 @@ export class TableGateway {
         this.sessionService.updateSession(sessionId, socket, session => {
 
             session.table.spots.push(qr_code)
+            setTimeout(()=>{
+                this.sessionService.updateSession(sessionId, socket, session => {
+                    console.log("icicici")
+                    session.table.spots.splice(session.table.spots.indexOf(qr_code),1)
+                })
+            },1000)
 
         })
-        setInterval(()=>{
-            this.sessionService.updateSession(sessionId, socket, session => {
-                session.table.spots.splice(session.table.spots.indexOf(qr_code),1)
-            })
-        },15000)
+
     }
 
     @SubscribeMessage('document-position')

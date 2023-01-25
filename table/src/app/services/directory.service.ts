@@ -36,7 +36,7 @@ export class DirectoryService {
   async createDirectory(p: { x: number; y: number }, file: DocumentModel) {
     const dir: DirectoryModel = {
       name: "doc" + "-" + this.getDirectory.length,
-      path: "./files/",
+      path: "./",
       position: {x: p.x, y: p.y},
       rotation: 0,
       type: ElementType.DIRECTORY,
