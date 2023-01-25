@@ -38,7 +38,7 @@ export class DirectoryService {
       name: "doc" + "-" + this.getDirectory.length,
       path: "./",
       position: {x: p.x, y: p.y},
-      rotation: 0,
+      rotation: file.rotation,
       type: ElementType.DIRECTORY,
       id: "doc" + "-" + Date.now(),
       color: ""+(this.getDirectory.length<9 ? this.colors[this.getDirectory.length] : "#"+Math.floor(Math.random() * 16777215).toString(16)),
