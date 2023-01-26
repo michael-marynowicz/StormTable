@@ -54,7 +54,7 @@ export class TableGateway {
                     console.log("icicici")
                     session.table.spots.splice(session.table.spots.indexOf(qr_code),1)
                 })
-            },1000)
+            },10000)
 
         })
 
